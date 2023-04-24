@@ -6,6 +6,10 @@ const CatalogRoutes = [
         component: lazy(() => import('../../views/category/List'))
     },
     {
+        path: '/sub-category/list',
+        component: lazy(() => import('../../views/sub-category/List'))
+    },
+    {
         path: '/category/add',
         component: lazy(() => import('../../views/category/Add'))
     },

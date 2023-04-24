@@ -3,7 +3,6 @@ import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
 import { useCategoryDatatable } from '@data/use-category'
 import actions from './actions'
-import {Badge} from "reactstrap"
 
 const Tables = () => (
     <Fragment>
@@ -32,19 +31,14 @@ const Tables = () => (
                     minWidth: '250px'
                 },
                 {
-                    name: 'Is Sub Category',
-                    selector: 'parent',
-                    sortable: true,
-                    minWidth: '250px',
-                    cell: row => (
-                        <Badge className='text-capitalize' color={row.parent === 0 ?  'light-warning' : 'light-success' } pill>
-                            {row.parent === 0 ? 'No' : 'Yes'}
-                        </Badge>
-                    )
-                },
-                {
                     name: 'Order',
                     selector: 'order',
+                    sortable: true,
+                    minWidth: '250px'
+                },
+                {
+                    name: 'Parent',
+                    selector: 'parent',
                     sortable: true,
                     minWidth: '250px'
                 }

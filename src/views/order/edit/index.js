@@ -41,7 +41,7 @@ export default function () {
     const form = useForm()
 
     const [loaded, setLoaded] = useState(false)
-    const [isCompleted, setIsCompleted] = useState(true)
+    const [isCompleted, setIsCompleted] = useState(false)
 
     const onSubmit = async data => {
         try {

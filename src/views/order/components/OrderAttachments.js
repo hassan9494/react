@@ -114,7 +114,7 @@ function Basic({onChange, files = []}) {
             <CardBody>
                 <div {...getRootProps({className: 'dropzone'})}>
                     <input {...getInputProps()} />
-                    <p>Drag 'n' drop some files here, or click to select files</p>
+                    <p className="attachments-box">Drag 'n' drop some files here, or click to select files</p>
                 </div>
                 {printFiles}
             </CardBody>
