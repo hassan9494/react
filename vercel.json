@@ -1,8 +1,0 @@
-{
-  "build": {
-    "env": {
-      "REACT_APP_ADMIN_API": "https://api.mikroelektron.com/api/admin",
-      "REACT_APP_ADMIN_API_UPLOAD": "https://api.mikroelektron.com/api/admin/media"
-    }
-  }
-}
