@@ -20,7 +20,12 @@ const ReactSelect = ({ form, name, label, rules = {}, list = [], ...props }) => 
                     value={list.filter(option => option.value === value)}
                     inputRef={ref}
                     options={list}
-                    onChange={val => onChange(val?.value)}
+                    onChange={val => {
+                        onChange(val?.value)
+                        if (props.onSelectChange) {
+                            props.onSelectChange(val?.value)
+                        }
+                    }}
                     { ...props }
                 />
             )}

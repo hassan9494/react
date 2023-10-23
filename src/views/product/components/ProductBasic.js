@@ -44,6 +44,14 @@ export default function Basic({ form }) {
                 </Row>
                 <Row>
                     <Col sm={6}>
+                        <Field
+                            label={'Source SKU'}
+                            name={'source_sku'}
+                            rules={{required: true}}
+                            form={form}
+                        />
+                    </Col>
+                    <Col sm={6}>
                         <FormGroup>
                             <SelectMulti
                                 label={'Categories'}
@@ -54,6 +62,9 @@ export default function Basic({ form }) {
                             />
                         </FormGroup>
                     </Col>
+
+                </Row>
+                <Row>
                     <Col sm={6}>
                         <FormGroup>
                             <Field
@@ -61,6 +72,17 @@ export default function Basic({ form }) {
                                 label={'Stock'}
                                 type='number'
                                 name='stock'
+                                rules={{required: true}}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm={6}>
+                        <FormGroup>
+                            <Field
+                                form={form}
+                                label={'Min Quantity'}
+                                type='number'
+                                name='min_qty'
                                 rules={{required: true}}
                             />
                         </FormGroup>
