@@ -5,14 +5,76 @@ import useSWR from 'swr'
 const fetcher = (url) => axios.get(url).then(res => res.data?.data)
 
 export const api = {
+
     order: async (params) => {
         const { data } = await axios.get(`report/order?${params}`)
+        console.log(data?.data)
+        return data?.data
+    }
+}
+
+export const outlayApi = {
+    order: async (params) => {
+        const { data } = await axios.get(`report/outlays?${params}`)
+        return data?.data
+    }
+}
+
+export const purchasesApi = {
+    order: async (params) => {
+        const { data } = await axios.get(`report/purchases?${params}`)
         return data?.data
     }
 }
 
 export function useProducts(params) {
     return datatable('report', `report/product-sales`, params)
+}
+
+export function useStock(params) {
+    return datatable('report', `report/product-stock`, params)
+}
+
+export function useNeed(params) {
+    return datatable('report', `report/product-need`, params)
+}
+
+export function useOutlays(params) {
+    const url = `report/outlays?${params}`
+
+    const { data, error } = useSWR(url, fetcher, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+        refreshWhenOffline: false,
+        refreshWhenHidden: false,
+        refreshInterval: 0
+    })
+    const loading = !data?.data && !error
+
+    return {
+        loading,
+        error,
+        data
+    }
+}
+
+export function usePurchases(params) {
+    const url = `report/purchases?${params}`
+
+    const { data, error } = useSWR(url, fetcher, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+        refreshWhenOffline: false,
+        refreshWhenHidden: false,
+        refreshInterval: 0
+    })
+    const loading = !data?.data && !error
+
+    return {
+        loading,
+        error,
+        data
+    }
 }
 
 

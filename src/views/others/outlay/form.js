@@ -4,6 +4,8 @@ import {
     CardBody
 } from 'reactstrap'
 import moment from 'moment'
+import { useState } from 'react'// Import useState from React
+
 
 const types = [
     {
@@ -16,7 +18,43 @@ const types = [
     }
 ]
 
+const Purchase_types = [
+    {
+        label: 'Tax',
+        value: 'TAX'
+    },
+    {
+        label: 'Non Tax',
+        value: 'NON TAX'
+    }
+]
+const Outlay_types = [
+    {
+        label: 'Administrative',
+        value: 'ADMINISTRATIVE'
+    },
+    {
+        label: 'General',
+        value: 'GENERAL'
+    },
+    {
+        label: 'Other',
+        value: 'OTHER'
+    }
+]
+
 export default function ({ onSubmit, model }) {
+    const getOutlayType = () => {
+        return model?.type
+    }
+    const [selectedType, setSelectedType] = useState(getOutlayType)
+
+     // State to track the selected type
+
+    const handleTypeChange = (obj) => {
+        console.log(obj)
+        setSelectedType(obj)
+    }
 
     return (
         <Card>
@@ -28,7 +66,17 @@ export default function ({ onSubmit, model }) {
                             name: 'type',
                             type: 'react-select',
                             list: types,
-                            rules: { required: true }
+                            rules: { required: true },
+                            isClearable: true,
+                            onSelectChange: handleTypeChange
+                    },
+                        {
+                            label: selectedType === 'PURCHASE' || model?.type ===  'PURCHASE' ? 'Purchase Type' : 'Outlay Type',
+                            name: 'sub_type',
+                            type: 'react-select',
+                            list: selectedType === 'PURCHASE' || model?.type ===  'PURCHASE'  ? Purchase_types : Outlay_types,
+                            rules: { required: false },
+                            isClearable: true
                         },
                         {
                             label: 'Name',
@@ -38,6 +86,17 @@ export default function ({ onSubmit, model }) {
                         {
                             label: 'Amount',
                             name: 'amount',
+                            type: 'number',
+                            rules: { required: true }
+                        },
+                        {
+                            label: 'Tax',
+                            name: 'tax',
+                            rules: { required: false }
+                        },
+                        {
+                            label: 'Total Amount',
+                            name: 'total_amount',
                             type: 'number',
                             rules: { required: true }
                         },
@@ -55,6 +114,12 @@ export default function ({ onSubmit, model }) {
                         {
                             label: 'Notes',
                             name: 'notes'
+                        },
+                        {
+                            label: 'Media',
+                            name: 'media',
+                            type: 'uploader',
+                            rules: { required: false }
                         }
                     ]}
                     initialValues={model}

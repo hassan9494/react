@@ -31,8 +31,12 @@ const CatalogRoutes = [
         component: lazy(() => import('../../views/product/Edit'))
     },
     {
-        path: '/stock',
+        path: '/stocks',
         component: lazy(() => import('../../views/stock/List'))
+    },
+    {
+        path: '/stock2',
+        component: lazy(() => import('../../views/stock2/List'))
     }
 ]
 

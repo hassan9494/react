@@ -92,7 +92,13 @@ export default [
                 id: 'stock',
                 title: 'Stock',
                 icon: <Circle size={12} />,
-                navLink: '/stock'
+                navLink: '/stocks'
+            },
+            {
+                id: 'stock2',
+                title: 'Stock2',
+                icon: <Circle size={12} />,
+                navLink: '/stock2'
             }
         ]
     },
@@ -211,6 +217,30 @@ export default [
                 title: 'Products',
                 icon: <Circle size={12} />,
                 navLink: '/reports/product'
+            },
+            {
+                id: 'reportsStock',
+                title: 'stocks',
+                icon: <Circle size={12} />,
+                navLink: '/reports/stocks'
+            },
+            {
+                id: 'reportsNeed',
+                title: 'needs',
+                icon: <Circle size={12} />,
+                navLink: '/reports/needs'
+            },
+            {
+                id: 'reportsOutlay',
+                title: 'outlays',
+                icon: <Circle size={12} />,
+                navLink: '/reports/outlays'
+            },
+            {
+                id: 'reportsPurchase',
+                title: 'purchases',
+                icon: <Circle size={12} />,
+                navLink: '/reports/purchases'
             }
         ]
     },

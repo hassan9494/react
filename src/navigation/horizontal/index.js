@@ -80,7 +80,7 @@ export default [
         id: 'stock',
         title: 'Stock',
         icon: <Circle size={12} />,
-        navLink: '/stock'
+        navLink: '/stocks'
       },
       {
         id: 'category',

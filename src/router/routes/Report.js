@@ -14,6 +14,31 @@ const OrderRoutes = [
     {
         path: '/reports/product',
         component: lazy(() => import('../../views/reports/product/index'))
+    },
+
+    {
+        path: '/reports/stocks',
+        component: lazy(() => import('../../views/reports/stocks/index'))
+    },
+
+    {
+        path: '/reports/needs',
+        component: lazy(() => import('../../views/reports/needs/index'))
+    },
+
+    {
+        path: '/reports/outlays/print',
+        component: lazy(() => import('../../views/reports/outlays/print'))
+    },
+
+    {
+        path: '/reports/outlays',
+        component: lazy(() => import('../../views/reports/outlays/index'))
+    },
+
+    {
+        path: '/reports/purchases',
+        component: lazy(() => import('../../views/reports/purchases/index'))
     }
 
 ]

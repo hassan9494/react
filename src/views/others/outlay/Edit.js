@@ -25,7 +25,7 @@ const Add = () => {
 
     return (
         <Fragment>
-            <Breadcrumbs breadCrumbTitle='Outlays' breadCrumbActive={model?.name} />
+            <Breadcrumbs breadCrumbTitle='Outlays' breadCrumbActive='Edit' />
             <Form model={model} onSubmit={onSubmit} formErrors={formErrors} />
         </Fragment>
     )
