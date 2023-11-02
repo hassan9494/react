@@ -39,6 +39,16 @@ const OrderRoutes = [
     {
         path: '/reports/purchases',
         component: lazy(() => import('../../views/reports/purchases/index'))
+    },
+
+    {
+        path: '/reports/depts',
+        component: lazy(() => import('../../views/reports/depts/index'))
+    },
+
+    {
+        path: '/reports/zemam',
+        component: lazy(() => import('../../views/reports/zemam/index'))
     }
 
 ]
