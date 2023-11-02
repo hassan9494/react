@@ -218,12 +218,12 @@ export default [
                 icon: <Circle size={12} />,
                 navLink: '/reports/product'
             },
-            {
-                id: 'reportsStock',
-                title: 'stocks',
-                icon: <Circle size={12} />,
-                navLink: '/reports/stocks'
-            },
+            // {
+            //     id: 'reportsStock',
+            //     title: 'stocks',
+            //     icon: <Circle size={12} />,
+            //     navLink: '/reports/stocks'
+            // },
             {
                 id: 'reportsNeed',
                 title: 'needs',
@@ -241,6 +241,18 @@ export default [
                 title: 'purchases',
                 icon: <Circle size={12} />,
                 navLink: '/reports/purchases'
+            },
+            {
+                id: 'reportsDept',
+                title: 'depts',
+                icon: <Circle size={12} />,
+                navLink: '/reports/depts'
+            },
+            {
+                id: 'zemamDept',
+                title: 'zemam',
+                icon: <Circle size={12} />,
+                navLink: '/reports/zemam'
             }
         ]
     },

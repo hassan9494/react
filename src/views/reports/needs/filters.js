@@ -7,75 +7,54 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { Database, File } from 'react-feather'
 import moment from 'moment'
 import { pickBy, identity } from 'lodash'
-import { api } from '@data/use-report'
-import { ordersToExcel  } from '@helpers/Order'
+import { stockApi } from '@data/use-report'
+import { needsToExcel  } from '@helpers/Need'
 
-const statusOptions = [{ value: 'CANCELED', label: 'مرتجعة فقط' }]
 
-const TaxedOptions = [
-    { value: 'false', label: 'ضريبية فقط' },
-    { value: 'true', label: 'معفية فقط' }
+const TypeOptions = [
+    { value: 'need', label: 'النواقص' },
+    { value: 'stock', label: 'كمية الستوك والقيمة' }
 ]
 
 
 const Tables = ({ onChange }) => {
 
-    const [from, setFrom] = useState()
-    const [to, setTo] = useState()
-    const [status, setStatus] = useState()
-    const [exempt, setExempt] = useState(null)
+    const [type, setType] = useState(null)
 
     const onPrint = () => {
-        if (!from || !to) return
-        const params = new URLSearchParams(pickBy({ from, to, status, exempt }, identity)).toString()
-        window.open(`/reports/order/print?${params}`, '_blank')
+        const params = new URLSearchParams(pickBy({  type }, identity)).toString()
+        window.open(`/reports/needs/print?${params}`, '_blank')
     }
 
     const handleExport = async () => {
-        if (!from || !to) return
-        const params = new URLSearchParams(pickBy({ from, to, status, exempt }, identity)).toString()
-        const data = await api.order(params)
-        let fileName =  `${from}__${to}`
+        const needConditionReport = [type]
+        const params = new URLSearchParams(pickBy({needConditionReport}, identity)).toString()
+        const data = await stockApi.order(params)
+        console.log(data)
+        let fileName =  `product-need`
 
-        if (status) fileName += `__${status}`
+        if (type) fileName += `__${type}`
 
-        ordersToExcel(data, fileName)
+        needsToExcel(data, fileName)
     }
 
     useEffect(() => {
-        onChange(pickBy({ from, to, status, exempt }, identity))
-    }, [from, to, status, exempt])
+        onChange(pickBy({  type }, identity))
+    }, [type])
 
     return (
         <Card>
             <CardBody>
                 <Row>
-                    <Col md='2'>
-                        <Flatpickr className='form-control' value={from} onChange={date => setFrom(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'Start Date'} />
-                    </Col>
-                    <Col md='2'>
-                        <Flatpickr className='form-control' value={to} onChange={date => setTo(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'End Date'} />
-                    </Col>
-                    <Col md='2'>
-                        <Select
-                            isClearable={true}
-                            theme={selectThemeColors}
-                            className='react-select'
-                            classNamePrefix='select'
-                            placeholder='الحالة'
-                            options={statusOptions}
-                            onChange={item => setStatus(item?.value)}
-                        />
-                    </Col>
-                    <Col md='2'>
+                    <Col md='4'>
                         <Select
                             isClearable={true}
                             theme={selectThemeColors}
                             className='react-select'
                             classNamePrefix='select'
                             placeholder='النوع'
-                            options={TaxedOptions}
-                            onChange={item => setExempt(item?.value)}
+                            options={TypeOptions}
+                            onChange={item => setType(item?.value)}
                         />
                     </Col>
                     <Col md='2'>

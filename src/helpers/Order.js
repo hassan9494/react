@@ -28,8 +28,9 @@ export const ordersToExcel = (orders, name) => {
             taxAmount
         } = calcFinancial(e)
         return {
+            Number: e.id,
             'Invoice Number': e.tax_number,
-            date: moment(e.taxed_at).format('DD/MM/Y'),
+            date: moment(e.created_at).format('DD/MM/Y'),
             name: e.customer?.name,
             subtotal,
             discount,

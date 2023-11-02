@@ -15,13 +15,10 @@ const Tables = () => {
 
     const onFiltersChange = (filters) => {
         const updated = [...fixedConditions]
-        if (filters.from) updated.push({col: 'taxed_at',  op: '>=', val: filters.from})
-        if (filters.to) updated.push({col: 'taxed_at',  op: '<=', val: moment(filters.to).add(1, 'days').format('Y-MM-DD')})
-        if (filters.status) updated.push({col: 'status', val: filters.status})
-        if (filters.exempt) updated.push({col: 'options->tax_exempt', val: filters.exempt})
+        if (filters.type) updated.push(filters.type)
         setConditions(updated)
     }
-
+    const { REACT_APP_WEBSITE } = process.env
     return (
         <Fragment>
 
@@ -38,7 +35,7 @@ const Tables = () => {
                         name: 'Name',
                         selector: 'name',
                         sortable: true,
-                        minWidth: '500px',
+                        minWidth: '350px',
                         searchable: true,
                         cell: row => <div><Avatar img={row.image} className='mr-2'/>{row.name}</div>
                     },
@@ -46,13 +43,38 @@ const Tables = () => {
                         name: 'Qty',
                         selector: 'stock',
                         sortable: true,
-                        minWidth: '100px'
+                        minWidth: '20px'
                     },
                     {
                         name: 'Min Quantity',
                         selector: 'min_qty',
                         sortable: true,
-                        minWidth: '100px'
+                        minWidth: '20px'
+                    },
+                    {
+                        name: 'Price',
+                        selector: 'price.normal_price',
+                        sortField: 'price->normal_price',
+                        sortable: true,
+                        minWidth: '20px'
+                    },
+                    {
+                        name: 'Price All',
+                        selector: 'priceAll',
+                        sortable: false,
+                        minWidth: '20px'
+                    },
+                    {
+                        name: 'SKU',
+                        selector: 'sku',
+                        sortable: true,
+                        minWidth: '350px'
+                    },
+                    {
+                        name: 'Link',
+                        selector:  row => <a href={`${REACT_APP_WEBSITE}product/${row.sku}`} > {`${REACT_APP_WEBSITE}product/${row.sku}`} </a>,
+                        sortable: true,
+                        minWidth: '400px'
                     }
                 ]}
             />

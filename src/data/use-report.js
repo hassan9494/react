@@ -13,6 +13,24 @@ export const api = {
     }
 }
 
+export const zemamApi = {
+
+    order: async (params) => {
+        const { data } = await axios.get(`report/zemam?${params}`)
+        console.log(data?.data)
+        return data?.data
+    }
+}
+
+export const needsApi = {
+
+    order: async (params) => {
+        const { data } = await axios.get(`report/product-need?${params}`)
+        console.log(data?.data)
+        return data?.data
+    }
+}
+
 export const outlayApi = {
     order: async (params) => {
         const { data } = await axios.get(`report/outlays?${params}`)
@@ -23,6 +41,20 @@ export const outlayApi = {
 export const purchasesApi = {
     order: async (params) => {
         const { data } = await axios.get(`report/purchases?${params}`)
+        return data?.data
+    }
+}
+
+export const deptsApi = {
+    order: async (params) => {
+        const { data } = await axios.get(`report/depts?${params}`)
+        return data?.data
+    }
+}
+
+export const stockApi = {
+    order: async (params) => {
+        const { data } = await axios.get(`report/product-stock?${params}`)
         return data?.data
     }
 }
