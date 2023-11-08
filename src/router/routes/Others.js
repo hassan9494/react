@@ -88,6 +88,19 @@ const OrderRoutes = [
     },
 
     {
+        path: '/customs-statement/list',
+        component: lazy(() => import('../../views/others/customs-statement/List'))
+    },
+    {
+        path: '/customs-statement/add',
+        component: lazy(() => import('../../views/others/customs-statement/Add'))
+    },
+    {
+        path: '/customs-statement/edit/:id',
+        component: lazy(() => import('../../views/others/customs-statement/Edit'))
+    },
+
+    {
         path: '/receipt/list',
         component: lazy(() => import('../../views/others/receipt/List'))
     },

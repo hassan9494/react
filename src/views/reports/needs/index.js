@@ -53,8 +53,8 @@ const Tables = () => {
                     },
                     {
                         name: 'Price',
-                        selector: 'price.normal_price',
-                        sortField: 'price->normal_price',
+                        selector: 'price',
+                        sortField: 'price',
                         sortable: true,
                         minWidth: '20px'
                     },
@@ -65,8 +65,21 @@ const Tables = () => {
                         minWidth: '20px'
                     },
                     {
-                        name: 'SKU',
-                        selector: 'sku',
+                        name: 'Real Price',
+                        selector: 'real_price',
+                        sortField: 'real_price',
+                        sortable: true,
+                        minWidth: '20px'
+                    },
+                    {
+                        name: 'Real Price All',
+                        selector: 'allRealPrice',
+                        sortable: false,
+                        minWidth: '20px'
+                    },
+                    {
+                        name: 'Source SKU',
+                        selector: 'source_sku',
                         sortable: true,
                         minWidth: '350px'
                     },

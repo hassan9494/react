@@ -6,8 +6,8 @@ import {
 import ProductsTable from './ProductsTable'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
-import { Printer, Save } from 'react-feather'
-import { Link } from 'react-router-dom'
+import {Plus, Printer, Save} from 'react-feather'
+import { Link, useLocation } from 'react-router-dom'
 import { getProductPrice } from "./helpers"
 import OrderCustomer from './OrderCustomer'
 import ExtraItems from './ExtraItems'
@@ -25,7 +25,7 @@ const PreviewCard = ({ order, form, isCompleted }) => {
     const shippingCost = form.watch('shipping.cost')
     const shippingFree = form.watch('shipping.free')
     const pricing = form.watch('options.pricing')
-
+    const location = useLocation()
 
     const calculate = () => {
 
@@ -103,6 +103,17 @@ const PreviewCard = ({ order, form, isCompleted }) => {
                             <Button.Ripple color={'dark'}>
                                 <Printer size={14} />
                                 <span className='align-middle ml-25'>Print</span>
+                            </Button.Ripple>
+                        </Link>
+                    }
+                </div>
+                <div className="mr-auto">
+                    {
+                        order && location.pathname.includes('edit') &&
+                        <Link to={`/order/create/${order.id}`} id={`pw-tooltip-${order.id}`} target='_blank'>
+                            <Button.Ripple color={'primary'}>
+                                <Plus size={14} />
+                                <span className='align-middle ml-25'>Reorder</span>
                             </Button.Ripple>
                         </Link>
                     }

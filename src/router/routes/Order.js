@@ -2,6 +2,10 @@ import { lazy } from 'react'
 
 const OrderRoutes = [
     {
+        path: '/order/create/:id',
+        component: lazy(() => import('../../views/order/create/index'))
+    },
+    {
         path: '/order/create',
         component: lazy(() => import('../../views/order/create/index'))
     },

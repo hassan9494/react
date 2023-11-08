@@ -49,6 +49,26 @@ const OrderRoutes = [
     {
         path: '/reports/zemam',
         component: lazy(() => import('../../views/reports/zemam/index'))
+    },
+
+    {
+        path: '/reports/customs-statement',
+        component: lazy(() => import('../../views/reports/customs-statement/index'))
+    },
+
+    {
+        path: '/reports/product-sales',
+        component: lazy(() => import('../../views/reports/product-sales/index'))
+    },
+
+    {
+        path: '/reports/exempt-invoices',
+        component: lazy(() => import('../../views/reports/exempt-invoices/index'))
+    },
+
+    {
+        path: '/reports/delivery-invoice',
+        component: lazy(() => import('../../views/reports/delivery-invoice/index'))
     }
 
 ]

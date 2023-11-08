@@ -45,6 +45,13 @@ export const purchasesApi = {
     }
 }
 
+export const customsStatementApi = {
+    order: async (params) => {
+        const { data } = await axios.get(`report/customs-statement?${params}`)
+        return data?.data
+    }
+}
+
 export const deptsApi = {
     order: async (params) => {
         const { data } = await axios.get(`report/depts?${params}`)
@@ -92,6 +99,25 @@ export function useOutlays(params) {
 
 export function usePurchases(params) {
     const url = `report/purchases?${params}`
+
+    const { data, error } = useSWR(url, fetcher, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+        refreshWhenOffline: false,
+        refreshWhenHidden: false,
+        refreshInterval: 0
+    })
+    const loading = !data?.data && !error
+
+    return {
+        loading,
+        error,
+        data
+    }
+}
+
+export function useCustomsStatements(params) {
+    const url = `report/customs-statement?${params}`
 
     const { data, error } = useSWR(url, fetcher, {
         revalidateOnFocus: false,
