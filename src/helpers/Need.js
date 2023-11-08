@@ -7,9 +7,11 @@ export const calcFinancial = (needs) => {
     const name = needs.name
     const stock = needs.stock
     const price = (Number.parseFloat(needs.price || 0))
+    const real_price = (Number.parseFloat(needs.real_price || 0))
     const min_qty = (Number.parseFloat(needs.min_qty || 0))
-    const sku = needs.sku
+    const source_sku = needs.source_sku
     const priceAll = (Number.parseFloat(needs.priceAll || 0))
+    const realPriceAll = (Number.parseFloat(needs.allRealPrice || 0))
     const link = `${REACT_APP_WEBSITE}product/${needs.sku}`
 
     return {
@@ -17,9 +19,11 @@ export const calcFinancial = (needs) => {
         product_NAme: name,
         product_stock: stock,
         product_price: price,
+        product_real_price: real_price,
         product_min_qty: min_qty.toFixed(2),
         product_priceAll: priceAll.toFixed(2),
-        product_sku: sku,
+        product_realPriceAll: realPriceAll.toFixed(2),
+        product_sku: source_sku,
         product_link: link
     }
 }
@@ -32,9 +36,11 @@ export const needsToExcel = (needs, name) => {
             name,
             stock,
             price,
+            real_price,
             min_qty,
             priceAll,
-            sku,
+            product_realPriceAll,
+            source_sku,
             link
         } = calcFinancial(e)
         return {
@@ -42,9 +48,11 @@ export const needsToExcel = (needs, name) => {
             NAME : e.name,
             Stock: e.stock,
             Price :e.price,
+            Real_Price :e.real_price,
             Min_Quantity :e.min_qty,
             PriceAll : e.priceAll,
-            Sku :e.sku,
+            product_realPriceAll,
+            Source_Sku :e.source_sku,
             Link : `${ REACT_APP_WEBSITE }product/${e.sku}`
         }
     }), name || 'outlays-report')

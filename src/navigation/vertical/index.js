@@ -197,6 +197,12 @@ export default [
                 title: 'Outlays',
                 icon: <Circle size={12} />,
                 navLink: '/outlay/list'
+            },
+            {
+                id: 'customsStatements',
+                title: 'customs Statement',
+                icon: <Circle size={12} />,
+                navLink: '/customs-statement/list'
             }
         ]
     },
@@ -253,6 +259,30 @@ export default [
                 title: 'zemam',
                 icon: <Circle size={12} />,
                 navLink: '/reports/zemam'
+            },
+            {
+                id: 'ReportsCustomsStatement',
+                title: 'Customs Statement',
+                icon: <Circle size={12} />,
+                navLink: '/reports/customs-statement'
+            },
+            // {
+            //     id: 'ReportsProductSales',
+            //     title: 'Product Sales',
+            //     icon: <Circle size={12} />,
+            //     navLink: '/reports/product-sales'
+            // },
+            {
+                id: 'ReportsExemptInvoices',
+                title: 'Exempt Invoices',
+                icon: <Circle size={12} />,
+                navLink: '/reports/exempt-invoices'
+            },
+            {
+                id: 'ReportsDeliveryInvoice',
+                title: 'Delivery Invoices',
+                icon: <Circle size={12} />,
+                navLink: '/reports/delivery-invoice'
             }
         ]
     },

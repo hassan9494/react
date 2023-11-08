@@ -2,16 +2,22 @@ import { CustomInput, Label } from 'reactstrap'
 import { useEffect } from 'react'
 
 export default function ({ form, order, isCompleted }) {
-
     const taxed = form.watch('options.taxed')
+    const tax_exempt = form.watch('options.tax_exempt')
 
     useEffect(() => {
+        console.log(tax_exempt)
         if (!taxed) {
             form.setValue('options.tax_exempt', false)
+            form.setValue('options.tax_zero', false)
         } else {
             form.setValue('options.price_offer', false)
         }
-    }, [taxed])
+        console.log(tax_exempt)
+        if (!tax_exempt) {
+            form.setValue('options.tax_zero', false)
+        }
+    }, [taxed, tax_exempt])
 
     return (
         <div className='mt-1'>
@@ -38,6 +44,20 @@ export default function ({ form, order, isCompleted }) {
                 <Label className='mb-0 font-medium-1' for='order-tax-exempt'>
                     <strong>معفي من الضريبة</strong>
                 </Label>
+            </div>
+            <div className='d-flex justify-content-between mt-1'>
+
+                <CustomInput
+                    disabled={!taxed || isCompleted || !tax_exempt}
+                    id='order-tax-zero'
+                    type='switch'
+                    name='options.tax_zero'
+                    innerRef={form.register()}
+                />
+                <Label className='mb-0 font-medium-1' for='order-tax-exempt'>
+                    <strong>معفي بنسبة الصفر</strong>
+                </Label>
+
             </div>
             <div className='d-flex justify-content-between mt-1'>
                 <CustomInput
