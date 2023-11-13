@@ -1,75 +1,65 @@
 import { Fragment, useState } from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
-import { useDatatable } from '@data/use-order'
+import { useProduct } from '@data/use-report'
 import Filters from './filters'
-import moment from 'moment'
+import Avatar from '@components/avatar'
+import actions from './actions'
+import moment from "moment/moment"
 
 const Tables = () => {
 
-    const fixedConditions = [
-        {
-            col: 'product_id', val: 91
-        }
-    ]
+    const fixedConditions = []
 
     const [conditions, setConditions] = useState([...fixedConditions])
 
+    const columns = [
+        {
+            name: 'Name',
+            selector: 'name',
+            sortable: true,
+            minWidth: '500px',
+            cell: row => <div><Avatar img={row.image} className='mr-2'/>{row.name}</div>
+        },
+        {
+            name: 'Qty',
+            selector: 'quantity',
+            sortable: true,
+            minWidth: '100px'
+        },
+        {
+            name: 'Price',
+            selector: 'price.normal_price',
+            sortField: 'price->normal_price',
+            sortable: true,
+            minWidth: '100px'
+        },
+        {
+            name: 'Sales',
+            selector: 'sales',
+            sortable: false
+        }
+    ]
     const onFiltersChange = (filters) => {
         const updated = [...fixedConditions]
-        if (filters.from) updated.push({col: 'taxed_at',  op: '>=', val: filters.from})
-        if (filters.to) updated.push({col: 'taxed_at',  op: '<=', val: moment(filters.to).add(1, 'days').format('Y-MM-DD')})
+        if (filters.from) updated.push({col: 'date',  op: '>=', val: filters.from})
+        if (filters.to) updated.push({col: 'date',  op: '<=', val: moment(filters.to).add(1, 'days').format('Y-MM-DD')})
         setConditions(updated)
     }
 
     return (
         <Fragment>
 
-            <Breadcrumbs breadCrumbTitle='Reports' breadCrumbActive='Orders' />
+            <Breadcrumbs breadCrumbTitle='Reports' breadCrumbActive='Products Sales' />
 
-            <Filters onChange={onFiltersChange} />
+            {/*<Filters onChange={() => {}} />*/}
 
             <Datatable
-                useDatatable={useDatatable}
-                conditions={conditions}
+                useDatatable={useProduct}
                 header={false}
-                columns={[
-                    {
-                        name: 'Number',
-                        selector: 'number',
-                        sortable: true,
-                        sortField: 'id',
-                        minWidth: '100px'
-                    },
-                    {
-                        name: 'date',
-                        selector: 'taxed_at',
-                        sortable: true,
-                        minWidth: '100px',
-                        cell: row => moment(row.taxed_at).format('Y-MM-DD')
-                    },
-                    {
-                        name: 'customer',
-                        selector: 'customer.name',
-                        sortable: true,
-                        sortField: 'customer->name',
-                        minWidth: '100px'
-                    },
-                    {
-                        name: 'customer',
-                        selector: 'customer.phone',
-                        sortField: 'customer->phone',
-                        sortable: true,
-                        minWidth: '100px'
-                    },
-                    {
-                        name: 'Total',
-                        selector: 'total',
-                        sortable: true,
-                        minWidth: '100px',
-                        cell: row => Number.parseFloat(row?.total).toFixed(2)
-                    }
-                ]}
+                actions={actions}
+                conditions={conditions}
+                columns={columns}
             />
         </Fragment>
     )

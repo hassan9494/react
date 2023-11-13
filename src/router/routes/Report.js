@@ -57,6 +57,11 @@ const OrderRoutes = [
     },
 
     {
+        path: '/reports/product-sales/:id',
+        component: lazy(() => import('../../views/reports/product-sales/sales'))
+    },
+
+    {
         path: '/reports/product-sales',
         component: lazy(() => import('../../views/reports/product-sales/index'))
     },

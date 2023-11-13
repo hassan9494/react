@@ -5,6 +5,7 @@ import { useDatatable } from '@data/use-order'
 import Filters from './filters'
 import moment from 'moment'
 import {Badge} from "reactstrap"
+import {forEach} from "lodash"
 
 const Tables = () => {
 
@@ -26,7 +27,10 @@ const Tables = () => {
         DELIVERED: 'light-success'
     }
 
+
     const [conditions, setConditions] = useState([...fixedConditions])
+    let shippingCostSum = 0
+
 
     const onFiltersChange = (filters) => {
         const updated = [...fixedConditions]
@@ -35,6 +39,13 @@ const Tables = () => {
         if (filters.provider) updated.push({col: 'shipping_provider_id', val: filters.provider})
         setConditions(updated)
     }
+
+    const { data: orders } = useDatatable({ page : 0, limit : 10, search : '', order : {}, conditions })
+    const ordersList = orders.map(e => ({ shipping: e.shipping, id: e.id }))
+
+    ordersList.forEach((index) => {
+        if (index.shipping.cost > 0) shippingCostSum += Number.parseFloat(index.shipping.cost)
+    })
 
     return (
         <Fragment>
@@ -46,7 +57,9 @@ const Tables = () => {
             <Datatable
                 useDatatable={useDatatable}
                 conditions={conditions}
-                header={false}
+                header={true}
+                footer={true}
+                title={`Total Cost is : ${ shippingCostSum}`}
                 columns={[
                     {
                         name: 'Number',
@@ -109,6 +122,24 @@ const Tables = () => {
                             <Badge className='text-capitalize' color={shippingStatusClasses[row?.shipping?.status] || ''} pill>
                                 {row?.shipping?.status}
                             </Badge>
+                        )
+                    },
+                    {
+                        name: 'Shipping Cost',
+                        selector: 'shipping.cost',
+                        sortable: true,
+                        minWidth: '100px',
+                        cell: row => (
+                            <>
+                                {
+                                    row.shipping?.cost  &&
+                                    Number.parseFloat(row?.shipping?.cost).toFixed(2)
+                                }
+                                {/*{*/}
+                                {/*    row.shipping?.cost  &&*/}
+                                {/*    setX(x + row.shipping?.cost)*/}
+                                {/*}*/}
+                            </>
                         )
                     },
                     {

@@ -266,12 +266,12 @@ export default [
                 icon: <Circle size={12} />,
                 navLink: '/reports/customs-statement'
             },
-            // {
-            //     id: 'ReportsProductSales',
-            //     title: 'Product Sales',
-            //     icon: <Circle size={12} />,
-            //     navLink: '/reports/product-sales'
-            // },
+            {
+                id: 'ReportsProductSales',
+                title: 'Product Sales',
+                icon: <Circle size={12} />,
+                navLink: '/reports/product-sales'
+            },
             {
                 id: 'ReportsExemptInvoices',
                 title: 'Exempt Invoices',

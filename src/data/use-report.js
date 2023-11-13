@@ -13,6 +13,15 @@ export const api = {
     }
 }
 
+export const productsOrder = {
+
+    order: async (params) => {
+        const { data } = await axios.get(`report/product-orders?${params}`)
+        console.log(data?.data)
+        return data?.data
+    }
+}
+
 export const zemamApi = {
 
     order: async (params) => {
@@ -70,12 +79,20 @@ export function useProducts(params) {
     return datatable('report', `report/product-sales`, params)
 }
 
+export function useProduct(params) {
+    return datatable('report', `report/product-sale`, params)
+}
+
 export function useStock(params) {
     return datatable('report', `report/product-stock`, params)
 }
 
 export function useNeed(params) {
     return datatable('report', `report/product-need`, params)
+}
+
+export function useSales(params) {
+    return datatable('report', `product/sales`, params)
 }
 
 export function useOutlays(params) {
