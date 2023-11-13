@@ -6,14 +6,12 @@ export default function ({ form, order, isCompleted }) {
     const tax_exempt = form.watch('options.tax_exempt')
 
     useEffect(() => {
-        console.log(tax_exempt)
         if (!taxed) {
             form.setValue('options.tax_exempt', false)
             form.setValue('options.tax_zero', false)
         } else {
             form.setValue('options.price_offer', false)
         }
-        console.log(tax_exempt)
         if (!tax_exempt) {
             form.setValue('options.tax_zero', false)
         }
