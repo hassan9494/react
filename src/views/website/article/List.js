@@ -4,6 +4,7 @@ import Datatable from '@components/datatable'
 import { useDatatable } from '@data/use-article'
 import actions from './actions'
 import Select from 'react-select'
+import ability from "../../../configs/acl/ability"
 
 const types = [
     {label: 'Service', value: 'SERVICE'},
@@ -33,14 +34,16 @@ const Articles = () => {
         />
     )
 
+    const canAddArticle = ability.can('read', 'article_add')
+
     return (
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Articles' breadCrumbActive='Articles' />
             <Datatable
-                add='/article/add'
+                add={canAddArticle ? '/article/add' : null}
                 useDatatable={useDatatable}
                 actions={actions}
-                filterBar={<Filters />}
+                filterBar=<Filters />
                 conditions={conditions}
                 columns={[
                     {

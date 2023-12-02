@@ -7,12 +7,14 @@ import actions from './actions'
 import { toast } from "react-toastify"
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Copy as CopyIcon, Link as LinkIcon } from 'react-feather'
+import ability from "../../../configs/acl/ability"
 
+const canAddFile = ability.can('read', 'file_add')
 const Tables = () => (
     <Fragment>
         <Breadcrumbs breadCrumbTitle='Files' breadCrumbActive='Files' />
         <Datatable
-            add='/file/add'
+            add={canAddFile ? '/file/add' : null}
             useDatatable={useDatatable}
             actions={actions}
             columns={[

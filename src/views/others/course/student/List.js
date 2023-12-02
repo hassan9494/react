@@ -4,6 +4,7 @@ import { Button, CardHeader, CardTitle } from 'reactstrap'
 import { DollarSign, Trash } from 'react-feather'
 import { confirmDelete } from '@components/sweetalert'
 import { api } from '@data/use-course-student'
+import ability from "../../../../configs/acl/ability"
 
 const List = ({ useStudents }) => {
 
@@ -19,12 +20,16 @@ const List = ({ useStudents }) => {
 
     const actions = (row, mutate) => (
         <div className='column-action d-flex align-items-center'>
+            {ability.can('read', 'receipt_add') &&
             <Link to={`/receipt/add?student=${row.id}`} className='mx-1'>
                 <DollarSign size={17} />
             </Link>
+            }
+            {ability.can('read', 'course_delete_student') &&
             <Link to='#' className='mx-1'>
                 <Trash size={17} onClick={() => onDelete(row, mutate)}/>
             </Link>
+            }
         </div>
     )
 
@@ -33,9 +38,11 @@ const List = ({ useStudents }) => {
             <CardTitle>
                 Students
             </CardTitle>
+            {ability.can('read', 'course_student_add') &&
             <div className='d-flex align-items-center justify-content-end'>
                 <Button.Ripple tag={Link} to={`/course/${id}/student/add`} color='primary' size='sm'>Add Student</Button.Ripple>
             </div>
+            }
         </CardHeader>
     )
 

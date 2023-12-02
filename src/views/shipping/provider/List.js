@@ -3,12 +3,14 @@ import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
 import { useDatatable } from '@data/use-shipping-provider'
 import actions from './actions'
+import ability from "../../../configs/acl/ability"
 
+const canAddProvider = ability.can('read', 'shipping_provider_add')
 const Tables = () => (
     <Fragment>
         <Breadcrumbs breadCrumbTitle='Providers' breadCrumbActive='Providers' />
         <Datatable
-            add='/shipping-provider/add'
+            add={canAddProvider ? '/shipping-provider/add' : null}
             useDatatable={useDatatable}
             actions={actions}
             columns={[

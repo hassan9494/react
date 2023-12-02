@@ -6,6 +6,7 @@ import actions from '../actions'
 import { Badge, Button } from 'reactstrap'
 import { selectThemeColors } from '@utils'
 import Select from 'react-select'
+import ability from "../../../configs/acl/ability"
 
 const types = [
     { value: false, label: 'Paid' },
@@ -34,6 +35,11 @@ export default () => {
         },
         {
             col: 'shipping->status', op: '!=', val: 'DELIVERED'
+        },
+        !ability.can('read', 'untaxed_list_view') ? {
+            col: 'options->taxed',  val: true
+        } : {
+
         }
     ])
 
@@ -56,7 +62,7 @@ export default () => {
             onChange={(e) => onFilterChange(e?.value, 'options->dept')}
         />
     )
-
+    const canAddOrder = ability.can('read', 'order_add')
     return (
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Orders' breadCrumbActive='Orders' />
@@ -68,7 +74,7 @@ export default () => {
                 filterBar={<Filters />}
                 conditions={conditions}
                 actions={actions}
-                add={'/order/create'}
+                add={canAddOrder ? '/order/create' : null}
                 columns={[
                     {
                         name: 'Number',

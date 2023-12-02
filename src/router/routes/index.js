@@ -30,12 +30,16 @@ const Routes = [
   ...ShopRoutes,
   {
     path: '/home',
-    component: lazy(() => import('../../views/dashboard/index'))
+    component: lazy(() => import('../../views/dashboard/index')),
+    meta:{
+      action:'read',
+      resource:'home'
+    }
   },
-  {
-    path: '/second-page',
-    component: lazy(() => import('../../views/SecondPage'))
-  },
+  // {
+  //   path: '/second-page',
+  //   component: lazy(() => import('../../views/SecondPage'))
+  // },
   {
     path: '/login',
     component: lazy(() => import('../../views/Login')),

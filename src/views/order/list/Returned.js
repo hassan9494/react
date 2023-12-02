@@ -3,6 +3,7 @@ import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
 import { useDatatable } from '@data/use-order'
 import actions from '../actions'
+import ability from "../../../configs/acl/ability"
 
 const Tables = () => (
     <Fragment>
@@ -12,7 +13,19 @@ const Tables = () => (
             initialOrder={{column: 'id', dir: 'desc'}}
             defaultSortField={'number'}
             defaultSortAsc={false}
-            conditions={{ status: 'CANCELED', 'options->taxed': true }}
+            conditions={[
+                {
+                    col: 'status', op: '=', val: 'CANCELED'
+                },
+                    {
+                        col: 'options->taxed', op: '=', val: true
+                    },
+                !ability.can('read', 'untaxed_list_view') ? {
+                    col: 'options->taxed',  val: true
+                } : {
+
+                }
+                ]}
             actions={actions}
             columns={[
                 {

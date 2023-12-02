@@ -3,12 +3,14 @@ import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
 import { useDatatable } from '@data/use-city'
 import actions from './actions'
+import ability from "../../../configs/acl/ability"
 
+const canAddCity = ability.can('read', 'city_add')
 const Tables = () => (
     <Fragment>
         <Breadcrumbs breadCrumbTitle='Cities' breadCrumbActive='Cities' />
         <Datatable
-            add='/city/add'
+            add={canAddCity ? '/city/add' : null}
             useDatatable={useDatatable}
             actions={actions}
             columns={[

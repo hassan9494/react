@@ -5,6 +5,7 @@ import { useStockDatatable, api } from '@data/use-product'
 import Avatar from '@components/avatar'
 import { Button, Input } from 'reactstrap'
 import { toast } from 'react-toastify'
+import ability from "../../configs/acl/ability"
 
 
 export default function() {
@@ -44,7 +45,7 @@ export default function() {
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive='Products'/>
             <Datatable
-                filterBar={<Filters />}
+                filterBar={ability.can('read', 'stock2_save') ? <Filters /> : null}
                 useDatatable={useStockDatatable}
                 columns={[
                     {
@@ -70,7 +71,8 @@ export default function() {
                                     onChange={(e) => onRowChange(row, 'stock', e.target.value)}
                                 />
                             </div>
-                        )
+                        ),
+                        omit : !ability.can('read', 'stock_available')
                     },
                     {
                         name: 'Minimum Quantity',
@@ -84,7 +86,8 @@ export default function() {
                                     onChange={(e) => onRowChange(row, 'min_qty', e.target.value)}
                                 />
                             </div>
-                        )
+                        ),
+                        omit : !ability.can('read', 'stock2_minimum_quantity')
                     },
                     {
                         name: 'Mikro SKU',
@@ -98,7 +101,8 @@ export default function() {
                                     onChange={(e) => onRowChange(row, 'sku', e.target.value)}
                                 />
                             </div>
-                        )
+                        ),
+                        omit : !ability.can('read', 'stock2_mikro_sku')
                     },
                     {
                         name: 'Source SKU',
@@ -112,7 +116,8 @@ export default function() {
                                     onChange={(e) => onRowChange(row, 'source_sku', e.target.value)}
                                 />
                             </div>
-                        )
+                        ),
+                        omit : !ability.can('read', 'stock2_source_sku')
                     }
                 ]}
             />

@@ -4,12 +4,14 @@ import Datatable from '@components/datatable'
 import { useCategoryDatatable } from '@data/use-category'
 import actions from './actions'
 import {Badge} from "reactstrap"
+import ability from "../../configs/acl/ability"
 
+const canAddCategory = ability.can('read', 'category_add')
 const Tables = () => (
     <Fragment>
         <Breadcrumbs breadCrumbTitle='Categories' breadCrumbActive='Categories' />
         <Datatable
-            add='/category/add'
+            add={canAddCategory ? '/category/add' : null}
             useDatatable={useCategoryDatatable}
             actions={actions}
             columns={[

@@ -6,7 +6,6 @@ import { isUserLoggedIn } from '@utils'
 import { useLayout } from '@hooks/useLayout'
 import { AbilityContext } from '@src/utility/context/Can'
 import { useRouterTransition } from '@hooks/useRouterTransition'
-import useAuth from '@data/use-auth'
 
 // ** Custom Components
 import Spinner from '@components/spinner/Loading-spinner' // Uncomment if your require content fallback
@@ -29,7 +28,7 @@ const Router = () => {
     const [transition, setTransition] = useRouterTransition()
 
     // ** ACL Ability Context
-    const ability = useContext(AbilityContext)
+    const {ability} = useContext(AbilityContext)
 
     // ** Default Layout
     const DefaultLayout = layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
@@ -91,10 +90,10 @@ const Router = () => {
         } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
             // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
             return <Redirect to='/'/>
-        } else if (isUserLoggedIn() && !ability?.can(action || 'read', resource)) {
+        } else if (isUserLoggedIn() && ability.cannot(action || 'read', resource)) {
             // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
             // return <Redirect to='/misc/not-authorized' />
-            return <route.component {...props} />
+            return <Redirect to='/misc/not-authorized' />
         } else {
             // ** If none of the above render component
             return <route.component {...props} />

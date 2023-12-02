@@ -7,6 +7,7 @@ import { Badge } from 'reactstrap'
 import moment from 'moment'
 import Select from 'react-select'
 import { selectThemeColors } from '@utils'
+import ability from "../../../configs/acl/ability"
 
 const status = [
     'light-warning',
@@ -18,6 +19,7 @@ const types = [
     { value: true, label: 'Paid' }
 ]
 
+const canAddDept = ability.can('read', 'dept_add')
 const Tables = () => {
 
     const [paid, setPaid] = useState()
@@ -45,7 +47,7 @@ const Tables = () => {
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Others' breadCrumbActive='Depts' />
             <Datatable
-                add='/dept/add'
+                add={canAddDept ? '/dept/add' : null}
                 useDatatable={useDatatable}
                 actions={actions}
                 initialOrder={{column: 'id', dir: 'desc'}}

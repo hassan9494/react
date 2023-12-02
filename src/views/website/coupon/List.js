@@ -4,12 +4,14 @@ import Datatable from '@components/datatable'
 import { useDatatable } from '@data/use-coupon'
 import actions from './actions'
 import { Badge } from 'reactstrap'
+import ability from "../../../configs/acl/ability"
 
+const canAddCoupon = ability.can('read', 'coupon_add')
 const Tables = () => (
     <Fragment>
         <Breadcrumbs breadCrumbTitle='Coupons' breadCrumbActive='Coupons' />
         <Datatable
-            add='/coupon/add'
+            add={canAddCoupon ? '/coupon/add' : null}
             useDatatable={useDatatable}
             actions={actions}
             columns={[
