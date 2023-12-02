@@ -12,6 +12,7 @@ import { getProductPrice } from "./helpers"
 import OrderCustomer from './OrderCustomer'
 import ExtraItems from './ExtraItems'
 import OrderCalc from './OrderCalc'
+import ability from "../../../configs/acl/ability"
 
 const PreviewCard = ({ order, form, isCompleted }) => {
 
@@ -26,6 +27,8 @@ const PreviewCard = ({ order, form, isCompleted }) => {
     const shippingFree = form.watch('shipping.free')
     const pricing = form.watch('options.pricing')
     const location = useLocation()
+    const canReorderOrder = ability.can('read', 'order_reorder')
+    const canPrintOrder = ability.can('read', 'order_print')
 
     const calculate = () => {
 
@@ -98,7 +101,7 @@ const PreviewCard = ({ order, form, isCompleted }) => {
             <CardBody className='invoice-padding pt-0 d-flex'>
                 <div className="mr-auto">
                     {
-                        order &&
+                        (order && canPrintOrder) &&
                         <Link to={`/order/print/${order.id}`} id={`pw-tooltip-${order.id}`} target='_blank'>
                             <Button.Ripple color={'dark'}>
                                 <Printer size={14} />
@@ -109,7 +112,7 @@ const PreviewCard = ({ order, form, isCompleted }) => {
                 </div>
                 <div className="mr-auto">
                     {
-                        order && location.pathname.includes('edit') &&
+                        (order && location.pathname.includes('edit') && canReorderOrder) &&
                         <Link to={`/order/create/${order.id}`} id={`pw-tooltip-${order.id}`} target='_blank'>
                             <Button.Ripple color={'primary'}>
                                 <Plus size={14} />

@@ -5,12 +5,15 @@ import { useDatatable } from '@data/use-product'
 import actions from './actions'
 import Avatar from '@components/avatar'
 import ProductLink from "@components/product/link"
+import ability from "../../configs/acl/ability"
 
+
+const canAddProduct = ability.can('read', 'product_add')
 const Tables = () => (
     <Fragment>
         <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive='Products' />
         <Datatable
-            add='/product/add'
+            add={canAddProduct ? '/product/add' : null}
             useDatatable={useDatatable}
             actions={actions}
             columns={[

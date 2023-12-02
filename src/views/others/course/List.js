@@ -3,12 +3,14 @@ import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
 import { useDatatable } from '@data/use-course'
 import actions from './actions'
+import ability from "../../../configs/acl/ability"
 
+const canAddCourse = ability.can('read', 'course_add')
 const Tables = () => (
     <Fragment>
         <Breadcrumbs breadCrumbTitle='Others' breadCrumbActive='Courses' />
         <Datatable
-            add='/course/add'
+            add={canAddCourse ? '/course/add' : null}
             useDatatable={useDatatable}
             actions={actions}
             initialOrder={{column: 'id', dir: 'desc'}}

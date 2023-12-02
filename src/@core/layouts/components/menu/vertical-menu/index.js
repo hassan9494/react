@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState, useRef } from 'react'
+import {Fragment, useState, useRef, useContext} from 'react'
 
 // ** Vertical Menu Items Array
 import navigation from '@src/navigation/vertical'
@@ -11,10 +11,12 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 // ** Vertical Menu Components
 import VerticalMenuHeader from './VerticalMenuHeader'
 import VerticalNavMenuItems from './VerticalNavMenuItems'
+import {AbilityContext} from "../../../../../utility/context/Can"
 
 const Sidebar = props => {
   // ** Props
   const { menuCollapsed, routerProps, menu, currentActiveItem, skin } = props
+  const {ability} = useContext(AbilityContext)
 
   // ** States
   const [groupOpen, setGroupOpen] = useState([])
@@ -47,6 +49,31 @@ const Sidebar = props => {
     }
   }
 
+
+  const canViewMenuItem = (action, resource) => {
+    if (ability.can(action, resource)) {
+      return true
+    } else {
+      return false
+    }
+  }
+// Filter out menu items that the user doesn't have permission to view
+  const filteredNavItems = navigation.filter((item) => {
+    if (item.action) {
+      // console.log(item)
+      return ability.can(item.action, item.resource)
+    } else if (item.children) {
+      const filteredChildren = item.children.filter((child) => {
+        return child.resource ? ability.can(child.action, child.resource) : true
+      })
+      item.children = filteredChildren
+      return filteredChildren.length > 0
+    }
+    return true
+  })
+
+  // console.log(filteredNavItems)
+
   return (
     <Fragment>
       <div
@@ -74,7 +101,7 @@ const Sidebar = props => {
             >
               <ul className='navigation navigation-main'>
                 <VerticalNavMenuItems
-                  items={navigation}
+                  items={filteredNavItems}
                   groupActive={groupActive}
                   setGroupActive={setGroupActive}
                   activeItem={activeItem}

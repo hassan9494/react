@@ -3,16 +3,18 @@ import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
 import { useDatatable } from '@data/use-order'
 import actions from '../actions'
+import ability from "../../../configs/acl/ability"
 
-const Tables = () => (
-    <Fragment>
+const Tables = () => {
+    console.log(ability.can('read', 'untaxed_list_view'))
+    return <Fragment>
         <Breadcrumbs breadCrumbTitle='Orders' breadCrumbActive='Orders' />
         <Datatable
             useDatatable={useDatatable}
             initialOrder={{column: 'id', dir: 'desc'}}
             defaultSortField={'number'}
             defaultSortAsc={false}
-            conditions={{ status: 'COMPLETED'}}
+            conditions= {!ability.can('read', 'untaxed_list_view') ?  {'options->taxed': true, status: 'COMPLETED' } : { status: 'COMPLETED'}}
             actions={actions}
             columns={[
                 {
@@ -53,6 +55,7 @@ const Tables = () => (
             ]}
         />
     </Fragment>
-)
+}
+
 
 export default Tables

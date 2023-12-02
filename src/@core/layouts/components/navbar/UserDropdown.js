@@ -15,10 +15,14 @@ import { User, Power } from 'react-feather'
 // ** Default Avatar Image
 import defaultAvatar from '@src/assets/images/avatar.png'
 import useAuth from '@data/use-auth'
+import {useContext} from "react"
+import {AbilityContext} from "../../../../utility/context/Can"
 
 const UserDropdown = () => {
+
+    const {ability} = useContext(AbilityContext)
     // ** Store Vars
-    const { user } = useAuth()
+    const user = JSON.parse(localStorage.getItem('user'))
     const dispatch = useDispatch()
 
     //** Vars

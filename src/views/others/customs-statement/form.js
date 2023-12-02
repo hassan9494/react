@@ -16,14 +16,8 @@ export default function ({ onSubmit, model }) {
                 <FormBuilder
                     fields={[
                         {
-                            label: 'Name',
+                            label: 'Customs statement number',
                             name: 'name',
-                            rules: { required: true }
-                        },
-                        {
-                            label: 'Amount',
-                            name: 'amount',
-                            type: 'number',
                             rules: { required: true }
                         },
                         {
@@ -34,7 +28,13 @@ export default function ({ onSubmit, model }) {
                             defaultValue: moment().format('Y-MM-DD')
                         },
                         {
-                            label: 'Invoice',
+                            label: 'Amount',
+                            name: 'amount',
+                            type: 'number',
+                            rules: { required: true }
+                        },
+                        {
+                            label: 'Tax',
                             name: 'invoice'
                         },
                         {

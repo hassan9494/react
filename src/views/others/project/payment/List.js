@@ -5,6 +5,7 @@ import { confirmDelete } from '@components/sweetalert'
 import { api } from '@data/use-receipt'
 import { Button, CardHeader, CardTitle, Col } from 'reactstrap'
 import moment from 'moment'
+import ability from "../../../../configs/acl/ability"
 
 const List = ({ usePayments }) => {
 
@@ -19,15 +20,21 @@ const List = ({ usePayments }) => {
 
     const actions = (row, mutate) => (
         <div className='column-action d-flex align-items-center'>
+            {ability.can('read', 'receipt_print') &&
             <Link to={`/receipt/print/${row.id}`} className='mx-1' target='_blank'>
                 <Printer size={17} />
             </Link>
+            }
+            {ability.can('read', 'receipt_edit') &&
             <Link to={`/receipt/edit/${row.id}`} className='mx-1'>
                 <Edit size={17} />
             </Link>
+            }
+            {ability.can('read', 'receipt_delete') &&
             <Link to='#' className='mx-1'>
                 <Trash size={17} onClick={() => onDelete(row, mutate)}/>
             </Link>
+            }
         </div>
     )
 
@@ -36,9 +43,11 @@ const List = ({ usePayments }) => {
             <CardTitle>
                 Payments
             </CardTitle>
+            {ability.can('read', 'receipt_add') &&
             <Col className='d-flex align-items-center justify-content-end' sm='8'>
                 <Button.Ripple tag={Link} to={`/receipt/add?project=${id}`} color='primary' size='sm'>Add Payment</Button.Ripple>
             </Col>
+            }
         </CardHeader>
     )
 

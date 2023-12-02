@@ -5,12 +5,14 @@ import { useDatatable } from '@data/use-project'
 import actions from './actions'
 import { Badge } from 'reactstrap'
 import Select from 'react-select'
+import ability from "../../../configs/acl/ability"
 
 
 const types = [
     { value: true, label: 'Complete' },
     { value: false, label: 'Not Complete' }
 ]
+const canAddProject = ability.can('read', 'project_add')
 
 const Tables = () => {
 
@@ -38,7 +40,7 @@ const Tables = () => {
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Others' breadCrumbActive='Projects' />
             <Datatable
-                add='/project/add'
+                add={canAddProject ? '/project/add' : null}
                 useDatatable={useDatatable}
                 actions={actions}
                 initialOrder={{column: 'id', dir: 'desc'}}

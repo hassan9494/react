@@ -6,8 +6,10 @@ import moment from 'moment'
 import actions from './actions'
 import Select from "react-select"
 import { selectThemeColors } from '@utils'
+import ability from "../../../configs/acl/ability"
 
 
+const canAddCustomStatement = ability.can('read', 'customs_statement_add')
 const Tables = () => {
 
 
@@ -22,7 +24,7 @@ const Tables = () => {
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Customs Statement' breadCrumbActive='customs-statements'/>
             <Datatable
-                add='/customs-statement/add'
+                add={canAddCustomStatement ? '/customs-statement/add' : null}
                 useDatatable={useDatatable}
                 actions={actions}
                 initialOrder={{column: 'id', dir: 'desc'}}

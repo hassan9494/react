@@ -6,12 +6,14 @@ import moment from 'moment'
 import actions from './actions'
 import Select from "react-select"
 import { selectThemeColors } from '@utils'
+import ability from "../../../configs/acl/ability"
 
 const types = [
     { value: 'PURCHASE', label: 'Purchase' },
     { value: 'OUTLAY', label: 'Outlay' }
 ]
 
+const canAddOutlay = ability.can('read', 'outlay_add')
 const Tables = () => {
 
 
@@ -41,7 +43,7 @@ const Tables = () => {
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Others' breadCrumbActive='Outlays'/>
             <Datatable
-                add='/outlay/add'
+                add={canAddOutlay ? '/outlay/add' : null}
                 useDatatable={useDatatable}
                 actions={actions}
                 initialOrder={{column: 'id', dir: 'desc'}}

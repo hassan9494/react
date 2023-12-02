@@ -1,10 +1,11 @@
-import { Fragment } from 'react'
+import {Fragment, useState} from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
 import { useDatatable } from '@data/use-order'
 import actions from '../actions'
 
 const Tables = () => (
+
     <Fragment>
         <Breadcrumbs breadCrumbTitle='Orders' breadCrumbActive='Orders' />
         <Datatable
@@ -13,7 +14,14 @@ const Tables = () => (
             initialOrder={{column: 'id', dir: 'desc'}}
             defaultSortField={'number'}
             defaultSortAsc={false}
-            conditions={{ status: 'PENDING', 'options->price_offer': true}}
+            conditions={[
+                {
+                    col: 'status', op: '=', val: 'PENDING'
+                },
+                    {
+                        col: 'options->price_offer', op: '=', val: true
+                    }
+                ]}
             columns={[
                 {
                     name: 'Number',

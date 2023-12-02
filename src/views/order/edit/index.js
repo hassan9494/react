@@ -12,6 +12,7 @@ import OrderStatus from '../components/OrderStatus'
 import OrderOptions from '../components/OrderOptions'
 import ShippingStatus from '../components/ShippingStatus'
 import OrderAttachments from '../components/OrderAttachments'
+import ability from "../../../configs/acl/ability"
 
 const fields = [
     'customer',
@@ -88,7 +89,10 @@ export default function () {
 
                 </Col>
                 <Col md={3} sm={12}>
-                    <OrderStatus update={updateStatus} order={order} />
+                    { (ability.can('read', 'order_completed_update_status') || ability.can('read', 'order_deleted_update_status') || ability.can('read', 'order_returned_update_status') || (order && (order?.status !== 'COMPLETED' && order?.status !== 'CANCELED'))) &&
+                        <OrderStatus update={updateStatus} order={order} />
+                    }
+
                     <ShippingStatus form={form} order={order} isCompleted={isCompleted}/>
                     <OrderOptions form={form} order={order} isCompleted={isCompleted} />
                 </Col>

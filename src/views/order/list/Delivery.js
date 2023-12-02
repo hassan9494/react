@@ -7,6 +7,7 @@ import { Badge, Button } from 'reactstrap'
 import { selectThemeColors } from '@utils'
 import Select from 'react-select'
 import { useModels as useShippingProviders } from '@data/use-shipping-provider'
+import ability from "../../../configs/acl/ability"
 
 const shippingStatusClasses = {
     WAITING: 'light-warning',
@@ -30,7 +31,12 @@ export default () => {
         },
         {
             col: 'shipping->status', op: '!=', val: 'WAITING'
-        }
+        },
+        !ability.can('read', 'untaxed_list_view') ? {
+                col: 'options->taxed',  val: true
+            } : {
+                
+            }
     ])
 
     const onFilterChange = (val, col) => {

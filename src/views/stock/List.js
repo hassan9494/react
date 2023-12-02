@@ -5,6 +5,7 @@ import { useStockDatatable, api } from '@data/use-product'
 import Avatar from '@components/avatar'
 import { Button, Input } from 'reactstrap'
 import { toast } from 'react-toastify'
+import ability from "../../configs/acl/ability"
 
 
 export default function() {
@@ -43,7 +44,7 @@ export default function() {
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive='Products'/>
             <Datatable
-                filterBar={<Filters />}
+                filterBar={ability.can('read', 'stock_save') ? <Filters /> : null}
                 useDatatable={useStockDatatable}
                 columns={[
                     {
@@ -69,7 +70,8 @@ export default function() {
                                     onChange={(e) => onRowChange(row, 'stock', e.target.value)}
                                 />
                             </div>
-                        )
+                        ),
+                        omit : !ability.can('read', 'stock_available')
                     },
                     {
                         name: 'Normal Price',
@@ -85,7 +87,8 @@ export default function() {
                                     onChange={(e) => onRowChange(row, 'normal_price', e.target.value)}
                                 />
                             </div>
-                        )
+                        ),
+                        omit : !ability.can('read', 'stock_normal_price')
                     },
                     {
                         name: 'Sale Price',
@@ -102,7 +105,8 @@ export default function() {
                                     onChange={(e) => onRowChange(row, 'sale_price', e.target.value)}
                                 />
                             </div>
-                        )
+                        ),
+                        omit : !ability.can('read', 'stock_sale_price')
                     },
                     {
                         name: 'Real Price',
@@ -119,7 +123,8 @@ export default function() {
                                     onChange={(e) => onRowChange(row, 'real_price', e.target.value)}
                                 />
                             </div>
-                        )
+                        ),
+                        omit : !ability.can('read', 'stock_real_price')
                     },
                     {
                         name: 'Dist Price',
@@ -136,7 +141,8 @@ export default function() {
                                     onChange={(e) => onRowChange(row, 'distributor_price', e.target.value)}
                                 />
                             </div>
-                        )
+                        ),
+                        omit : !ability.can('read', 'stock_dist_price')
                     }
                 ]}
             />

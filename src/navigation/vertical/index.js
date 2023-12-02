@@ -1,11 +1,16 @@
 import { Home, Users, Box, Grid, Truck, Settings, Circle, Folder, Book, File, PieChart, ShoppingBag } from 'react-feather'
+import {useContext} from "react"
+import {AbilityContext} from "../../utility/context/Can"
+import ability from "../../configs/acl/ability"
 
-export default [
+const navItems = [
     {
         id: 'home',
         title: 'Home',
         icon: <Home size={20}/>,
-        navLink: '/home'
+        navLink: '/home',
+        action: 'read',
+        resource: 'home'
     },
     {
         id: 'users',
@@ -16,7 +21,9 @@ export default [
                 id: 'customers',
                 title: 'Customers',
                 icon: <Circle size={12} />,
-                navLink: '/user/list'
+                navLink: '/user/list',
+                action: 'read',
+                resource: 'user_list_view'
             }
         ]
     },
@@ -30,43 +37,57 @@ export default [
                 id: 'offerOrders',
                 title: 'Price Offer',
                 icon: <Circle size={12} />,
-                navLink: '/order/offer'
+                navLink: '/order/offer',
+                action: 'read',
+                resource: 'offer_order_list_view'
             },
             {
                 id: 'pendingOrders',
                 title: 'New Orders',
                 icon: <Circle size={12} />,
-                navLink: '/order/pending'
+                navLink: '/order/pending',
+                action: 'read',
+                resource: 'pending_order_list_view'
             },
             {
                 id: 'processingOrders',
                 title: 'Processing',
                 icon: <Circle size={12} />,
-                navLink: '/order/processing'
+                navLink: '/order/processing',
+                action: 'read',
+                resource: 'processing_order_list_view'
             },
             {
                 id: 'deliveryOrders',
                 title: 'Delivery',
                 icon: <Circle size={12} />,
-                navLink: '/order/delivery'
+                navLink: '/order/delivery',
+                action: 'read',
+                resource: 'delivery_order_list_view'
             },
             {
                 id: 'completedOrders',
                 title: 'Completed',
                 icon: <Circle size={12} />,
-                navLink: '/order/completed'
+                navLink: '/order/completed',
+                action: 'read',
+                resource: 'completed_order_list_view'
             },
             {
                 id: 'returnedOrders',
                 title: 'Returned',
                 icon: <Circle size={12} />,
-                navLink: '/order/returned'
+                navLink: '/order/returned',
+                action: 'read',
+                resource: 'returned_order_list_view'
             },
             {
                 id: 'canceledOrders',
                 title: 'Deleted',
                 icon: <Circle size={12} />,
-                navLink: '/order/deleted'
+                navLink: '/order/deleted',
+                action: 'read',
+                resource: 'deleted_order_list_view'
             }
         ]
     },
@@ -80,25 +101,33 @@ export default [
                 id: 'category',
                 title: 'Categories',
                 icon: <Circle size={12} />,
-                navLink: '/category/list'
+                navLink: '/category/list',
+                action: 'read',
+                resource: 'category_list_view'
             },
             {
                 id: 'product',
                 title: 'Products',
                 icon: <Circle size={12} />,
-                navLink: '/product/list'
+                navLink: '/product/list',
+                action: 'read',
+                resource: 'product_list_view'
             },
             {
                 id: 'stock',
                 title: 'Stock',
                 icon: <Circle size={12} />,
-                navLink: '/stocks'
+                navLink: '/stocks',
+                action: 'read',
+                resource: 'stock_list_view'
             },
             {
                 id: 'stock2',
                 title: 'Stock2',
                 icon: <Circle size={12} />,
-                navLink: '/stock2'
+                navLink: '/stock2',
+                action: 'read',
+                resource: 'stock2_list_view'
             }
         ]
     },
@@ -112,13 +141,17 @@ export default [
                 id: 'cities',
                 title: 'Cities',
                 icon: <Circle size={12} />,
-                navLink: '/city/list'
+                navLink: '/city/list',
+                action: 'read',
+                resource: 'city_list_view'
             },
             {
                 id: 'providers',
                 title: 'Providers',
                 icon: <Circle size={12} />,
-                navLink: '/shipping-provider/list'
+                navLink: '/shipping-provider/list',
+                action: 'read',
+                resource: 'shipping_provider_list_view'
             }
         ]
     },
@@ -132,25 +165,33 @@ export default [
                 id: 'articles',
                 title: 'Articles',
                 icon: <Circle size={12} />,
-                navLink: '/article/list'
+                navLink: '/article/list',
+                action: 'read',
+                resource: 'article_list_view'
             },
             {
                 id: 'coupons',
                 title: 'Coupons',
                 icon: <Circle size={12} />,
-                navLink: '/coupon/list'
+                navLink: '/coupon/list',
+                action: 'read',
+                resource: 'coupon_list_view'
             },
             {
                 id: 'slides',
                 title: 'Slides',
                 icon: <Circle size={12} />,
-                navLink: '/slide/list'
+                navLink: '/slide/list',
+                action: 'read',
+                resource: 'slide_list_view'
             },
             {
                 id: 'promotions',
                 title: 'Promotions',
                 icon: <Circle size={12} />,
-                navLink: '/promotion/list'
+                navLink: '/promotion/list',
+                action: 'read',
+                resource: 'promotion_list_view'
             }
         ]
     },
@@ -164,45 +205,59 @@ export default [
                 title: 'Files',
                 icon: <File size={20} />,
                 badge: 'light-warning',
-                navLink: '/file/list'
+                navLink: '/file/list',
+                action: 'read',
+                resource: 'file_list_view'
             },
             {
                 id: 'projects',
                 title: 'Projects',
                 icon: <Circle size={12} />,
                 badge: 'light-warning',
-                navLink: '/project/list'
+                navLink: '/project/list',
+                action: 'read',
+                resource: 'project_list_view'
             },
             {
                 id: 'courses',
                 title: 'Courses',
                 icon: <Book size={20} />,
                 badge: 'light-warning',
-                navLink: '/course/list'
+                navLink: '/course/list',
+                action: 'read',
+                resource: 'course_list_view'
             },
             {
                 id: 'receipts',
                 title: 'Receipts',
                 icon: <Circle size={12} />,
-                navLink: '/receipt/list'
+                navLink: '/receipt/list',
+                action: 'read',
+                resource: 'receipt_list_view'
             },
             {
                 id: 'depts',
                 title: 'Depts',
                 icon: <Circle size={12} />,
-                navLink: '/dept/list'
+                navLink: '/dept/list',
+                action: 'read',
+                resource: 'dept_list_view'
             },
             {
                 id: 'outlays',
                 title: 'Outlays',
                 icon: <Circle size={12} />,
-                navLink: '/outlay/list'
+                navLink: '/outlay/list',
+                action: 'read',
+                resource: 'outlay_list_view'
             },
             {
                 id: 'customsStatements',
                 title: 'customs Statement',
                 icon: <Circle size={12} />,
-                navLink: '/customs-statement/list'
+                navLink: '/customs-statement/list',
+                action: 'read',
+                resource: 'customs_statement_list_view'
             }
         ]
     },
@@ -216,13 +271,17 @@ export default [
                 id: 'reportsOrder',
                 title: 'Orders',
                 icon: <Circle size={12} />,
-                navLink: '/reports/order'
+                navLink: '/reports/order',
+                action: 'read',
+                resource: 'order_report'
             },
             {
                 id: 'reportsProduct',
                 title: 'Products',
                 icon: <Circle size={12} />,
-                navLink: '/reports/product'
+                navLink: '/reports/product',
+                action: 'read',
+                resource: 'product_report'
             },
             // {
             //     id: 'reportsStock',
@@ -234,55 +293,73 @@ export default [
                 id: 'reportsNeed',
                 title: 'needs',
                 icon: <Circle size={12} />,
-                navLink: '/reports/needs'
+                navLink: '/reports/needs',
+                action: 'read',
+                resource: 'need_report'
             },
             {
                 id: 'reportsOutlay',
                 title: 'outlays',
                 icon: <Circle size={12} />,
-                navLink: '/reports/outlays'
+                navLink: '/reports/outlays',
+                action: 'read',
+                resource: 'outlay_report'
             },
             {
                 id: 'reportsPurchase',
                 title: 'purchases',
                 icon: <Circle size={12} />,
-                navLink: '/reports/purchases'
+                navLink: '/reports/purchases',
+                action: 'read',
+                resource: 'purchases_report'
             },
             {
                 id: 'reportsDept',
                 title: 'depts',
                 icon: <Circle size={12} />,
-                navLink: '/reports/depts'
+                navLink: '/reports/depts',
+                action: 'read',
+                resource: 'debts_report'
             },
             {
                 id: 'zemamDept',
                 title: 'zemam',
                 icon: <Circle size={12} />,
-                navLink: '/reports/zemam'
+                navLink: '/reports/zemam',
+                action: 'read',
+                resource: 'zemam_report'
             },
             {
                 id: 'ReportsCustomsStatement',
                 title: 'Customs Statement',
                 icon: <Circle size={12} />,
-                navLink: '/reports/customs-statement'
+                navLink: '/reports/customs-statement',
+                action: 'read',
+                resource: 'custom_statement_report'
             },
             {
                 id: 'ReportsProductSales',
                 title: 'Product Sales',
                 icon: <Circle size={12} />,
-                navLink: '/reports/product-sales'
+                navLink: '/reports/product-sales',
+                action: 'read',
+                resource: 'product_sale_report'
             },
             {
                 id: 'ReportsExemptInvoices',
                 title: 'Exempt Invoices',
                 icon: <Circle size={12} />,
-                navLink: '/reports/exempt-invoices'
+                navLink: '/reports/exempt-invoices',
+                action: 'read',
+                resource: 'exempt_invoice_report'
             },
             {
                 id: 'ReportsDeliveryInvoice',
                 title: 'Delivery Invoices',
                 icon: <Circle size={12} />,
-                navLink: '/reports/delivery-invoice'
+                navLink: '/reports/delivery-invoice',
+                action: 'read',
+                resource: 'delivery_invoice_report'
             }
         ]
     },
@@ -295,8 +372,12 @@ export default [
                 id: 'mailer',
                 title: 'Mailer',
                 icon: <Circle size={12} />,
-                navLink: '/settings/mailer'
+                navLink: '/settings/mailer',
+                action: 'read',
+                resource: 'mailer_setting'
             }
         ]
     }
 ]
+
+export default navItems
