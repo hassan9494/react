@@ -52,6 +52,14 @@ const Form = ({ onSubmit, model, formErrors }) => {
                             rules: { required: true }
                         },
                         {
+                            label: 'Roles',
+                            type: 'react-select-multi',
+                            name: 'roles',
+                            list: rolesSelect,
+                            isClearable: true,
+                            rules: { required: true }
+                        },
+                        {
                             label: 'Password',
                             name: 'password',
                             type: 'password',
@@ -63,14 +71,6 @@ const Form = ({ onSubmit, model, formErrors }) => {
                             name: 'password_confirmation',
                             type: 'password',
                             placeholder: 'Confirm Password',
-                            rules: { required: true }
-                        },
-                        {
-                            label: 'Roles',
-                            type: 'react-select-multi',
-                            name: 'roles',
-                            list: rolesSelect,
-                            isClearable: true,
                             rules: { required: true }
                         },
                         {

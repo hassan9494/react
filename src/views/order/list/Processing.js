@@ -36,7 +36,7 @@ export default () => {
         {
             col: 'shipping->status', op: '!=', val: 'DELIVERED'
         },
-        !ability.can('read', 'untaxed_list_view') ? {
+        (!ability.can('read', 'untaxed_list_view') && !ability.can('read', 'befor_completed_untaxed_list_view'))  ? {
             col: 'options->taxed',  val: true
         } : {
 

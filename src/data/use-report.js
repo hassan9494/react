@@ -8,7 +8,6 @@ export const api = {
 
     order: async (params) => {
         const { data } = await axios.get(`report/order?${params}`)
-        console.log(data?.data)
         return data?.data
     }
 }
@@ -17,7 +16,6 @@ export const productsOrder = {
 
     order: async (params) => {
         const { data } = await axios.get(`report/product-orders?${params}`)
-        console.log(data?.data)
         return data?.data
     }
 }

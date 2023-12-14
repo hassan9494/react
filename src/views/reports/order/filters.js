@@ -33,7 +33,8 @@ const Tables = ({ onChange }) => {
 
     const handleExport = async () => {
         if (!from || !to) return
-        const params = new URLSearchParams(pickBy({ from, to, status, exempt }, identity)).toString()
+        const newTo = moment(to).add(1, 'days').format('Y-MM-DD')
+        const params = new URLSearchParams(pickBy({ from, newTo, status, exempt }, identity)).toString()
         const data = await api.order(params)
         let fileName =  `${from}__${to}`
 
