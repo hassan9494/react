@@ -38,7 +38,9 @@ const Tables = ({ onChange }) => {
 
     const handleExport = async () => {
         if (!from || !to) return
-        const params = new URLSearchParams(pickBy({ from, to, status, dept }, identity)).toString()
+        const newTo = moment(to).add(1, 'days').format('Y-MM-DD')
+        console.log(newTo)
+        const params = new URLSearchParams(pickBy({ from, newTo, status, dept }, identity)).toString()
         const data = await zemamApi.order(params)
         let fileName =  `${from}__${to}`
 

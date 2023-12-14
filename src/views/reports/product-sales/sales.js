@@ -34,7 +34,7 @@ const Tables = () => {
     const onFiltersChange = (filters) => {
         const updated = [...fixedConditions]
         if (filters.from) updated.push({col: 'taxed_at',  op: '>=', val: filters.from})
-        if (filters.to) updated.push({col: 'taxed_at',  op: '<=', val: moment(filters.to).add(1, 'days').format('Y-MM-DD')})
+        if (filters.oldTo) updated.push({col: 'taxed_at',  op: '<=', val: moment(filters.oldTo).add(1, 'days').format('Y-MM-DD')})
         if (filters.status) updated.push({col: 'status', val: filters.status})
         if (filters.exempt) updated.push({col: 'options->tax_exempt', val: filters.exempt})
         setConditions(updated)
@@ -101,7 +101,9 @@ const Tables = () => {
                             <>
                                 {
                                     row?.products?.length > 1 &&
-                                    <Repeater count={row?.products?.length}>{i => <Badge key={i}  className='badge-light-secondary d-block badge-pill'>{row?.products[i]?.name} : {row?.products[i]?.quantity}</Badge>}</Repeater>
+                                    <Repeater count={row?.products?.length}>
+                                        {i => <Badge key={i}  className='badge-light-secondary d-block badge-pill '>{row?.products[i]?.name} : {row?.products[i]?.quantity}</Badge>}
+                                    </Repeater>
                                 },
                                 {
                                 row?.products?.length === 1 &&

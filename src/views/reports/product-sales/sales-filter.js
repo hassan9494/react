@@ -22,7 +22,7 @@ const TaxedOptions = [
 const Tables = ({ onChange }) => {
 
     const [from, setFrom] = useState()
-    const [to, setTo] = useState()
+    const [oldTo, setoldTo] = useState()
 
 
     // const onPrint = () => {
@@ -33,18 +33,19 @@ const Tables = ({ onChange }) => {
 
     const { id } = useParams()
     const handleExport = async () => {
-        if (!from || !to) return
+        if (!from || !oldTo) return
+        const to = moment(oldTo).add(1, 'days').format('Y-MM-DD')
         const params = new URLSearchParams(pickBy({ from, to, id}, identity)).toString()
         const data = await productsOrder.order(params)
-        const fileName =  `${from}__${to}`
+        const fileName =  `${from}__${oldTo}`
 
 
         ordersToExcel(data, fileName)
     }
 
     useEffect(() => {
-        onChange(pickBy({ from, to }, identity))
-    }, [from, to])
+        onChange(pickBy({ from, oldTo }, identity))
+    }, [from, oldTo])
 
     return (
         <Card>
@@ -54,7 +55,7 @@ const Tables = ({ onChange }) => {
                         <Flatpickr className='form-control' value={from} onChange={date => setFrom(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'Start Date'} />
                     </Col>
                     <Col md='4'>
-                        <Flatpickr className='form-control' value={to} onChange={date => setTo(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'End Date'} />
+                        <Flatpickr className='form-control' value={oldTo} onChange={date => setoldTo(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'End Date'} />
                     </Col>
                     {/*<Col md='2'>*/}
                     {/*    <Select*/}

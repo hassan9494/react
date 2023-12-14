@@ -20,8 +20,8 @@ const Tables = () => {
 
     const onFiltersChange = (filters) => {
         const updated = [...fixedConditions]
-        if (filters.from) updated.push({col: 'taxed_at',  op: '>=', val: filters.from})
-        if (filters.to) updated.push({col: 'taxed_at',  op: '<=', val: moment(filters.to).add(1, 'days').format('Y-MM-DD')})
+        if (filters.from) updated.push({col: 'taxed_at|updated_at',  op: '>=', val: filters.from})
+        if (filters.to) updated.push({col: 'taxed_at|updated_at',  op: '<=', val: moment(filters.to).add(1, 'days').format('Y-MM-DD')})
         if (filters.zero) updated.push({col: 'options->tax_zero', val: filters.zero})
         setConditions(updated)
     }
@@ -50,7 +50,7 @@ const Tables = () => {
                         selector: 'taxed_at',
                         sortable: true,
                         minWidth: '100px',
-                        cell: row => moment(row.taxed_at).format('Y-MM-DD')
+                        cell: row => (row.taxed_at ? moment(row.taxed_at).format('Y-MM-DD') : moment(row.updated_at).format('Y-MM-DD'))
                     },
                     {
                         name: 'customer',

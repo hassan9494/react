@@ -14,7 +14,7 @@ const Tables = () => (
             initialOrder={{column: 'id', dir: 'desc'}}
             defaultSortField={'number'}
             defaultSortAsc={false}
-            conditions={!ability.can('read', 'untaxed_list_view') ?  {'options->taxed': true, status: 'PENDING', 'options->price_offer': false } : { status: 'PENDING', 'options->price_offer': false}}
+            conditions={(!ability.can('read', 'untaxed_list_view') && !ability.can('read', 'befor_completed_untaxed_list_view')) ?  {'options->taxed': true, status: 'PENDING', 'options->price_offer': false } : { status: 'PENDING', 'options->price_offer': false}}
             columns={[
                 {
                     name: 'Number',
