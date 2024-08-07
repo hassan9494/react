@@ -1,7 +1,8 @@
 import { CustomInput, Label } from 'reactstrap'
 import { useEffect } from 'react'
 
-export default function ({ form, order, isCompleted }) {
+export default function ({ form, order, isCompleted}) {
+
     const taxed = form.watch('options.taxed')
     const tax_exempt = form.watch('options.tax_exempt')
 

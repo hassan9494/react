@@ -34,6 +34,14 @@ const navItems = [
         badge: 'light-warning',
         children: [
             {
+                id: 'allOrders',
+                title: 'All Orders',
+                icon: <Circle size={12} />,
+                navLink: '/order/all',
+                action: 'read',
+                resource: 'all_order_list_view'
+            },
+            {
                 id: 'offerOrders',
                 title: 'Price Offer',
                 icon: <Circle size={12} />,

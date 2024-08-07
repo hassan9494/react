@@ -14,7 +14,7 @@ import ExtraItems from './ExtraItems'
 import OrderCalc from './OrderCalc'
 import ability from "../../../configs/acl/ability"
 
-const PreviewCard = ({ order, form, isCompleted }) => {
+const PreviewCard = ({ order, form, isCompleted, isReorder }) => {
 
     const [coupon, setCoupon] = useState()
     const [calculations, setCalculations] = useState(0)
@@ -55,7 +55,7 @@ const PreviewCard = ({ order, form, isCompleted }) => {
 
     useEffect(() => {
         calculate()
-        setDisabled((order && order?.status !== 'PENDING') || isCompleted)
+        setDisabled(((order && order?.status !== 'PENDING') || isCompleted) && !isReorder)
     }, [order, products, extraItems, discount, shippingCost, shippingFree, pricing, coupon])
 
     return (

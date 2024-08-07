@@ -26,6 +26,14 @@ const OrderRoutes = [
         }
     },
     {
+        path: '/order/all',
+        component: lazy(() => import('../../views/order/list/All')),
+        meta:{
+            action:'read',
+            resource:'all_order_list_view'
+        }
+    },
+    {
         path: '/order/pending',
         component: lazy(() => import('../../views/order/list/Pending')),
         meta:{
