@@ -1,11 +1,11 @@
-import { Row, Col, Form } from 'reactstrap'
+import {Row, Col, Form} from 'reactstrap'
 import '@styles/base/pages/app-invoice.scss'
-import { useEffect, useState } from 'react'
-import { useHistory, useParams  } from 'react-router-dom'
+import {useEffect, useState} from 'react'
+import {useHistory, useParams} from 'react-router-dom'
 
-import { Controller, useForm } from 'react-hook-form'
-import { useOrder, api } from '@data/use-order'
-import { toast } from 'react-toastify'
+import {Controller, useForm} from 'react-hook-form'
+import {useOrder, api} from '@data/use-order'
+import {toast} from 'react-toastify'
 
 import OrderMain from '../components/OrderMain'
 import OrderStatus from '../components/OrderStatus'
@@ -32,13 +32,18 @@ const fields = [
 
 export default function () {
 
-    const { id } = useParams()
-        const {
-            data: order,
-            update: updateOrder,
-            updateStatus
-        } = useOrder(id)
-
+    const {id} = useParams()
+    const {
+        data: order,
+        update: updateOrder,
+        updateStatus
+    } = useOrder(id)
+    let isReorder
+    if (id === undefined) {
+        isReorder = false
+    } else {
+        isReorder = true
+    }
 
     const form = useForm()
     const history = useHistory()
@@ -49,9 +54,9 @@ export default function () {
     const onSubmit = async data => {
         try {
             data.products = data.products?.map(
-                ({ id, price, quantity }) => ({ id, price, quantity })
+                ({id, price, quantity}) => ({id, price, quantity})
             ) || []
-            const { id: orderId } = await api.create(data)
+            const {id: orderId} = await api.create(data)
             toast.success('Order Created')
             history.push(`/order/edit/${orderId}`)
         } catch (e) {
@@ -59,14 +64,18 @@ export default function () {
             console.log(e)
         }
     }
-
     useEffect(() => {
         if (!loaded && order) {
             setLoaded(true)
             for (const field of fields) {
-                form.setValue(field, order[field])
+                if (field === 'shipping' || field === 'customer' || field === 'notes' || field === 'invoice_notes' || field === 'city_id' || field === 'coupon_id' || field === 'shipping_provider_id' || field === 'options' || field === 'discount' || field === 'user_id') {
+                    form.setValue(field, null)
+                }  else {
+                    form.setValue(field, order[field])
+                }
+
             }
-            form.setValue('has_shipping', !!order.shipping?.address)
+            // form.setValue('has_shipping', null)
         }
         const completed = order?.status === 'COMPLETED'
         setIsCompleted(completed)
@@ -76,7 +85,7 @@ export default function () {
         <Form onSubmit={form.handleSubmit(onSubmit)}>
             <Row>
                 <Col md={9} sm={12}>
-                    <OrderMain order={order} form={form} isCompleted={isCompleted} />
+                    <OrderMain order={order} form={form} isCompleted={false} isReorder={true}/>
                     <Controller
                         control={form.control}
                         defaultValue={[]}
@@ -93,9 +102,9 @@ export default function () {
 
                 </Col>
                 <Col md={3} sm={12}>
-                    <OrderStatus update={updateStatus} order={order} />
-                    <ShippingStatus form={form} order={order} isCompleted={isCompleted}/>
-                    <OrderOptions form={form} order={order} isCompleted={isCompleted} />
+                    <OrderStatus/>
+                    <ShippingStatus form={form}/>
+                    <OrderOptions form={form} isReorder={true}/>
                 </Col>
             </Row>
         </Form>
