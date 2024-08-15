@@ -1,14 +1,18 @@
 import { Fragment } from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
-import { useSubCategoryDatatable } from '@data/use-category'
+import { useBrandDatatable } from '@data/use-brand'
 import actions from './actions'
+import {Badge} from "reactstrap"
+import ability from "../../configs/acl/ability"
 
+const canAddBrand = ability.can('read', 'category_add')
 const Tables = () => (
     <Fragment>
-        <Breadcrumbs breadCrumbTitle='Sub Categories' breadCrumbActive='Sub Categories' />
+        <Breadcrumbs breadCrumbTitle='Brands' breadCrumbActive='Brands' />
         <Datatable
-            useDatatable={useSubCategoryDatatable}
+            add={canAddBrand ? '/brand/add' : null}
+            useDatatable={useBrandDatatable}
             actions={actions}
             columns={[
                 {
@@ -19,7 +23,7 @@ const Tables = () => (
                 },
                 {
                     name: 'Name',
-                    selector: 'title',
+                    selector: 'name',
                     sortable: true,
                     minWidth: '225px'
                 },
@@ -32,12 +36,6 @@ const Tables = () => (
                 {
                     name: 'Order',
                     selector: 'order',
-                    sortable: true,
-                    minWidth: '250px'
-                },
-                {
-                    name: 'Parent',
-                    selector: 'parent.title',
                     sortable: true,
                     minWidth: '250px'
                 }

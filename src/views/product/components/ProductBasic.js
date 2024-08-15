@@ -4,17 +4,33 @@ import {
     Card,
     CardBody, Row, CardHeader
 } from 'reactstrap'
-import { Field, SelectMulti } from '@components/form/fields'
-import { useCategories } from '@data/use-category'
+import {Field, SelectMulti, Select} from '@components/form/fields'
+import {useCategories} from '@data/use-category'
+import {useBrands} from '@data/use-brand'
+import {useSources} from "@data/use-source"
 
-export default function Basic({ form }) {
+export default function Basic({form}) {
 
-    const { register, errors, control } = form
-    const { data: categories } = useCategories()
+    const {register, errors, control} = form
+    const {data: categories} = useCategories()
+    const {data: brands} = useBrands()
+    const {data: sources} = useSources()
     const categoriesSelect = categories.map(e => {
         return {
             value: e.id,
             label: e.title
+        }
+    })
+    const brandsSelect = brands.map(e => {
+        return {
+            value: e.id,
+            label: e.name
+        }
+    })
+    const sourcesSelect = sources.map(e => {
+        return {
+            value: e.id,
+            label: e.name
         }
     })
 
@@ -62,6 +78,28 @@ export default function Basic({ form }) {
                             />
                         </FormGroup>
                     </Col>
+                    <Col sm={6}>
+                        <FormGroup>
+                            <Select
+                                label={'Brand'}
+                                name={'brand_id'}
+                                isClearable={false}
+                                list={brandsSelect}
+                                form={form}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm={6}>
+                        <FormGroup>
+                            <Select
+                                label={'Source'}
+                                name={'source_id'}
+                                isClearable={false}
+                                list={sourcesSelect}
+                                form={form}
+                            />
+                        </FormGroup>
+                    </Col>
 
                 </Row>
                 <Row>
@@ -83,6 +121,17 @@ export default function Basic({ form }) {
                                 label={'Min Quantity'}
                                 type='number'
                                 name='min_qty'
+                                rules={{required: true}}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm={6}>
+                        <FormGroup>
+                            <Field
+                                form={form}
+                                label={'Maximum sellable amount to single customer'}
+                                type='number'
+                                name='maxCartAmount'
                                 rules={{required: true}}
                             />
                         </FormGroup>

@@ -6,7 +6,9 @@ import Avatar from '@components/avatar'
 import { Button, Input } from 'reactstrap'
 import { toast } from 'react-toastify'
 import ability from "../../configs/acl/ability"
-
+import { useBrands } from '@data/use-brand'
+import { useSources } from '@data/use-source'
+import Select from "react-select"
 
 export default function() {
 
@@ -17,19 +19,20 @@ export default function() {
         if (toUpdate[row.id]) {
             toUpdate[row.id][key] = value
         } else {
-            toUpdate[row.id] = { sku: row.sku, source_sku: row.source_sku, min_qty: row.min_qty, stock: row.stock, ...newData }
+            toUpdate[row.id] = { sku: row.sku, source_sku: row.source_sku, min_qty: row.min_qty, stock: row.stock, brand_id:row.brand_id, source_id:row.source_id, ...newData }
         }
     }
 
     const onSubmit = async () => {
-        const products = Object.entries(toUpdate).map(([id, {stock, sku, min_qty, source_sku }]) => {
+        const products = Object.entries(toUpdate).map(([id, { stock, sku, min_qty, source_sku, brand_id, source_id}]) => {
             return {
                 id,
                 stock,
                 sku,
                 min_qty,
-                source_sku
-
+                source_sku,
+                brand_id,
+                source_id
             }
         })
         if (products.length > 0) {
@@ -41,9 +44,24 @@ export default function() {
 
     const Filters = () => <Button.Ripple color='success' onClick={onSubmit}>Save Changes</Button.Ripple>
 
+    const { data: brands } = useBrands()
+    const brandsSelect = brands.map(e => {
+        return {
+            value: e.id,
+            label: e.name
+        }
+    })
+    const { data: sources } = useSources()
+    const sourcesSelect = sources.map(e => {
+        return {
+            value: e.id,
+            label: e.name
+        }
+    })
+
     return (
         <Fragment>
-            <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive='Products'/>
+            <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive='Products' />
             <Datatable
                 filterBar={ability.can('read', 'stock2_save') ? <Filters /> : null}
                 useDatatable={useStockDatatable}
@@ -54,25 +72,44 @@ export default function() {
                         sortField: 'name',
                         sortable: true,
                         minWidth: '400px',
-                        maxWidth: '600px',
+                        maxWidth: '500px',
                         cell: row => (
-                            <div><Avatar img={row.image} className={"mr-2"}/> {row.name.slice(0, 30)}... </div>
+                            <div style={{width:'100%'}}><Avatar img={row.image} className={"mr-2"} /> {row.name.slice(0, 30)}... </div>
                         )
                     },
                     {
-                        name: 'Available',
-                        selector: 'stock',
+                        name: 'Brand',
+                        selector: 'brand_id',
                         sortable: true,
+                        minWidth: '200px',
+                        maxWidth: '300px',
                         cell: row => (
-                            <div>
-                                <Input
-                                    type='number'
-                                    defaultValue={row.stock}
-                                    onChange={(e) => onRowChange(row, 'stock', e.target.value)}
+                            <div style={{width: '100%'}}>
+                                <Select
+                                    options={brandsSelect}
+                                    value={brandsSelect.find(option => option.value === row.brand_id)}
+                                    onChange={(selectedOption) => onRowChange(row, 'brand_id', selectedOption.value)}
                                 />
                             </div>
                         ),
-                        omit : !ability.can('read', 'stock_available')
+                        omit: !ability.can('read', 'stock2_minimum_quantity')
+                    },
+                    {
+                        name: 'Source',
+                        selector: 'source_id',
+                        sortable: true,
+                        minWidth: '200px',
+                        maxWidth: '300px',
+                        cell: row => (
+                            <div style={{width: '100%'}}>
+                                <Select
+                                    options={sourcesSelect}
+                                    value={sourcesSelect.find(option => option.value === row.source_id)}
+                                    onChange={(selectedOption) => onRowChange(row, 'source_id', selectedOption.value)}
+                                />
+                            </div>
+                        ),
+                        omit: !ability.can('read', 'stock2_minimum_quantity')
                     },
                     {
                         name: 'Minimum Quantity',
@@ -87,7 +124,7 @@ export default function() {
                                 />
                             </div>
                         ),
-                        omit : !ability.can('read', 'stock2_minimum_quantity')
+                        omit: !ability.can('read', 'stock2_minimum_quantity')
                     },
                     {
                         name: 'Mikro SKU',
@@ -102,7 +139,7 @@ export default function() {
                                 />
                             </div>
                         ),
-                        omit : !ability.can('read', 'stock2_mikro_sku')
+                        omit: !ability.can('read', 'stock2_mikro_sku')
                     },
                     {
                         name: 'Source SKU',
@@ -117,7 +154,7 @@ export default function() {
                                 />
                             </div>
                         ),
-                        omit : !ability.can('read', 'stock2_source_sku')
+                        omit: !ability.can('read', 'stock2_source_sku')
                     }
                 ]}
             />

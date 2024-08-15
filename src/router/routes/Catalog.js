@@ -10,6 +10,22 @@ const CatalogRoutes = [
         }
     },
     {
+        path: '/brand/list',
+        component: lazy(() => import('../../views/brand/List')),
+        meta:{
+            action:'read',
+            resource:'category_list_view'
+        }
+    },
+    {
+        path: '/source/list',
+        component: lazy(() => import('../../views/source/List')),
+        meta:{
+            action:'read',
+            resource:'category_list_view'
+        }
+    },
+    {
         path: '/sub-category/list',
         component: lazy(() => import('../../views/sub-category/List')),
         meta:{
@@ -26,8 +42,40 @@ const CatalogRoutes = [
         }
     },
     {
+        path: '/brand/add',
+        component: lazy(() => import('../../views/brand/Add')),
+        meta:{
+            action:'read',
+            resource:'category_add'
+        }
+    },
+    {
+        path: '/source/add',
+        component: lazy(() => import('../../views/source/Add')),
+        meta:{
+            action:'read',
+            resource:'category_add'
+        }
+    },
+    {
         path: '/category/edit/:id',
         component: lazy(() => import('../../views/category/Edit')),
+        meta:{
+            action:'read',
+            resource:'category_edit'
+        }
+    },
+    {
+        path: '/brand/edit/:id',
+        component: lazy(() => import('../../views/brand/Edit')),
+        meta:{
+            action:'read',
+            resource:'category_edit'
+        }
+    },
+    {
+        path: '/source/edit/:id',
+        component: lazy(() => import('../../views/source/Edit')),
         meta:{
             action:'read',
             resource:'category_edit'

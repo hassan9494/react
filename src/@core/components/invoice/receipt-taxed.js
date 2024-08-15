@@ -107,7 +107,7 @@ function InvoiceHeader({order}) {
                         />
                         <p className='pb-1'>مؤسسة منتصر ومحمود للالكترونيات</p>
                         {/*<p><strong>الرقم الضريبي : 013461320</strong></p>*/}
-                        <p className="text-center">{order?.number}</p>
+
                     </div>
                 </Col>
             </Row>
@@ -144,6 +144,7 @@ function InvoiceFooter({ type }) {
                     </h4>
                 </Col>
             </Row>
+            <p className="text-center">{order?.number}</p>
         </>
     )
 }
