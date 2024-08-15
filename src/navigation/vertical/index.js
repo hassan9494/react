@@ -114,6 +114,14 @@ const navItems = [
                 resource: 'category_list_view'
             },
             {
+                id: 'sub_category',
+                title: 'Sub Categories',
+                icon: <Circle size={12} />,
+                navLink: '/sub-category/list',
+                action: 'read',
+                resource: 'category_list_view'
+            },
+            {
                 id: 'product',
                 title: 'Products',
                 icon: <Circle size={12} />,
@@ -169,6 +177,22 @@ const navItems = [
         icon: <ShoppingBag size={20} />,
         badge: 'light-warning',
         children: [
+            {
+                id: 'brand',
+                title: 'Brands',
+                icon: <Circle size={12} />,
+                navLink: '/brand/list',
+                action: 'read',
+                resource: 'category_list_view'
+            },
+            {
+                id: 'source',
+                title: 'Sources',
+                icon: <Circle size={12} />,
+                navLink: '/source/list',
+                action: 'read',
+                resource: 'category_list_view'
+            },
             {
                 id: 'articles',
                 title: 'Articles',

@@ -74,4 +74,28 @@ export function useCategoryDatatable({ page, limit, search, order = {} }) {
     }
 
 }
+export function useSubCategoryDatatable({ page, limit, search, order = {} }) {
+
+    const url = `sub-category/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}`
+
+    const { data, mutate, error } = useSWR(url, fetcher)
+
+    const loading = !data && !error
+
+    const mutates = {
+        delete: async (id) => {
+            await api.delete(id)
+            mutate({ ...data })
+        }
+    }
+
+    return {
+        loading,
+        error,
+        data: data?.items || [],
+        total: data?.total || 0,
+        mutates
+    }
+
+}
 

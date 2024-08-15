@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {useDropzone} from 'react-dropzone'
 import { Button, Card, CardBody, CardHeader, Col, Input, Row, Spinner } from "reactstrap"
-import { Printer, Trash } from "react-feather"
+import {Download, Printer, Trash} from "react-feather"
 import axiosInstance from '../../../utility/axiosIsntance'
 
 function makeid(length = 10) {
@@ -87,7 +87,7 @@ function Basic({onChange, files = []}) {
                             color='light'
                             // onClick={() => deleteRow(i)}
                         >
-                            { url ? <Printer size={20} /> : <Spinner size={'sm'}/> }
+                            { url ? <Download size={20} /> : <Spinner size={'sm'}/> }
                         </Button.Ripple>
                     </a>
                 </Col>
