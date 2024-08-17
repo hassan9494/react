@@ -5,6 +5,7 @@ import { useCategoryDatatable } from '@data/use-category'
 import actions from './actions'
 import {Badge} from "reactstrap"
 import ability from "../../configs/acl/ability"
+import Avatar from "../../@core/components/avatar"
 
 const canAddCategory = ability.can('read', 'category_add')
 const Tables = () => (
@@ -25,7 +26,13 @@ const Tables = () => (
                     name: 'Name',
                     selector: 'title',
                     sortable: true,
-                    minWidth: '225px'
+                    minWidth: '400px',
+                    cell: row => (
+                        <div>
+                            <Avatar img={row.image} className={"mr-2"} />
+                            <a className='text-dark' href={``} target='_blank'>{ row.title }</a>
+                        </div>
+                    )
                 },
                 {
                     name: 'Slug',
@@ -33,17 +40,17 @@ const Tables = () => (
                     sortable: true,
                     minWidth: '250px'
                 },
-                {
-                    name: 'Is Sub Category',
-                    selector: 'parent',
-                    sortable: true,
-                    minWidth: '250px',
-                    cell: row => (
-                        <Badge className='text-capitalize' color={row.parent === 0 ?  'light-warning' : 'light-success' } pill>
-                            {row.parent === 0 ? 'No' : 'Yes'}
-                        </Badge>
-                    )
-                },
+                // {
+                //     name: 'Is Sub Category',
+                //     selector: 'parent',
+                //     sortable: true,
+                //     minWidth: '250px',
+                //     cell: row => (
+                //         <Badge className='text-capitalize' color={row.parent === 0 ?  'light-warning' : 'light-success' } pill>
+                //             {row.parent === 0 ? 'No' : 'Yes'}
+                //         </Badge>
+                //     )
+                // },
                 {
                     name: 'Order',
                     selector: 'order',
