@@ -48,6 +48,12 @@ const Form = ({ onSubmit, model, formErrors }) => {
                             list: categoriesSelect,
                             isClearable: true,
                             rules: { required: true }
+                        },
+                        {
+                            label: 'Image',
+                            name: 'media',
+                            type: 'uploader',
+                            rules: { required: true }
                         }
                     ]}
                     initialValues={model}
