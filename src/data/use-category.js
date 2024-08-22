@@ -50,9 +50,9 @@ export function useCategories() {
     }
 }
 
-export function useCategoryDatatable({ page, limit, search, order = {} }) {
+export function useCategoryDatatable({ page, limit, search, order = {}, conditions = {} }) {
 
-    const url = `category/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}`
+    const url = `category/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}&conditions=${JSON.stringify(conditions)}`
 
     const { data, mutate, error } = useSWR(url, fetcher)
 
@@ -74,9 +74,9 @@ export function useCategoryDatatable({ page, limit, search, order = {} }) {
     }
 
 }
-export function useSubCategoryDatatable({ page, limit, search, order = {} }) {
+export function useSubCategoryDatatable({ page, limit, search, order = {}, conditions = {}}) {
 
-    const url = `sub-category/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}`
+    const url = `sub-category/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}&conditions=${JSON.stringify(conditions)}`
 
     const { data, mutate, error } = useSWR(url, fetcher)
 

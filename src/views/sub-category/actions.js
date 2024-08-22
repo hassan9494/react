@@ -15,7 +15,7 @@ export default (row, mutates) => (
                 <MoreVertical size={15} className='cursor-pointer'/>
             </DropdownToggle>
             <DropdownMenu right>
-                <DropdownItem tag={Link} to={`/category/edit/${row.id}`} className='w-100'>
+                <DropdownItem tag={Link} to={`/sub-category/edit/${row.id}`} className='w-100'>
                     <FileText size={15}/>
                     <span className='align-middle ml-50'>Edit</span>
                 </DropdownItem>

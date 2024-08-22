@@ -41,14 +41,14 @@ const Form = ({ onSubmit, model, formErrors }) => {
                             label: 'Icon',
                             name: 'icon'
                         },
-                        {
-                            label: 'Parent',
-                            type: 'react-select',
-                            name: 'parent',
-                            list: categoriesSelect,
-                            isClearable: true,
-                            rules: { required: true }
-                        },
+                        // {
+                        //     label: 'Parent',
+                        //     type: 'react-select',
+                        //     name: 'parent',
+                        //     list: categoriesSelect,
+                        //     isClearable: true,
+                        //     rules: { required: true }
+                        // },
                         {
                             label: 'Image',
                             name: 'media',

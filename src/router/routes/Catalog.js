@@ -14,7 +14,7 @@ const CatalogRoutes = [
         component: lazy(() => import('../../views/brand/List')),
         meta:{
             action:'read',
-            resource:'category_list_view'
+            resource:'brand_list_view'
         }
     },
     {
@@ -22,7 +22,7 @@ const CatalogRoutes = [
         component: lazy(() => import('../../views/source/List')),
         meta:{
             action:'read',
-            resource:'category_list_view'
+            resource:'source_list_view'
         }
     },
     {
@@ -42,11 +42,19 @@ const CatalogRoutes = [
         }
     },
     {
+        path: '/sub-category/add',
+        component: lazy(() => import('../../views/sub-category/Add')),
+        meta:{
+            action:'read',
+            resource:'category_add'
+        }
+    },
+    {
         path: '/brand/add',
         component: lazy(() => import('../../views/brand/Add')),
         meta:{
             action:'read',
-            resource:'category_add'
+            resource:'brand_add'
         }
     },
     {
@@ -54,7 +62,7 @@ const CatalogRoutes = [
         component: lazy(() => import('../../views/source/Add')),
         meta:{
             action:'read',
-            resource:'category_add'
+            resource:'source_add'
         }
     },
     {
@@ -66,11 +74,19 @@ const CatalogRoutes = [
         }
     },
     {
+        path: '/sub-category/edit/:id',
+        component: lazy(() => import('../../views/sub-category/Edit')),
+        meta:{
+            action:'read',
+            resource:'category_edit'
+        }
+    },
+    {
         path: '/brand/edit/:id',
         component: lazy(() => import('../../views/brand/Edit')),
         meta:{
             action:'read',
-            resource:'category_edit'
+            resource:'brand_edit'
         }
     },
     {
@@ -121,7 +137,32 @@ const CatalogRoutes = [
             action:'read',
             resource:'stock2_list_view'
         }
+    },
+    {
+        path: '/invoice/list',
+        component: lazy(() => import('../../views/invoice/List')),
+        meta:{
+            action:'read',
+            resource:'invoice_list_view'
+        }
+    },
+    {
+        path: '/invoice/create',
+        component: lazy(() => import('../../views/invoice/create/index')),
+        meta:{
+            action:'read',
+            resource:'invoice_add'
+        }
+    },
+    {
+        path: '/invoice/edit/:id',
+        component: lazy(() => import('../../views/invoice/edit/index')),
+        meta:{
+            action:'read',
+            resource:'invoice_add'
+        }
     }
+
 ]
 
 export default CatalogRoutes
