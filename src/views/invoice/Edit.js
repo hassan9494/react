@@ -17,7 +17,7 @@ const Add = () => {
     const onSubmit = async data => {
         try {
             await updateCategory(data)
-            history.push('/sub-category/list')
+            history.push('/category/list')
         } catch (e) {
             setFormErrors(e.response?.data?.errors)
         }
@@ -25,7 +25,7 @@ const Add = () => {
 
     return (
         <Fragment>
-            <Breadcrumbs breadCrumbTitle='Sub Categories' breadCrumbActive='Sub Categories'/>
+            <Breadcrumbs breadCrumbTitle='Categories' breadCrumbActive='Categories'/>
             <CategoryForm model={model} onSubmit={onSubmit} formErrors={formErrors} />
         </Fragment>
     )

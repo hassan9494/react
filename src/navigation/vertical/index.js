@@ -130,20 +130,28 @@ const navItems = [
                 resource: 'product_list_view'
             },
             {
-                id: 'stock',
-                title: 'Stock',
+                id: 'stock1',
+                title: 'Stock1',
                 icon: <Circle size={12} />,
                 navLink: '/stocks',
                 action: 'read',
                 resource: 'stock_list_view'
             },
             {
-                id: 'stock2',
-                title: 'Stock2',
+                id: 'stock',
+                title: 'Stock',
                 icon: <Circle size={12} />,
                 navLink: '/stock2',
                 action: 'read',
                 resource: 'stock2_list_view'
+            },
+            {
+                id: 'invoice',
+                title: 'Invoices',
+                icon: <Circle size={12} />,
+                navLink: '/invoice/list',
+                action: 'read',
+                resource: 'invoice_list_view'
             }
         ]
     },
@@ -183,7 +191,7 @@ const navItems = [
                 icon: <Circle size={12} />,
                 navLink: '/brand/list',
                 action: 'read',
-                resource: 'category_list_view'
+                resource: 'brand_list_view'
             },
             {
                 id: 'source',
@@ -191,7 +199,7 @@ const navItems = [
                 icon: <Circle size={12} />,
                 navLink: '/source/list',
                 action: 'read',
-                resource: 'category_list_view'
+                resource: 'source_list_view'
             },
             {
                 id: 'articles',

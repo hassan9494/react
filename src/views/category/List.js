@@ -15,6 +15,7 @@ const Tables = () => (
             add={canAddCategory ? '/category/add' : null}
             useDatatable={useCategoryDatatable}
             actions={actions}
+            conditions= {  { parent: 0}}
             columns={[
                 {
                     name: 'ID',

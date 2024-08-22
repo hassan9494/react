@@ -9,8 +9,8 @@ const onDelete = async (e, row, mutates) => {
     confirm(() => mutates.delete(row.id))
 }
 
-const canEditSource = ability.can('read', 'category_edit')
-const canDeleteSource = ability.can('read', 'category_delete')
+const canEditSource = ability.can('read', 'source_edit')
+const canDeleteSource = ability.can('read', 'source_delete')
 
 export default (row, mutates) => (
     <div className='column-action d-flex align-items-center'>

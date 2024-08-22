@@ -6,7 +6,7 @@ import actions from './actions'
 import {Badge} from "reactstrap"
 import ability from "../../configs/acl/ability"
 
-const canAddBrand = ability.can('read', 'category_add')
+const canAddBrand = ability.can('read', 'brand_add')
 const Tables = () => (
     <Fragment>
         <Breadcrumbs breadCrumbTitle='Brands' breadCrumbActive='Brands' />
