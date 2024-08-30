@@ -1,24 +1,31 @@
 import { useLocation } from 'react-router-dom'
-import { useOrders } from '@data/use-report'
-import TaxedInvoice from '@components/invoice/taxed'
-import '@styles/base/pages/invoice.scss'
-import { calcFinancial  } from '@helpers/Order'
+import { useNeeds } from '@data/use-report'
+import Need from '@components/need/need'
+import '@styles/base/pages/needs.scss'
+import {identity, pickBy} from "lodash"
+import {useEffect} from "react"
 
 const Print = () => {
 
-    const params = useLocation().search
+    const params = useLocation().search.toString()
 
-    const { data: orders } = useOrders({ params })
-
+    const { data: products } = useNeeds({ params })
+    useEffect(() => {
+        if (products) {
+            setTimeout(() => {
+                window.print()
+            }, 200)
+        }
+    }, [products])
     return (
         <>
             {
-                orders?.map(e => (
+                // orders?.map(e => (
                     <>
-                        <TaxedInvoice order={e} meta={calcFinancial(e)}/>
+                        <Need products={products}/>
                         <p style={{pageBreakBefore: 'always'}} />
                     </>
-                ))
+                // ))
             }
         </>
     )

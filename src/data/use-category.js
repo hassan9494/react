@@ -49,6 +49,20 @@ export function useCategories() {
         create: async (params) => api.create(params)
     }
 }
+export function useParentCategories() {
+
+    const { data, mutate, error } = useSWR('parent-category', fetcher)
+
+    const loading = !data && !error
+
+    return {
+        loading,
+        error,
+        data: data || [],
+        mutate,
+        create: async (params) => api.create(params)
+    }
+}
 
 export function useCategoryDatatable({ page, limit, search, order = {}, conditions = {} }) {
 

@@ -22,15 +22,17 @@ const Tables = ({ onChange }) => {
     const [type, setType] = useState(null)
 
     const onPrint = () => {
-        const params = new URLSearchParams(pickBy({  type }, identity)).toString()
-        window.open(`/reports/needs/print?${params}`, '_blank')
+        const needConditionReport = [type]
+        const params = new URLSearchParams(pickBy({needConditionReport}, identity)).toString()
+        console.log(params)
+        window.open(`/reports/needs/print?${params}`)
     }
 
     const handleExport = async () => {
         const needConditionReport = [type]
         const params = new URLSearchParams(pickBy({needConditionReport}, identity)).toString()
         const data = await stockApi.order(params)
-        console.log(data)
+        console.log(params)
         let fileName =  `product-need`
 
         if (type) fileName += `__${type}`

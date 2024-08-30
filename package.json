@@ -129,5 +129,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": ""
+  "homepage": "",
+  "proxy": "http://46.101.120.149/api"
+
 }
