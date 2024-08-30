@@ -47,6 +47,16 @@ const OrderRoutes = [
     },
 
     {
+        path: '/reports/needs/print',
+        layout: 'BlankLayout',
+        component: lazy(() => import('../../views/reports/needs/print')),
+        meta:{
+            action:'read',
+            resource:'need_report'
+        }
+    },
+
+    {
         path: '/reports/outlays/print',
         component: lazy(() => import('../../views/reports/outlays/print')),
         meta:{

@@ -1,7 +1,7 @@
 import {Fragment, useState} from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
-import { useSubCategoryDatatable, useCategories } from '@data/use-category'
+import { useSubCategoryDatatable, useParentCategories } from '@data/use-category'
 import actions from './actions'
 import Avatar from "../../@core/components/avatar"
 import ability from "../../configs/acl/ability"
@@ -15,7 +15,7 @@ const shippingStatusClasses = {
     DELIVERED: 'light-success'
 }
 export default () => {
-    const { data: categories } = useCategories()
+    const { data: categories } = useParentCategories()
     const categoriesSelect = categories.map(
         e => ({
             value: e.id,

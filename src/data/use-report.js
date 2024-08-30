@@ -171,3 +171,24 @@ export function useOrders({params}) {
         data
     }
 }
+
+export function useNeeds({params}) {
+
+    const url = `report/product-stock${params}`
+
+    const { data, error } = useSWR(url, fetcher, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+        refreshWhenOffline: false,
+        refreshWhenHidden: false,
+        refreshInterval: 0
+    })
+
+    const loading = !data?.data && !error
+
+    return {
+        loading,
+        error,
+        data
+    }
+}

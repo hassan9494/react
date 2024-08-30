@@ -144,7 +144,7 @@ function InvoiceHeader({order}) {
                         <img src="http://mikroelectron.com/assets/img/logo-1.png" width="325px" height='auto'
                              alt="Logo MikroElectron"/>
                         <p className='pb-1'>مؤسسة منتصر ومحمود للالكترونيات</p>
-                        <p><strong>الرقم الضريبي : 013461320</strong></p>
+                        <p><strong>الرقم الضريبي : {order?.tax_number}</strong></p>
                         {/*<p className="text-center">{order?.number}</p>*/}
                     </div>
                 </Col>
