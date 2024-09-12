@@ -415,6 +415,30 @@ const navItems = [
                 navLink: '/settings/mailer',
                 action: 'read',
                 resource: 'mailer_setting'
+            },
+            {
+                id: 'send_mail',
+                title: 'Send Email',
+                icon: <Circle size={12} />,
+                navLink: '/settings/send_email',
+                action: 'read',
+                resource: 'mailer_setting'
+            },
+            {
+                id: 'sms',
+                title: 'SMS',
+                icon: <Circle size={12} />,
+                navLink: '/settings/sms',
+                action: 'read',
+                resource: 'mailer_setting'
+            },
+            {
+                id: 'send_sms',
+                title: 'Send Sms',
+                icon: <Circle size={12} />,
+                navLink: '/settings/send_sms',
+                action: 'read',
+                resource: 'mailer_setting'
             }
         ]
     }

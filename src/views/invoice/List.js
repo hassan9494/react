@@ -5,6 +5,7 @@ import { useDatatable } from '@data/use-invoice'
 import actions from './actions'
 import ability from "./../../configs/acl/ability"
 import {Badge} from "reactstrap"
+import moment from "moment"
 
 
 const shippingStatusClasses = {
@@ -39,6 +40,22 @@ const Tables = () => {
                     sortable: true,
                     sortField: 'id',
                     minWidth: '100px'
+                },
+                {
+                    name: 'Created Date',
+                    selector: 'created_at',
+                    sortable: true,
+                    sortField: 'created_at',
+                    minWidth: '100px',
+                    cell: row => moment(row.created_at).format('YYYY-MM-DD')
+                },
+                {
+                    name: 'Date',
+                    selector: 'date',
+                    sortable: true,
+                    sortField: 'date',
+                    minWidth: '100px',
+                    cell: row => moment(row.date).format('YYYY-MM-DD')
                 },
                 {
                     name: 'Status',

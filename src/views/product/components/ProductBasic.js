@@ -21,18 +21,20 @@ export default function Basic({form}) {
             label: e.title
         }
     })
-    const brandsSelect = brands.map(e => {
-        return {
+    const brandsSelect = [
+        { value: 0, label: 'No Choice' },
+        ...brands.map(e => ({
             value: e.id,
             label: e.name
-        }
-    })
-    const sourcesSelect = sources.map(e => {
-        return {
+        }))
+    ]
+    const sourcesSelect = [
+        { value: 0, label: 'No Choice' },
+        ...sources.map(e => ({
             value: e.id,
             label: e.name
-        }
-    })
+        }))
+    ]
 
     return (
         <Card>
@@ -63,7 +65,7 @@ export default function Basic({form}) {
                         <Field
                             label={'Source SKU'}
                             name={'source_sku'}
-                            rules={{required: true}}
+                            rules={{required: false}}
                             form={form}
                         />
                     </Col>
@@ -83,7 +85,7 @@ export default function Basic({form}) {
                             <Select
                                 label={'Brand'}
                                 name={'brand_id'}
-                                isClearable={false}
+                                isClearable={true}
                                 list={brandsSelect}
                                 form={form}
                             />
@@ -94,7 +96,7 @@ export default function Basic({form}) {
                             <Select
                                 label={'Source'}
                                 name={'source_id'}
-                                isClearable={false}
+                                isClearable={true}
                                 list={sourcesSelect}
                                 form={form}
                             />
@@ -132,7 +134,7 @@ export default function Basic({form}) {
                                 label={'Maximum sellable amount to single customer'}
                                 type='number'
                                 name='maxCartAmount'
-                                rules={{required: true}}
+                                rules={{required: false}}
                             />
                         </FormGroup>
                     </Col>

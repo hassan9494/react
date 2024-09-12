@@ -17,7 +17,8 @@ const fields = [
     'note',
     'products',
     'status',
-    'attachments'
+    'attachments',
+    'date'
 ]
 
 export default function () {

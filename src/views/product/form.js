@@ -16,7 +16,7 @@ import ProductSale from './components/ProductSale'
 import CardAction from '@components/card-actions'
 import KitTable from './components/KitTable'
 
-const fields = ['name', 'sku', 'short_description', 'description', 'price', 'categories', 'features', 'datasheets', 'media', 'meta', 'options', 'code', 'documents', 'kit', 'stock', 'source_sku', 'brand_id', 'source_id', 'min_qty', 'maxCartAmount']
+const fields = ['name', 'sku', 'short_description', 'description', 'price', 'categories', 'features', 'datasheets', 'media', 'meta', 'options', 'code', 'documents', 'kit', 'stock', 'source_sku', 'brand_id', 'source_id', 'min_qty', 'maxCartAmount', 'packageInclude']
 
 export default ({ onSubmit, model }) => {
 
