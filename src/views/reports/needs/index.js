@@ -85,7 +85,7 @@ const Tables = () => {
                     },
                     {
                         name: 'Link',
-                        selector:  row => <a href={`${REACT_APP_WEBSITE}product/${row.sku}`} > {`${REACT_APP_WEBSITE}product/${row.sku}`} </a>,
+                        selector:  row => <a href={`${REACT_APP_WEBSITE}/product/${row.slug}`} > {`${REACT_APP_WEBSITE}/product/${row.slug}`} </a>,
                         sortable: true,
                         minWidth: '400px'
                     }

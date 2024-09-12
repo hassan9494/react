@@ -25,6 +25,11 @@ export default function ProductDescription({ form }) {
                 name={'documents'}
                 form={form}
             />
+            <CkeEditor
+                label={'Product Include'}
+                name={'packageInclude'}
+                form={form}
+            />
         </>
     )
 }

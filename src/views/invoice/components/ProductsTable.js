@@ -56,7 +56,7 @@ export default function ({ disabled, form }) {
             <tr>
                 <th>Product</th>
                 <th width={'15%'}>Quantity</th>
-                <th width={'15%'}>Price</th>
+                <th width={'15%'}>Purchases Price</th>
                 <th width={'15%'} className="text-center">Actions</th>
             </tr>
             </thead>

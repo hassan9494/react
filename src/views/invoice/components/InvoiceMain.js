@@ -34,7 +34,7 @@ const PreviewCard = ({ invoice, form, isCompleted }) => {
                         <strong>{ invoice?.number ? `Invoice: #${invoice?.number} ` : 'New Invoice' }</strong>
                     </div>
                     <div>
-                        Date: <span className='invoice-number'>{moment().format('Y-MM-DD')}</span>
+                        Created Date: <span className='invoice-number'>{moment().format('Y-MM-DD')}</span>
                     </div>
                 </div>
                 {/* /Header */}

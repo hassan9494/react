@@ -7,7 +7,7 @@ const Footer = () => {
       <span className='float-md-left d-block d-md-inline-block mt-25'>
         COPYRIGHT © {new Date().getFullYear()}{' '}
         <a href='mailto:ibrahimkoujardev@gmail.com' rel='noopener noreferrer'>
-          IKoujar
+          Mikroelectron
         </a>
         <span className='d-none d-sm-inline-block'>, All rights Reserved</span>
       </span>

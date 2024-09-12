@@ -15,6 +15,7 @@ export default () => {
     const [formErrors, setFormErrors] = useState(null)
 
     const onSubmit = async data => {
+        console.log(data)
         try {
             // await updateCategory(data)
             history.push('/category/list')
@@ -31,7 +32,7 @@ export default () => {
                     <Card>
                     <CardHeader className='p-1'>
                         Mailer
-                        <Button.Ripple color='success' type='submit'>
+                        <Button.Ripple color='success' type='submit' onClick={handleSubmit(onSubmit)}>
                             Save
                         </Button.Ripple>
                     </CardHeader>
