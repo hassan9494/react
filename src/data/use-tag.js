@@ -1,6 +1,6 @@
 import { datatable, model, models, api as apiCalls } from './use-data'
 
-const url = 'role'
+const url = 'tag'
 
 export const api = {
     create: params => apiCalls.create(url, params),
@@ -18,8 +18,4 @@ export function useDatatable(params) {
 
 export function useModels() {
     return models(url)
-}
-
-export function useEmployeeModels() {
-    return models(`${url}/employee`)
 }

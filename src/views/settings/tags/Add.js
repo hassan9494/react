@@ -1,11 +1,10 @@
-import { Fragment, useState, useRef } from 'react'
+import { Fragment, useState } from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import { useHistory } from 'react-router-dom'
-import CategoryForm from './form'
-import { api } from '@data/use-product'
-import draftToHtml from 'draftjs-to-html'
+import Form from './form'
+import { api } from '@data/use-tag'
 
-export default function Add() {
+const Add = () => {
 
     const history = useHistory()
 
@@ -14,7 +13,7 @@ export default function Add() {
     const onSubmit = async data => {
         try {
             await api.create(data)
-            history.push('/product/list')
+            history.push('/settings/tags')
         } catch (e) {
             setFormErrors(e.response?.data?.errors)
         }
@@ -22,9 +21,10 @@ export default function Add() {
 
     return (
         <Fragment>
-            <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive='New' />
-            <CategoryForm onSubmit={onSubmit} formErrors={formErrors} from={'add'} />
+            <Breadcrumbs breadCrumbTitle='Tags' breadCrumbActive='Tags'/>
+            <Form onSubmit={onSubmit} formErrors={formErrors} model={{order: 1}} />
         </Fragment>
     )
-
 }
+
+export default Add

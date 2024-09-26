@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
-import { useProduct } from '@data/use-product'
+import { useProductVariant } from '@data/use-variants-product'
 import { useHistory, useParams } from 'react-router-dom'
 import CategoryForm from './form'
 import { Button } from 'reactstrap'
@@ -12,7 +12,7 @@ const Add = () => {
 
     const { id } = useParams()
 
-    const { data: model, update } = useProduct(id)
+    const { data: model, update } = useProductVariant(id)
 
     const [formErrors, setFormErrors] = useState(null)
 

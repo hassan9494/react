@@ -19,10 +19,13 @@ import NumberInput from '@components/number-input'
 import { api } from '@data/use-product'
 import { getProductPrice } from "./helpers"
 import ProductLink from "@components/product/link"
+import ability from "../../../configs/acl/ability"
 
 export default function ({ disabled, form }) {
+    const is_show_real_price = ability.can('read', 'show_real_price_for_product_in_order')
 
     const handleChanges = (products, id, event, update) => {
+        console.log(event.name)
         if (disabled) return
         const updated = products.map(product => {
             if (product.id === id) product[event.name] = event.value
@@ -51,6 +54,7 @@ export default function ({ disabled, form }) {
 
     const pricing = form.watch('options.pricing')
 
+
     const applyPricingPolicy = async (pricingPolicy, onChange) => {
         if (disabled) return
         onChange(pricingPolicy)
@@ -61,6 +65,11 @@ export default function ({ disabled, form }) {
             <thead>
             <tr>
                 <th>Product</th>
+                {
+                    is_show_real_price &&
+                    <th width={'15%'}>Real Price</th>
+                }
+
                 <th width={'15%'}>Quantity</th>
                 <th width={'15%'}>Price</th>
                 <th width={'15%'} className="text-center">Actions</th>
@@ -85,6 +94,29 @@ export default function ({ disabled, form }) {
                                                         <ProductLink data={e} />
                                                     </span>
                                                 </td>
+                                                {
+                                                    is_show_real_price &&
+                                                    <td>
+                                                        <InputGroup>
+                                                            <Input
+                                                                disabled={true}
+                                                                value={ e.real_price }
+                                                                name='real_price'
+                                                                type='number'
+                                                                step={1}
+                                                                required
+                                                                onChange={(event) => {
+                                                                    handleChanges(value, e.id, event.target, onChange)
+                                                                    form.setValue('options.pricing', 'custom')
+                                                                }}
+                                                            />
+                                                            <InputGroupAddon addonType='append'>
+                                                                <InputGroupText>$</InputGroupText>
+                                                            </InputGroupAddon>
+                                                        </InputGroup>
+                                                    </td>
+                                                }
+
                                                 <td>
                                                     <NumberInput
                                                         disabled={disabled}

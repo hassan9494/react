@@ -107,6 +107,42 @@ const CatalogRoutes = [
         }
     },
     {
+        path: '/product_variants/list',
+        component: lazy(() => import('../../views/product-variants/List')),
+        exact: true,
+        meta:{
+            action:'read',
+            resource:'product_variants_list_view'
+        }
+    },
+    {
+        path: '/product_variants/show/:id',
+        component: lazy(() => import('../../views/product-variants/ColorList')),
+        exact: true,
+        meta:{
+            action:'read',
+            resource:'product_variants_list_view'
+        }
+    },
+    {
+        path: '/product_variants/add/:id',
+        component: lazy(() => import('../../views/product-variants/Add')),
+        exact: true,
+        meta:{
+            action:'read',
+            resource:'product_variants_list_view'
+        }
+    },
+    {
+        path: '/product_variants/edit/:product_id/:id',
+        component: lazy(() => import('../../views/product-variants/Edit')),
+        exact: true,
+        meta:{
+            action:'read',
+            resource:'product_variants_list_view'
+        }
+    },
+    {
         path: '/product/add',
         component: lazy(() => import('../../views/product/Add')),
         meta:{

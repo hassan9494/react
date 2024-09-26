@@ -6,9 +6,10 @@ import {
 import { Controller } from 'react-hook-form'
 import { Plus, PlusCircle, Trash } from 'react-feather'
 import NumberInput from '@components/number-input'
+import ability from "../../../configs/acl/ability"
 
 export default function Datasheets({form, disabled, fieldName, onUpdate}) {
-
+    const is_show_real_price = ability.can('read', 'show_real_price_for_extra_in_order')
     const newRow = {price: 1, quantity: 1, name: ''}
 
     const data = form.watch(fieldName)
@@ -51,6 +52,20 @@ export default function Datasheets({form, disabled, fieldName, onUpdate}) {
                                 onChange={(event) => updateRow(i, row, 'name', event.target.value, onChange)}
                             />
                         </td>
+                        {
+                            is_show_real_price &&
+                            <td>
+                                <NumberInput
+                                    disabled={disabled}
+                                    value={row.real_price}
+                                    name='real_price'
+                                    type='number'
+                                    required
+                                    onChange={(value) => updateRow(i, row, 'real_price', value, onChange)}
+                                />
+                            </td>
+                        }
+
                         <td>
                             <NumberInput
                                 disabled={disabled}
@@ -90,6 +105,11 @@ export default function Datasheets({form, disabled, fieldName, onUpdate}) {
                 <thead>
                 <tr>
                     <th>Extra</th>
+                    {
+                        is_show_real_price &&
+                        <th width={'15%'}>Real Price</th>
+                    }
+
                     <th width={'15%'}>Quantity</th>
                     <th width={'15%'}>Price</th>
                     <th width={'15%'} className="text-center">Actions</th>
@@ -103,7 +123,8 @@ export default function Datasheets({form, disabled, fieldName, onUpdate}) {
                     render={renderRow}
                 />
                 <tr>
-                    <td colSpan={3}>
+
+                    <td colSpan={is_show_real_price ? 4 : 3}>
                     </td>
                     <td className={'text-center py-2'}>
                         <PlusCircle

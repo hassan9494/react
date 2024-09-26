@@ -1,10 +1,8 @@
 import { Fragment, useState } from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
-import { useProduct } from '@data/use-product'
 import { useHistory, useParams } from 'react-router-dom'
-import CategoryForm from './form'
-import { Button } from 'reactstrap'
-import { toast } from 'react-toastify'
+import Form from './form'
+import { useModel } from '@data/use-user'
 
 const Add = () => {
 
@@ -12,15 +10,14 @@ const Add = () => {
 
     const { id } = useParams()
 
-    const { data: model, update } = useProduct(id)
+    const { data: model, update } = useModel(id)
 
     const [formErrors, setFormErrors] = useState(null)
 
     const onSubmit = async data => {
         try {
             await update(data)
-            toast.success('Updated')
-            // history.push('/category/list')
+            history.push('/user/list')
         } catch (e) {
             setFormErrors(e.response?.data?.errors)
         }
@@ -28,8 +25,8 @@ const Add = () => {
 
     return (
         <Fragment>
-            <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive={model?.sku || 'Update'} />
-            <CategoryForm model={model} onSubmit={onSubmit} formErrors={formErrors} from={'edit'}/>
+            <Breadcrumbs breadCrumbTitle='Users' breadCrumbActive='Users'/>
+            <Form model={model} onSubmit={onSubmit} formErrors={formErrors} />
         </Fragment>
     )
 }
