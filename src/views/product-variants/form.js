@@ -18,7 +18,7 @@ import KitTable from './components/KitTable'
 import ProductFeatures from "./components/ProductFeatures"
 import ReplacementItem from "./components/ReplacementItem"
 
-const fields = ['name', 'sku', 'short_description', 'description', 'price', 'categories', 'sub_categories', 'features', 'datasheets', 'media', 'meta', 'options', 'code', 'documents', 'kit', 'stock', 'source_sku', 'brand_id', 'source_id', 'min_qty', 'maxCartAmount', 'packageInclude', 'is_retired', 'replacement_item', 'hasVariants']
+const fields = ['name', 'sku', 'short_description', 'description', 'price', 'categories', 'features', 'datasheets', 'media', 'meta', 'options', 'code', 'documents', 'kit', 'stock', 'source_sku', 'brand_id', 'source_id', 'min_qty', 'maxCartAmount', 'packageInclude', 'is_retired', 'replacement_item', 'hasVariants']
 
 export default ({ onSubmit, model, from }) => {
 
@@ -35,32 +35,9 @@ export default ({ onSubmit, model, from }) => {
         <Form onSubmit={form.handleSubmit(onSubmit)}>
             <Row>
                 <Col sm={9}>
-                    <ProductBasic form={form} model={model}/>
+                    <ProductBasic form={form}/>
                     <ProductPrice form={form}/>
-
-                    {/*{*/}
-                    {/*    form.watch('is_retired') &&*/}
-                    <div className={`${form.watch('is_retired') ?   null : 'd-none'}`}>
-                        <CardAction title='Replacement Item' actions='collapse' isOpen={true}>
-                            <ReplacementItem form={form} from={from}/>
-                        </CardAction>
-                    </div>
-
-
-                    {/*<ProductSale form={form}/>*/}
-                    <CardAction title='KIT Management' actions='collapse' isOpen={false}>
-                        <KitTable form={form} />
-                    </CardAction>
-
-                    <CardAction title='Content' actions='collapse' isOpen={false}>
-                        <CardBody>
-                            <ProductDescription form={form}/>
-                            {/*<ProductFeatures form={form}/>*/}
-                        </CardBody>
-                    </CardAction>
-
-
-                    <ProductDatasheets form={form}/>
+                    
 
                 </Col>
                 <Col sm={3}>

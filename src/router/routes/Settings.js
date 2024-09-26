@@ -32,5 +32,29 @@ export default [
             action:'read',
             resource:'mailer_setting'
         }
+    },
+    {
+        path: '/settings/tags',
+        component: lazy(() => import('../../views/settings/tags/List')),
+        meta:{
+            action:'read',
+            resource:'mailer_setting'
+        }
+    },
+    {
+        path: '/settings/tag/add',
+        component: lazy(() => import('../../views/settings/tags/Add')),
+        meta:{
+            action:'read',
+            resource:'mailer_setting'
+        }
+    },
+    {
+        path: '/settings/tag/edit/:id',
+        component: lazy(() => import('../../views/settings/tags/Edit')),
+        meta:{
+            action:'read',
+            resource:'mailer_setting'
+        }
     }
 ]

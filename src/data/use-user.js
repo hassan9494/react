@@ -39,3 +39,14 @@ export function useDatatable(params) {
     return result
 }
 
+export function useEmployeeDatatable(params) {
+    const result = datatable(url, `${url}/employee`, params)
+
+    result.mutates = {
+        ...result.mutates,
+        verificationEmail: api.verificationEmail
+    }
+
+    return result
+}
+

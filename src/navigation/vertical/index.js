@@ -24,6 +24,14 @@ const navItems = [
                 navLink: '/user/list',
                 action: 'read',
                 resource: 'user_list_view'
+            },
+            {
+                id: 'employee',
+                title: 'Employee',
+                icon: <Circle size={12} />,
+                navLink: '/employee/list',
+                action: 'read',
+                resource: 'employee_list_view'
             }
         ]
     },
@@ -119,7 +127,7 @@ const navItems = [
                 icon: <Circle size={12} />,
                 navLink: '/sub-category/list',
                 action: 'read',
-                resource: 'category_list_view'
+                resource: 'sub_category_list_view'
             },
             {
                 id: 'product',
@@ -128,6 +136,14 @@ const navItems = [
                 navLink: '/product/list',
                 action: 'read',
                 resource: 'product_list_view'
+            },
+            {
+                id: 'product_variants',
+                title: 'Colors',
+                icon: <Circle size={12} />,
+                navLink: '/product_variants/list',
+                action: 'read',
+                resource: 'product_variants_list_view'
             },
             {
                 id: 'stock1',
@@ -422,7 +438,7 @@ const navItems = [
                 icon: <Circle size={12} />,
                 navLink: '/settings/send_email',
                 action: 'read',
-                resource: 'mailer_setting'
+                resource: 'send_mails'
             },
             {
                 id: 'sms',
@@ -430,7 +446,7 @@ const navItems = [
                 icon: <Circle size={12} />,
                 navLink: '/settings/sms',
                 action: 'read',
-                resource: 'mailer_setting'
+                resource: 'sms_setting'
             },
             {
                 id: 'send_sms',
@@ -438,7 +454,15 @@ const navItems = [
                 icon: <Circle size={12} />,
                 navLink: '/settings/send_sms',
                 action: 'read',
-                resource: 'mailer_setting'
+                resource: 'send_sms'
+            },
+            {
+                id: 'tags',
+                title: 'Tags',
+                icon: <Circle size={12} />,
+                navLink: '/settings/tags',
+                action: 'read',
+                resource: 'tags_setting'
             }
         ]
     }

@@ -64,7 +64,7 @@ export default ({ form }) => {
                         innerRef={register()}
                     />
                 </div>
-                <div className='d-flex justify-content-between'>
+                <div className='d-flex justify-content-between mb-1'>
                     <Label className='mb-0' for='product-kit'>
                         KIT
                     </Label>
@@ -72,6 +72,28 @@ export default ({ form }) => {
                         id='product-kit'
                         type='switch'
                         name='options.kit'
+                        innerRef={register()}
+                    />
+                </div>
+                <div className='d-flex justify-content-between mb-1'>
+                    <Label className='mb-0' for='is_retired'>
+                        Retired
+                    </Label>
+                    <CustomInput
+                        id='is_retired'
+                        type='switch'
+                        name='is_retired'
+                        innerRef={register()}
+                    />
+                </div>
+                <div className='d-flex justify-content-between'>
+                    <Label className='mb-0' for='hasVariants'>
+                        Colors
+                    </Label>
+                    <CustomInput
+                        id='hasVariants'
+                        type='switch'
+                        name='hasVariants'
                         innerRef={register()}
                     />
                 </div>

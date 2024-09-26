@@ -73,6 +73,30 @@ export function useDatatable({ page, limit, search, order = {}}) {
     }
 
 }
+export function useVariantsDatatable({ page, limit, search, order = {}, conditions = {}}) {
+
+    const url = `product/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}&conditions=${JSON.stringify(conditions)}`
+
+    const { data, mutate, error } = useSWR(url, fetcher)
+
+    const loading = !data && !error
+
+    const mutates = {
+        delete: async (id) => {
+            await api.delete(id)
+            mutate({ ...data })
+        }
+    }
+
+    return {
+        loading,
+        error,
+        data: data?.items || [],
+        total: data?.total || 0,
+        mutates
+    }
+
+}
 
 export function useStockDatatable({ page, limit, search, order }) {
 
