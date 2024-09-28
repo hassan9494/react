@@ -8,7 +8,7 @@ import {Field, SelectMulti, Select} from '@components/form/fields'
 import {useCategories, useSubCategories} from '@data/use-category'
 import {useBrands} from '@data/use-brand'
 import {useSources} from "@data/use-source"
-import {useEffect, useState, useRef} from "react"
+import {useEffect, useState, useMemo} from "react"
 
 export default function Basic({form, model}) {
 
@@ -24,8 +24,6 @@ export default function Basic({form, model}) {
             label: e.title
         }
     })
-
-    const [filteredSubCategories, setFilteredSubCategories] = useState([])
 
     const brandsSelect = [
         { value: 0, label: 'No Choice' },
@@ -44,37 +42,32 @@ export default function Basic({form, model}) {
     ]
 
     const selectedCategories = form.watch('categories')
-    const prevSelectedCategories = useRef(selectedCategories)
-    const prevSubCategories = useRef(subCategories)
-
-    useEffect(() => {
-        if (selectedCategories !== prevSelectedCategories.current || subCategories !== prevSubCategories.current) {
-            prevSelectedCategories.current = selectedCategories
-            prevSubCategories.current = subCategories
-
-            if (selectedCategories && selectedCategories.length > 0) {
-                const filtered = subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent))
-                    .map(e => ({
-                        value: e.id,
-                        label: e.title
-                    }))
-                setFilteredSubCategories(filtered)
-
-                // Remove subcategories whose parent category is deselected
-                const currentSubCategories = getValues('sub_categories') || []
-                const updatedSubCategories = currentSubCategories.filter(subCategory => selectedCategories.includes(subCategories.find(sc => sc.id === subCategory)?.parent)
-                )
-                if (JSON.stringify(updatedSubCategories) !== JSON.stringify(currentSubCategories)) {
-                    setValue('sub_categories', updatedSubCategories, { shouldValidate: true, shouldDirty: true })
-                }
-            } else {
-                const allSubCategories = subCategories.map(e => ({
+    const filteredSubCategories = useMemo(() => {
+        if (selectedCategories && selectedCategories.length > 0) {
+            return subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent))
+                .map(e => ({
                     value: e.id,
                     label: e.title
                 }))
-                setFilteredSubCategories(allSubCategories)
-                setValue('sub_categories', [], { shouldValidate: true, shouldDirty: true })
+        } else {
+            return subCategories.map(e => ({
+                value: e.id,
+                label: e.title
+            }))
+        }
+    }, [selectedCategories, subCategories])
+
+
+    useEffect(() => {
+        if (selectedCategories && selectedCategories.length > 0) {
+            const currentSubCategories = getValues('sub_categories') || []
+            const updatedSubCategories = currentSubCategories.filter(subCategory => selectedCategories.includes(subCategories.find(sc => sc.id === subCategory)?.parent)
+            )
+            if (JSON.stringify(updatedSubCategories) !== JSON.stringify(currentSubCategories)) {
+                setValue('sub_categories', updatedSubCategories, { shouldValidate: true, shouldDirty: true })
             }
+        } else {
+            setValue('sub_categories', [], { shouldValidate: true, shouldDirty: true })
         }
     }, [selectedCategories, subCategories, setValue, getValues])
 
@@ -82,22 +75,8 @@ export default function Basic({form, model}) {
         if (model) {
             setValue('categories', model.categories)
             setValue('sub_categories', model.sub_categories)
-            if (model.categories && model.categories.length > 0) {
-                const filtered = subCategories.filter(subCategory => model.categories.includes(subCategory.parent))
-                    .map(e => ({
-                        value: e.id,
-                        label: e.title
-                    }))
-                setFilteredSubCategories(filtered)
-            } else {
-                const allSubCategories = subCategories.map(e => ({
-                    value: e.id,
-                    label: e.title
-                }))
-                setFilteredSubCategories(allSubCategories)
-            }
         }
-    }, [model, setValue, subCategories])
+    }, [model, setValue])
 
     return (
         <Card>
@@ -155,7 +134,7 @@ export default function Basic({form, model}) {
                         </FormGroup>
                     </Col>
                     {
-                        selectedCategories && selectedCategories.length > 0 &&
+                        !(selectedCategories && selectedCategories.length === 0) &&
                         <Col sm={6}>
                             <FormGroup>
                                 <SelectMulti
