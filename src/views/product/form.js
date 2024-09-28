@@ -38,8 +38,7 @@ export default ({ onSubmit, model, from }) => {
                     <ProductBasic form={form} model={model}/>
                     <ProductPrice form={form}/>
 
-                    {/*{*/}
-                    {/*    form.watch('is_retired') &&*/}
+
                     <div className={`${form.watch('is_retired') ?   null : 'd-none'}`}>
                         <CardAction title='Replacement Item' actions='collapse' isOpen={true}>
                             <ReplacementItem form={form} from={from}/>
