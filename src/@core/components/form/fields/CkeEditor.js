@@ -6,9 +6,12 @@ import { Controller } from 'react-hook-form'
 
 const EditorField = ({ form, name, label, rules = {}, list = [], ...props }) => {
     const [show, setShow] = useState(false)
+
     useEffect(() => {
-        setTimeout(() => setShow(true), 1000)
+        const timer = setTimeout(() => setShow(true), 1000)
+        return () => clearTimeout(timer) // Cleanup function to clear the timeout
     }, [])
+
     return (
         <FormGroup>
             { label && <Label>{label}</Label> }
@@ -30,15 +33,15 @@ const EditorField = ({ form, name, label, rules = {}, list = [], ...props }) => 
                                     }
                                 } }
                                 onReady={ editor => {
-                                    // You can store the "editor" and use when it is needed.
-                                    // console.log('Editor is ready to use!', editor)
-                                    editor.editing.view.change((writer) => {
-                                        writer.setStyle(
-                                            "min-height",
-                                            "200px",
-                                            editor.editing.view.document.getRoot()
-                                        )
-                                    })
+                                    if (editor) {
+                                        editor.editing.view.change((writer) => {
+                                            writer.setStyle(
+                                                "min-height",
+                                                "200px",
+                                                editor.editing.view.document.getRoot()
+                                            )
+                                        })
+                                    }
                                 } }
                                 onChange={(event, editor) => onChange(editor?.getData())}
                                 onBlur={ (event, editor) => {
@@ -51,7 +54,7 @@ const EditorField = ({ form, name, label, rules = {}, list = [], ...props }) => 
                         )
                     }
                 }
-          />
+            />
         </FormGroup>
     )
 }
