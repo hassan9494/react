@@ -8,7 +8,7 @@ import {Field, SelectMulti, Select} from '@components/form/fields'
 import {useCategories, useSubCategories} from '@data/use-category'
 import {useBrands} from '@data/use-brand'
 import {useSources} from "@data/use-source"
-import {useEffect, useState} from "react"
+import {useEffect, useState, useRef} from "react"
 
 export default function Basic({form, model}) {
 
@@ -44,27 +44,37 @@ export default function Basic({form, model}) {
     ]
 
     const selectedCategories = form.watch('categories')
+    const prevSelectedCategories = useRef(selectedCategories)
+    const prevSubCategories = useRef(subCategories)
 
     useEffect(() => {
-        if (selectedCategories && selectedCategories.length > 0) {
-            const filtered = subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent)
-            ).map(e => ({
-                value: e.id,
-                label: e.title
-            }))
-            setFilteredSubCategories(filtered)
+        if (selectedCategories !== prevSelectedCategories.current || subCategories !== prevSubCategories.current) {
+            prevSelectedCategories.current = selectedCategories
+            prevSubCategories.current = subCategories
 
-            // Remove subcategories whose parent category is deselected
-            const currentSubCategories = getValues('sub_categories') || []
-            const updatedSubCategories = currentSubCategories.filter(subCategory => selectedCategories.includes(subCategories.find(sc => sc.id === subCategory).parent)
-            )
-            setValue('sub_categories', updatedSubCategories)
-        } else {
-            setFilteredSubCategories(subCategories.map(e => ({
-                value: e.id,
-                label: e.title
-            })))
-            setValue('sub_categories', [])
+            if (selectedCategories && selectedCategories.length > 0) {
+                const filtered = subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent))
+                    .map(e => ({
+                        value: e.id,
+                        label: e.title
+                    }))
+                setFilteredSubCategories(filtered)
+
+                // Remove subcategories whose parent category is deselected
+                const currentSubCategories = getValues('sub_categories') || []
+                const updatedSubCategories = currentSubCategories.filter(subCategory => selectedCategories.includes(subCategories.find(sc => sc.id === subCategory)?.parent)
+                )
+                if (JSON.stringify(updatedSubCategories) !== JSON.stringify(currentSubCategories)) {
+                    setValue('sub_categories', updatedSubCategories, { shouldValidate: true, shouldDirty: true })
+                }
+            } else {
+                const allSubCategories = subCategories.map(e => ({
+                    value: e.id,
+                    label: e.title
+                }))
+                setFilteredSubCategories(allSubCategories)
+                setValue('sub_categories', [], { shouldValidate: true, shouldDirty: true })
+            }
         }
     }, [selectedCategories, subCategories, setValue, getValues])
 
@@ -72,20 +82,19 @@ export default function Basic({form, model}) {
         if (model) {
             setValue('categories', model.categories)
             setValue('sub_categories', model.sub_categories)
-
-            // Filter subcategories based on initial categories
             if (model.categories && model.categories.length > 0) {
-                const filtered = subCategories.filter(subCategory => model.categories.includes(subCategory.parent)
-                ).map(e => ({
+                const filtered = subCategories.filter(subCategory => model.categories.includes(subCategory.parent))
+                    .map(e => ({
+                        value: e.id,
+                        label: e.title
+                    }))
+                setFilteredSubCategories(filtered)
+            } else {
+                const allSubCategories = subCategories.map(e => ({
                     value: e.id,
                     label: e.title
                 }))
-                setFilteredSubCategories(filtered)
-            } else {
-                setFilteredSubCategories(subCategories.map(e => ({
-                    value: e.id,
-                    label: e.title
-                })))
+                setFilteredSubCategories(allSubCategories)
             }
         }
     }, [model, setValue, subCategories])
@@ -146,7 +155,7 @@ export default function Basic({form, model}) {
                         </FormGroup>
                     </Col>
                     {
-                        !(selectedCategories && selectedCategories.length === 0) &&
+                        selectedCategories && selectedCategories.length > 0 &&
                         <Col sm={6}>
                             <FormGroup>
                                 <SelectMulti
