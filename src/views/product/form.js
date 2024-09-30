@@ -17,8 +17,9 @@ import CardAction from '@components/card-actions'
 import KitTable from './components/KitTable'
 import ProductFeatures from "./components/ProductFeatures"
 import ReplacementItem from "./components/ReplacementItem"
+import RelatedProduct from "./components/RelatedProduct"
 
-const fields = ['name', 'sku', 'short_description', 'description', 'price', 'categories', 'sub_categories', 'features', 'datasheets', 'media', 'meta', 'options', 'code', 'documents', 'kit', 'stock', 'source_sku', 'brand_id', 'source_id', 'min_qty', 'maxCartAmount', 'packageInclude', 'is_retired', 'replacement_item', 'hasVariants']
+const fields = ['name', 'sku', 'short_description', 'description', 'price', 'categories', 'sub_categories', 'features', 'datasheets', 'media', 'meta', 'options', 'code', 'documents', 'kit', 'stock', 'source_sku', 'brand_id', 'source_id', 'min_qty', 'maxCartAmount', 'packageInclude', 'is_retired', 'replacement_item', 'hasVariants', 'related']
 
 export default ({ onSubmit, model, from }) => {
 
@@ -49,6 +50,10 @@ export default ({ onSubmit, model, from }) => {
                     {/*<ProductSale form={form}/>*/}
                     <CardAction title='KIT Management' actions='collapse' isOpen={false}>
                         <KitTable form={form} />
+                    </CardAction>
+
+                    <CardAction title='Related Product' actions='collapse' isOpen={false}>
+                        <RelatedProduct form={form} />
                     </CardAction>
 
                     <CardAction title='Content' actions='collapse' isOpen={false}>

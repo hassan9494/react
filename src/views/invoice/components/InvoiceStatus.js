@@ -61,7 +61,7 @@ const InvoiceStatus = ({ update, invoice }) => {
                         onChange={val => setStatus(val?.value)}
                     />
                 </FormGroup>
-                <Button.Ripple color='primary' block onClick={onSubmit} disabled={invoice?.status === 'COMPLETED'}>
+                <Button.Ripple color='primary' block onClick={onSubmit} >
                     Update Status
                 </Button.Ripple>
                 {

@@ -6,7 +6,7 @@ import { Controller } from 'react-hook-form'
 import { Field } from '@components/form/fields'
 
 export default function ({ form, invoice, disabled }) {
-console.log(form.get)
+
 
     return (
         <Row>
