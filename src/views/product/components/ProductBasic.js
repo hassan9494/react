@@ -54,7 +54,7 @@ export default function Basic({form, model}) {
 
             // Remove subcategories whose parent category is deselected
             const currentSubCategories = getValues('sub_categories') || []
-            const updatedSubCategories = currentSubCategories.filter(subCategory => selectedCategories.includes(subCategories.find(sc => sc.id === subCategory).parent))
+            const updatedSubCategories = currentSubCategories?.filter(subCategory => selectedCategories?.includes(subCategories?.find(sc => sc.id === subCategory)?.parent))
             setValue('sub_categories', updatedSubCategories)
 
             return filtered
