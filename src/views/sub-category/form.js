@@ -49,6 +49,14 @@ const Form = ({ onSubmit, model, formErrors }) => {
                             isClearable: true,
                             rules: { required: true }
                         },
+
+                        {
+                            label: 'Available',
+                            type: 'checkbox',
+                            name: 'available',
+                            isClearable: true,
+                            rules: { required: false }
+                        },
                         {
                             label: 'Image',
                             name: 'media',

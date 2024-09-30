@@ -5,9 +5,10 @@ import {
     Col
 } from 'reactstrap'
 import { Field } from '@components/form/fields'
+import ability from "../../../configs/acl/ability"
 
 export default function Prices({ form }) {
-
+    const canShowRealPrice = ability.can('read', 'show_product_real_price')
     return (
         <Card>
             <CardBody>
@@ -41,16 +42,30 @@ export default function Prices({ form }) {
                             rules={{required: true}}
                         />
                     </Col>
-                    <Col sm={3}>
-                        <Field
-                            form={form}
-                            label='Real Price'
-                            type='number'
-                            step='0.001'
-                            name='price.real_price'
-                            rules={{required: true}}
-                        />
-                    </Col>
+                    {
+                        canShowRealPrice ? <Col sm={3}>
+                                <Field
+                                    form={form}
+                                    label='Real Price'
+                                    type='number'
+                                    step='0.001'
+                                    name='price.real_price'
+                                    rules={{required: true}}
+                                />
+                            </Col> : <Col sm={3}>
+                                <Field
+                                    form={form}
+                                    label=''
+                                    type='hidden'
+                                    step='0.001'
+                                    name='price.real_price'
+                                    rules={{required: true}}
+
+                                />
+                            </Col>
+
+                    }
+
                 </Row>
             </CardBody>
         </Card>

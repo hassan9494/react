@@ -14,7 +14,7 @@ const shippingStatusClasses = {
     COMPLETED: 'light-success'
 }
 const Tables = () => {
-    console.log(ability.can('read', 'invoice_list_view'))
+
     const canAddInvoice = ability.can('read', 'invoice_add')
     return <Fragment>
         <Breadcrumbs breadCrumbTitle='Invoices' breadCrumbActive='Invoices' />
