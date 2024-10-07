@@ -54,9 +54,9 @@ export default function Basic({form, model, page}) {
             }))
 
             // Remove subcategories whose parent category is deselected
-            const currentSubCategories = getValues('sub_categories') || []
-            const updatedSubCategories = currentSubCategories?.filter(subCategory => selectedCategories?.includes(subCategories?.find(sc => sc.id === subCategory)?.parent))
-            setValue('sub_categories', updatedSubCategories)
+            // const currentSubCategories = getValues('sub_categories') || []
+            // const updatedSubCategories = currentSubCategories?.filter(subCategory => selectedCategories?.includes(subCategories?.find(sc => sc.id === subCategory)?.parent))
+            // setValue('sub_categories', updatedSubCategories)
 
             return filtered
         } else {
@@ -67,7 +67,7 @@ export default function Basic({form, model, page}) {
             }))
         }
     }
-
+    // console.log(form.watch('sub_categories'))
     return (
         <Card>
             <CardHeader>
