@@ -70,7 +70,7 @@ export default function Basic({form, model}) {
     }
 
     useEffect(() => {
-        if (model?.id) {
+        if (model?.id && subCategories && categories && model?.categories && model?.sub_categories) {
             setValue('categories', model.categories)
             setValue('sub_categories', model.sub_categories)
         }
