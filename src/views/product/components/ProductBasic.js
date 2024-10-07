@@ -10,7 +10,7 @@ import {useBrands} from '@data/use-brand'
 import {useSources} from "@data/use-source"
 import {useEffect, useState} from "react"
 
-export default function Basic({form, model, page}) {
+export default function Basic({form, model}) {
 
     const {register, errors, control, setValue, getValues} = form
     const {data: categories} = useCategories()
@@ -45,8 +45,7 @@ export default function Basic({form, model, page}) {
 
 
     const getSubCateogies = () => {
-        if (model && selectedCategories && selectedCategories.length > 0) {
-            console.log('if')
+        if (selectedCategories && selectedCategories.length > 0 && subCategories && categories) {
             const filtered = subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent)
             ).map(e => ({
                 value: e.id,
@@ -54,20 +53,21 @@ export default function Basic({form, model, page}) {
             }))
 
             // Remove subcategories whose parent category is deselected
-            // const currentSubCategories = getValues('sub_categories') || []
-            // const updatedSubCategories = currentSubCategories?.filter(subCategory => selectedCategories?.includes(subCategories?.find(sc => sc.id === subCategory)?.parent))
-            // setValue('sub_categories', updatedSubCategories)
+            const currentSubCategories = getValues('sub_categories') || []
+            const updatedSubCategories = currentSubCategories?.filter(subCategory => selectedCategories?.includes(subCategories?.find(sc => sc.id === subCategory)?.parent))
+            setValue('sub_categories', updatedSubCategories)
 
             return filtered
         } else {
-
+            setValue('sub_categories', [])
             return subCategories.map(e => ({
                 value: e.id,
                 label: e.title
             }))
         }
     }
-    // console.log(form.watch('sub_categories'))
+
+
     return (
         <Card>
             <CardHeader>
@@ -124,7 +124,7 @@ export default function Basic({form, model, page}) {
                         </FormGroup>
                     </Col>
                     {
-                        (!(selectedCategories && selectedCategories.length === 0) && (model || page === 'add')) &&
+                        !(selectedCategories && selectedCategories.length === 0) &&
                         <Col sm={6}>
                             <FormGroup>
                                 <SelectMulti
