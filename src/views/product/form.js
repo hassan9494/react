@@ -36,7 +36,7 @@ export default ({ onSubmit, model, from }) => {
         <Form onSubmit={form.handleSubmit(onSubmit)}>
             <Row>
                 <Col sm={9}>
-                    <ProductBasic form={form} model={model}/>
+                    <ProductBasic form={form} model={model} page={from}/>
                     <ProductPrice form={form}/>
 
 

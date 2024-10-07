@@ -10,7 +10,7 @@ import {useBrands} from '@data/use-brand'
 import {useSources} from "@data/use-source"
 import {useEffect, useState} from "react"
 
-export default function Basic({form, model}) {
+export default function Basic({form, model, page}) {
 
     const {register, errors, control, setValue, getValues} = form
     const {data: categories} = useCategories()
@@ -45,7 +45,8 @@ export default function Basic({form, model}) {
 
 
     const getSubCateogies = () => {
-        if (selectedCategories && selectedCategories.length > 0) {
+        if (model && selectedCategories && selectedCategories.length > 0) {
+            console.log('if')
             const filtered = subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent)
             ).map(e => ({
                 value: e.id,
@@ -59,6 +60,7 @@ export default function Basic({form, model}) {
 
             return filtered
         } else {
+            console.log('else')
             setValue('sub_categories', [])
             return subCategories.map(e => ({
                 value: e.id,
@@ -66,7 +68,6 @@ export default function Basic({form, model}) {
             }))
         }
     }
-
 
     return (
         <Card>
@@ -124,7 +125,7 @@ export default function Basic({form, model}) {
                         </FormGroup>
                     </Col>
                     {
-                        !(selectedCategories && selectedCategories.length === 0) &&
+                        (!(selectedCategories && selectedCategories.length === 0) && (model || page === 'add')) &&
                         <Col sm={6}>
                             <FormGroup>
                                 <SelectMulti

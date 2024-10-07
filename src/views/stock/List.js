@@ -1,28 +1,28 @@
-import { Fragment } from 'react'
+import {Fragment} from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
-import { useStockDatatable, api } from '@data/use-product'
+import {useStockDatatable, api} from '@data/use-product'
 import Avatar from '@components/avatar'
-import { Button, Input } from 'reactstrap'
-import { toast } from 'react-toastify'
+import {Button, Input} from 'reactstrap'
+import {toast} from 'react-toastify'
 import ability from "../../configs/acl/ability"
 
 
-export default function() {
+export default function () {
 
     let toUpdate = {}
 
     const onRowChange = (row, key, value) => {
-        const newData = { [key]: value }
+        const newData = {[key]: value}
         if (toUpdate[row.id]) {
             toUpdate[row.id][key] = value
         } else {
-            toUpdate[row.id] = { ...row.price, stock: row.stock, ...newData }
+            toUpdate[row.id] = {...row.price, stock: row.stock, ...newData}
         }
     }
 
     const onSubmit = async () => {
-        const products = Object.entries(toUpdate).map(([id, {stock, real_price, normal_price, sale_price, distributor_price }]) => {
+        const products = Object.entries(toUpdate).map(([id, {stock, real_price, normal_price, sale_price, distributor_price}]) => {
             return {
                 id,
                 stock,
@@ -32,7 +32,7 @@ export default function() {
             }
         })
         if (products.length > 0) {
-            await api.stock({ products })
+            await api.stock({products})
             toast.success('Updated')
             toUpdate = {}
         }
@@ -40,11 +40,13 @@ export default function() {
 
     const Filters = () => <Button.Ripple color='success' onClick={onSubmit}>Save Changes</Button.Ripple>
 
+    const readOnlyStockAvailable = ability.can('read', 'stock_available_read_only')
+
     return (
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive='Products'/>
             <Datatable
-                filterBar={ability.can('read', 'stock_save') ? <Filters /> : null}
+                filterBar={ability.can('read', 'stock_save') ? <Filters/> : null}
                 useDatatable={useStockDatatable}
                 columns={[
                     {
@@ -63,15 +65,17 @@ export default function() {
                         selector: 'stock',
                         sortable: true,
                         cell: row => (
-                            <div>
-                                <Input
-                                    type='number'
-                                    defaultValue={row.stock}
-                                    onChange={(e) => onRowChange(row, 'stock', e.target.value)}
-                                />
-                            </div>
+                            !readOnlyStockAvailable ? <div>
+                                    <Input
+                                        type='number'
+                                        defaultValue={row.stock}
+                                        onChange={(e) => onRowChange(row, 'stock', e.target.value)}
+                                    />
+                                </div> : <div>
+                                    <span>{row.stock}</span>
+                                </div>
                         ),
-                        omit : !ability.can('read', 'stock_available')
+                        omit: !ability.can('read', 'stock_available')
                     },
                     {
                         name: 'Normal Price',
@@ -88,7 +92,7 @@ export default function() {
                                 />
                             </div>
                         ),
-                        omit : !ability.can('read', 'stock_normal_price')
+                        omit: !ability.can('read', 'stock_normal_price')
                     },
                     {
                         name: 'Sale Price',
@@ -106,7 +110,7 @@ export default function() {
                                 />
                             </div>
                         ),
-                        omit : !ability.can('read', 'stock_sale_price')
+                        omit: !ability.can('read', 'stock_sale_price')
                     },
                     {
                         name: 'Real Price',
@@ -124,7 +128,7 @@ export default function() {
                                 />
                             </div>
                         ),
-                        omit : !ability.can('read', 'stock_real_price')
+                        omit: !ability.can('read', 'stock_real_price')
                     },
                     {
                         name: 'Dist Price',
@@ -142,7 +146,7 @@ export default function() {
                                 />
                             </div>
                         ),
-                        omit : !ability.can('read', 'stock_dist_price')
+                        omit: !ability.can('read', 'stock_dist_price')
                     }
                 ]}
             />
