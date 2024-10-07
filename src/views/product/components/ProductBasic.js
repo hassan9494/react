@@ -60,8 +60,7 @@ export default function Basic({form, model, page}) {
 
             return filtered
         } else {
-            console.log('else')
-            setValue('sub_categories', [])
+
             return subCategories.map(e => ({
                 value: e.id,
                 label: e.title
