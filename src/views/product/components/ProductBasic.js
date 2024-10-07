@@ -69,6 +69,13 @@ export default function Basic({form, model}) {
         }
     }
 
+    useEffect(() => {
+        if (model?.id) {
+            setValue('categories', model.categories)
+            setValue('sub_categories', model.sub_categories)
+        }
+    }, [subCategories, categories])
+
 
     return (
         <Card>
