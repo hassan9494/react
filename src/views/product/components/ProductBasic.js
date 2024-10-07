@@ -45,7 +45,8 @@ export default function Basic({form, model}) {
 
 
     const getSubCateogies = () => {
-        if (selectedCategories && selectedCategories.length > 0 && subCategories && categories) {
+        console.log('test')
+        if (selectedCategories && selectedCategories.length > 0 && subCategories && categories && model?.id) {
             console.log('if')
             const filtered = subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent)
             ).map(e => ({
@@ -59,7 +60,7 @@ export default function Basic({form, model}) {
             setValue('sub_categories', updatedSubCategories)
 
             return filtered
-        } else {
+        } else if (subCategories && categories && model) {
             console.log('else')
             setValue('sub_categories', [])
             return subCategories.map(e => ({
@@ -71,6 +72,7 @@ export default function Basic({form, model}) {
 
     useEffect(() => {
         if (model?.id && subCategories && categories && model?.categories && model?.sub_categories) {
+            console.log('test')
             setValue('categories', model.categories)
             setValue('sub_categories', model.sub_categories)
         }
@@ -132,8 +134,6 @@ export default function Basic({form, model}) {
                             />
                         </FormGroup>
                     </Col>
-                    {
-                        !(selectedCategories && selectedCategories.length === 0) &&
                         <Col sm={6}>
                             <FormGroup>
                                 <SelectMulti
@@ -145,7 +145,7 @@ export default function Basic({form, model}) {
                                 />
                             </FormGroup>
                         </Col>
-                    }
+
 
                     <Col sm={6}>
                         <FormGroup>
