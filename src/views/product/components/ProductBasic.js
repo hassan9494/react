@@ -46,6 +46,7 @@ export default function Basic({form, model}) {
 
     const getSubCateogies = () => {
         if (selectedCategories && selectedCategories.length > 0 && subCategories && categories) {
+            console.log('if')
             const filtered = subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent)
             ).map(e => ({
                 value: e.id,
@@ -59,6 +60,7 @@ export default function Basic({form, model}) {
 
             return filtered
         } else {
+            console.log('else')
             setValue('sub_categories', [])
             return subCategories.map(e => ({
                 value: e.id,
