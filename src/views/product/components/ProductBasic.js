@@ -45,7 +45,7 @@ export default function Basic({form, model}) {
 
 
     const getSubCateogies = () => {
-        console.log('test')
+        
         if (selectedCategories && selectedCategories.length > 0 && subCategories && categories && model?.id) {
             console.log('if')
             const filtered = subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent)
