@@ -10,15 +10,15 @@ const App = props => {
     // console.log(localStorage.getItem('auth'))
     const [startApp, setStartApp] = useState(false)
     const {ability} = useContext(AbilityContext)
-    const { loading, user } = useAuth({ability})
+    const {loading, user} = useAuth({ability})
     let loading2 = true
     // console.log(location.pathname)
     if (!isUserLoggedIn()) {
-       loading2 = false
+        loading2 = false
     }
 
-        useEffect(() => {
-            // console.log(user)
+    useEffect(() => {
+        // console.log(user)
         if (user) {
             ability.update(user.permissions)
         }
@@ -28,7 +28,7 @@ const App = props => {
         // console.log(ability.rules)
 
     }, [loading, user])
-    return startApp ? <Router /> : null
+    return startApp ? <Router/> : null
 }
 
 export default App
