@@ -45,7 +45,7 @@ export default function Basic({form, model}) {
 
 
     const getSubCateogies = () => {
-        
+
         if (selectedCategories && selectedCategories.length > 0 && subCategories && categories && model?.id) {
             console.log('if')
             const filtered = subCategories.filter(subCategory => selectedCategories.includes(subCategory.parent)
@@ -73,8 +73,12 @@ export default function Basic({form, model}) {
     useEffect(() => {
         if (model?.id && subCategories && categories && model?.categories && model?.sub_categories) {
             console.log('test')
-            setValue('categories', model.categories)
-            setValue('sub_categories', model.sub_categories)
+            if (getValues('categories') !== model.categories) {
+                setValue('categories', model.categories)
+            }
+            if (getValues('sub_categories') !== model.sub_categories) {
+                setValue('sub_categories', model.sub_categories)
+            }
         }
     }, [subCategories, categories])
 
