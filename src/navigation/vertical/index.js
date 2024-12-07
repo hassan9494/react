@@ -157,6 +157,14 @@ const navItems = [
                 id: 'stock',
                 title: 'Stock',
                 icon: <Circle size={12} />,
+                navLink: '/stock',
+                action: 'read',
+                resource: 'stock2_list_view'
+            },
+            {
+                id: 'stock2',
+                title: 'Stock2',
+                icon: <Circle size={12} />,
                 navLink: '/stock2',
                 action: 'read',
                 resource: 'stock2_list_view'
@@ -248,6 +256,14 @@ const navItems = [
                 navLink: '/promotion/list',
                 action: 'read',
                 resource: 'promotion_list_view'
+            },
+            {
+                id: 'links',
+                title: 'Links',
+                icon: <Circle size={12} />,
+                navLink: '/links/list',
+                action: 'read',
+                resource: 'links_list_view'
             }
         ]
     },

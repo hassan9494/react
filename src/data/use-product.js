@@ -26,6 +26,9 @@ export const api = {
     },
     sku: async (params) => {
         await axios.post(`product/sku`, params)
+    },
+    stock2: async (params) => {
+        await axios.post(`product/stock2`, params)
     }
 }
 

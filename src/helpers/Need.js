@@ -13,6 +13,7 @@ export const calcFinancial = (needs) => {
     const priceAll = (Number.parseFloat(needs.priceAll || 0))
     const realPriceAll = (Number.parseFloat(needs.allRealPrice || 0))
     const link = `${REACT_APP_WEBSITE}product/${needs.sku}`
+    const source = needs.source
 
     return {
         product_Id: id,
@@ -24,7 +25,8 @@ export const calcFinancial = (needs) => {
         product_priceAll: priceAll.toFixed(2),
         product_realPriceAll: realPriceAll.toFixed(2),
         product_sku: source_sku,
-        product_link: link
+        product_link: link,
+        product_source: source
     }
 }
 
@@ -41,7 +43,8 @@ export const needsToExcel = (needs, name) => {
             priceAll,
             product_realPriceAll,
             source_sku,
-            link
+            link,
+            source
         } = calcFinancial(e)
         return {
             Id : e.id,
@@ -53,7 +56,8 @@ export const needsToExcel = (needs, name) => {
             PriceAll : e.priceAll,
             product_realPriceAll,
             Source_Sku :e.source_sku,
-            Link : `${ REACT_APP_WEBSITE }product/${e.sku}`
+            Link : `${ REACT_APP_WEBSITE }/product/${e.sku}`,
+            source :e.source
         }
     }), name || 'outlays-report')
 }

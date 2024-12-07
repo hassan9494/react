@@ -69,6 +69,32 @@ const Tables = () => {
                     )
                 },
                 {
+                    name: 'Status',
+                    sortable: false,
+                    minWidth: '100px',
+                    cell: row => (
+                        <>
+                            {
+                                (row.options?.price_offer && row.status === 'PENDING') &&
+                                <Badge className='text-capitalize' color={'light-secondary'} pill>Price Offer</Badge>
+                            }
+                            {
+                                ((row.options?.taxed && !row.options?.price_offer  && row.status === 'PENDING') || (!row.options?.price_offer  && row.status === 'PENDING')) &&
+                                <Badge className='text-capitalize' color={'light-secondary'} pill>New Order</Badge>
+                            }
+                            {
+                                (!row.options?.dept && row.shipping?.status !== 'SHIPPED' && row.shipping?.status !== 'DELIVERED'  && row.status === 'PROCESSING') &&
+                                <Badge className='text-capitalize' color={'light-secondary'} pill>Processing</Badge>
+                            }
+                            {
+                                (row.shipping?.status !== 'WAITING' && row.shipping?.status !== null  && row.status === 'PROCESSING') &&
+                                <Badge className='text-capitalize' color={'light-secondary'} pill>Processing</Badge>
+                            }
+
+                        </>
+                    )
+                },
+                {
                     name: 'customer',
                     selector: 'customer.phone',
                     sortField: 'customer->phone',

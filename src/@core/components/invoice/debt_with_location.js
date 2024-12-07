@@ -12,7 +12,7 @@ const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, tax
         <div className="invoice">
             <InvoiceHeader order={order}/>
             <div>
-                <h2 className='text-center my-3'><strong>فاتورة بيع نقدي - Cash Invoice</strong></h2>
+                <h2 className='text-center my-3'><strong>فاتورة بيع ذمم - Receivable Invoice</strong></h2>
                 <Row>
                     <Col>
                         <h4>
@@ -78,6 +78,7 @@ const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, tax
                                 <th>البيان</th>
                                 <th>الكمية</th>
                                 <th>السعر</th>
+                                <th>الموقع</th>
                                 <th>الاجمالي</th>
                             </tr>
                             </thead>
@@ -89,6 +90,7 @@ const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, tax
                                         <td>{e.name}</td>
                                         <td>{e.quantity}</td>
                                         <td>{Number.parseFloat(e.price).toFixed(2)}</td>
+                                        <td>{e.location}</td>
                                         <td>{(e.quantity * e.price).toFixed(2)}</td>
                                     </tr>
                                 ))
@@ -145,7 +147,7 @@ function InvoiceHeader({order}) {
                              alt="Logo MikroElectron"/>
                         <p className='pb-1'>مؤسسة منتصر ومحمود للالكترونيات</p>
                         <p><strong>الرقم الضريبي : 013461320</strong></p>
-                        {/*<p className="text-center">{order?.number}</p>*/}
+
                     </div>
                 </Col>
             </Row>

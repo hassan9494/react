@@ -192,7 +192,7 @@ function InvoiceFooter({order}) {
                     </h4>
                 </Col>
             </Row>
-            <p className="text-center">{order?.number}</p>
+            <p className="text-left">{order?.number}</p>
         </>
     )
 }

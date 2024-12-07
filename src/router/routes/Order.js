@@ -10,6 +10,14 @@ const OrderRoutes = [
         }
     },
     {
+        path: '/order/create-price-offer',
+        component: lazy(() => import('../../views/order/create_price_offer/index')),
+        meta:{
+            action:'read',
+            resource:'order_add'
+        }
+    },
+    {
         path: '/order/create',
         component: lazy(() => import('../../views/order/create/index')),
         meta:{
@@ -93,6 +101,24 @@ const OrderRoutes = [
         path: '/order/print/:id',
         layout: 'BlankLayout',
         component: lazy(() => import('../../views/order/print/index')),
+        meta:{
+            action:'read',
+            resource:'order_print'
+        }
+    },
+    {
+        path: '/order/print-price-offer/:id',
+        layout: 'BlankLayout',
+        component: lazy(() => import('../../views/order/print/price_offer_print')),
+        meta:{
+            action:'read',
+            resource:'order_print'
+        }
+    },
+    {
+        path: '/order/print-location/:id',
+        layout: 'BlankLayout',
+        component: lazy(() => import('../../views/order/print/location')),
         meta:{
             action:'read',
             resource:'order_print'

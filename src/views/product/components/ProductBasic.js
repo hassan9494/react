@@ -102,7 +102,7 @@ export default function Basic({form, model}) {
                         <Field
                             label={'SKU'}
                             name={'sku'}
-                            rules={{required: true}}
+                            rules={{required: false}}
                             form={form}
                         />
                     </Col>
@@ -193,6 +193,17 @@ export default function Basic({form, model}) {
                                 label={'Maximum sellable amount to single customer'}
                                 type='number'
                                 name='maxCartAmount'
+                                rules={{required: false}}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm={6}>
+                        <FormGroup>
+                            <Field
+                                form={form}
+                                label={'Product Location'}
+                                type='text'
+                                name='location'
                                 rules={{required: false}}
                             />
                         </FormGroup>

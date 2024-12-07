@@ -112,11 +112,34 @@ const PreviewCard = ({ order, form, isCompleted, isReorder }) => {
                 </div>
                 <div className="mr-auto">
                     {
+                        (order && canPrintOrder) &&
+                        <Link to={`/order/print-price-offer/${order.id}`} id={`pw-tooltip-${order.id}`} target='_blank'>
+                            <Button.Ripple color={'dark'}>
+                                <Printer size={14} />
+                                <span className='align-middle ml-25'>Price Offer</span>
+                            </Button.Ripple>
+                        </Link>
+                    }
+                </div>
+                <div className="mr-auto">
+                    {
                         (order && location.pathname.includes('edit') && canReorderOrder) &&
                         <Link to={`/order/create/${order.id}`} id={`pw-tooltip-${order.id}`} target='_blank'>
                             <Button.Ripple color={'primary'}>
                                 <Plus size={14} />
                                 <span className='align-middle ml-25'>Reorder</span>
+                            </Button.Ripple>
+                        </Link>
+                    }
+                </div>
+
+                <div className="mr-auto">
+                    {
+                        (order && canPrintOrder) &&
+                        <Link to={`/order/print-location/${order.id}`} id={`pw-tooltip-${order.id}`} target='_blank'>
+                            <Button.Ripple color={'dark'}>
+                                <Printer size={14} />
+                                <span className='align-middle ml-25'>Print Location</span>
                             </Button.Ripple>
                         </Link>
                     }

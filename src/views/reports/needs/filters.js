@@ -65,12 +65,12 @@ const Tables = ({ onChange }) => {
                             <span className='align-middle ml-25'>Excel</span>
                         </Button.Ripple>
                     </Col>
-                    <Col md='2'>
-                        <Button.Ripple size='block' color='danger' onClick={e => onPrint()}>
-                            <File size={14} />
-                            <span className='align-middle ml-25'>Print & PDF</span>
-                        </Button.Ripple>
-                    </Col>
+                    {/*<Col md='2'>*/}
+                    {/*    <Button.Ripple size='block' color='danger' onClick={e => onPrint()}>*/}
+                    {/*        <File size={14} />*/}
+                    {/*        <span className='align-middle ml-25'>Print & PDF</span>*/}
+                    {/*    </Button.Ripple>*/}
+                    {/*</Col>*/}
                 </Row>
             </CardBody>
         </Card>
