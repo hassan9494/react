@@ -78,6 +78,7 @@ const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, tax
                                 <th>البيان</th>
                                 <th>الكمية</th>
                                 <th>السعر</th>
+                                <th>الموقع</th>
                                 <th>الاجمالي</th>
                             </tr>
                             </thead>
@@ -89,6 +90,7 @@ const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, tax
                                         <td>{e.name}</td>
                                         <td>{e.quantity}</td>
                                         <td>{Number.parseFloat(e.price).toFixed(2)}</td>
+                                        <td>{e.location}</td>
                                         <td>{(e.quantity * e.price).toFixed(2)}</td>
                                     </tr>
                                 ))

@@ -98,5 +98,22 @@ export default [
             action:'read',
             resource:'promotion_edit'
         }
+    },
+
+    {
+        path: '/links/list',
+        component: lazy(() => import('../../views/website/links/List')),
+        meta:{
+            action:'read',
+            resource:'links_list_view'
+        }
+    },
+    {
+        path: '/links/edit/:id',
+        component: lazy(() => import('../../views/website/links/Edit')),
+        meta:{
+            action:'read',
+            resource:'links_list_view'
+        }
     }
 ]

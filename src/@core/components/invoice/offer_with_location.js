@@ -1,18 +1,14 @@
-// ** Third Party Components
 import { Row, Col } from 'reactstrap'
-
-// ** Styles
 import '@styles/base/pages/invoice.scss'
 import toArabic from './toArabic'
 import moment from 'moment'
 
-const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, taxAmount } }) => {
+const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, fixedDiscount } }) => {
     const date = order?.taxed_at || order?.completed_at || order?.created_at
     return (
         <div className="invoice">
-            <InvoiceHeader order={order}/>
             <div>
-                <h2 className='text-center my-3'><strong>فاتورة بيع نقدي - Cash Invoice</strong></h2>
+                <h2 className='text-center my-3'><strong>عرض سعر - Price Offer</strong></h2>
                 <Row>
                     <Col>
                         <h4>
@@ -27,9 +23,9 @@ const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, tax
                     <Col>
                         <h4>
                             <div className='d-flex mb-2'>
-                                <span className='font-20'>رقم الفاتورة :</span>
+                                <span className='font-20'>رقم العرض :</span>
                                 <span className="underline-dotted flex-grow-1 pr-1">
-                                    <strong>{order?.tax_number}</strong>
+                                    <strong>{order?.number}</strong>
                                 </span>
                             </div>
                         </h4>
@@ -78,6 +74,7 @@ const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, tax
                                 <th>البيان</th>
                                 <th>الكمية</th>
                                 <th>السعر</th>
+                                <th>الموقع</th>
                                 <th>الاجمالي</th>
                             </tr>
                             </thead>
@@ -89,26 +86,21 @@ const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, tax
                                         <td>{e.name}</td>
                                         <td>{e.quantity}</td>
                                         <td>{Number.parseFloat(e.price).toFixed(2)}</td>
+                                        <td>{e.location}</td>
                                         <td>{(e.quantity * e.price).toFixed(2)}</td>
                                     </tr>
                                 ))
                             }
                             <tr>
-                                <td rowSpan="4" colSpan={2}><strong>البضاعة التي تباع لا ترد ولا تستبدل</strong></td>
+                                <td rowSpan="3" colSpan={2}><strong>البضاعة التي تباع لا ترد ولا تستبدل</strong></td>
+                            </tr>
+                            <tr>
                                 <td colSpan={2}><strong>المجموع - Sub Total</strong></td>
-                                <td><strong>{subtotal}</strong></td>
+                                <td colSpan={3}><strong>{subtotal}</strong></td>
                             </tr>
                             <tr>
                                 <td colSpan={2}><strong>الخصم - Discount</strong></td>
-                                <td><strong>{discount}</strong></td>
-                            </tr>
-                            <tr>
-                                <td colSpan={2}><strong>المجموع بعد الخصم - Sub Total</strong></td>
-                                <td><strong>{subtotalDiscount}</strong></td>
-                            </tr>
-                            <tr>
-                                <td rowSpan="1" colSpan={2}><strong>الضريبة (16%) - Tax</strong></td>
-                                <td><strong>{taxAmount}</strong></td>
+                                <td colSpan={3}><strong>{fixedDiscount}</strong></td>
                             </tr>
                             <tr>
                                 <td colSpan={2}><strong>{new toArabic(total, 'JOD').parse()}</strong></td>
@@ -119,81 +111,20 @@ const Print = ({ order, meta: { total, subtotal, discount, subtotalDiscount, tax
                         </table>
                     </Col>
                 </Row>
-                {
-                    <InvoiceFooter order={order}/>
-                }
+                <Row className='mt-3'>
+                    <Col>
+                        <h4>
+                            <div className='d-flex mb-2'>
+                                <strong className='font-20'>ملاحظات :</strong>
+                                <span className="underline-dotted flex-grow-1 pr-1">
+                                    <strong>{order?.invoice_notes}</strong>
+                                </span>
+                            </div>
+                        </h4>
+                    </Col>
+                </Row>
             </div>
         </div>
-    )
-}
-
-function InvoiceHeader({order}) {
-    return (
-        <>
-            <Row>
-                <Col>
-                    <p>عمان - شارع الملكة رانيا - طلوع نيفين - مجمع خليفة</p>
-                    <p>الطابق الثالث - مكتب 308</p>
-                    <p>هاتف : 065344772</p>
-                    <p>فاكس : 065344778</p>
-                    <p>بريد الكتروني: info@mikroelectron.com</p>
-                    <p>الموقع الالكتروني: www.mikroelectron.com</p>
-                </Col>
-                <Col>
-                    <div className='float-left'>
-                        <img src="http://mikroelectron.com/assets/img/logo-1.png" width="325px" height='auto'
-                             alt="Logo MikroElectron"/>
-                        <p className='pb-1'>مؤسسة منتصر ومحمود للالكترونيات</p>
-                        <p><strong>الرقم الضريبي : 013461320</strong></p>
-                        {/*<p className="text-center">{order?.number}</p>*/}
-                    </div>
-                </Col>
-            </Row>
-            <hr/>
-        </>
-    )
-}
-
-function InvoiceFooter({order}) {
-    return (
-        <>
-            <br/>
-            <Row className='mt-2'>
-                <Col>
-                    <h4>
-                        <div className='d-flex mb-2'>
-                            <strong className='font-20'>
-                                توقيع المستلم :
-                            </strong>
-                            <strong className="underline-dotted flex-grow-1 pr-1"></strong>
-                        </div>
-                    </h4>
-                </Col>
-                <Col>
-                    <h4>
-                        <div className='d-flex mb-2'>
-                            <strong className='font-20'>
-                                اسم البائع :
-                            </strong>
-                            <strong className="underline-dotted flex-grow-1 pr-1">Muntasir</strong>
-                        </div>
-                    </h4>
-                </Col>
-            </Row>
-            <Row className='mt-2'>
-                <Col>
-                    <h4>
-                        <div className='d-flex mb-2'>
-                            <strong className='font-20'>ملاحظات :</strong>
-                            <strong className="underline-dotted flex-grow-1 pr-1">
-                                {order?.invoice_notes}
-                            </strong>
-                        </div>
-                    </h4>
-                </Col>
-            </Row>
-            <p className="text-left">{order?.number}</p>
-        </>
     )
 }
 

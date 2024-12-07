@@ -167,8 +167,16 @@ const CatalogRoutes = [
         }
     },
     {
-        path: '/stock2',
+        path: '/stock',
         component: lazy(() => import('../../views/stock2/List')),
+        meta:{
+            action:'read',
+            resource:'stock2_list_view'
+        }
+    },
+    {
+        path: '/stock2',
+        component: lazy(() => import('../../views/stock3/List')),
         meta:{
             action:'read',
             resource:'stock2_list_view'

@@ -44,11 +44,47 @@ export default () => {
     ])
 
     const onFilterChange = (val, col) => {
-        const updated = conditions.filter(e => e.col !== col)
-        if (val !== null && val !== undefined) {
-            updated.push({ val, col })
-            setConditions(updated)
+        console.log(val)
+        if (val === false) {
+            setConditions([
+                {
+                    col: 'status', op: '=', val: 'PROCESSING'
+                },
+                {
+                    col: 'options->dept', op: '=', val: false
+                },
+                {
+                    col: 'shipping->status', op: '!=', val: 'SHIPPED'
+                },
+                {
+                    col: 'shipping->status', op: '!=', val: 'DELIVERED'
+                },
+                (!ability.can('read', 'untaxed_list_view') && !ability.can('read', 'befor_completed_untaxed_list_view'))  ? {
+                    col: 'options->taxed',  val: true
+                } : {
+
+                }
+            ])
+        } else {
+            setConditions([
+                {
+                    col: 'status', op: '=', val: 'PROCESSING'
+                },
+                {
+                    col: 'options->dept', op: '=', val: true
+                },
+                (!ability.can('read', 'untaxed_list_view') && !ability.can('read', 'befor_completed_untaxed_list_view'))  ? {
+                    col: 'options->taxed',  val: true
+                } : {
+
+                }
+            ])
         }
+        // const updated = conditions.filter(e => e.col !== col)
+        // if (val !== null && val !== undefined) {
+        //     updated.push({ val, col })
+        //     setConditions(updated)
+        // }
         setType(val)
     } 
 

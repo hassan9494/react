@@ -106,7 +106,7 @@ function InvoiceHeader({order}) {
                             alt="Logo MikroElectron"
                         />
                         <p className='pb-1'>مؤسسة منتصر ومحمود للالكترونيات</p>
-                        {/*<p><strong>الرقم الضريبي : 013461320</strong></p>*/}
+                        <p><strong>الرقم الضريبي : 013461320</strong></p>
 
                     </div>
                 </Col>
@@ -144,7 +144,7 @@ function InvoiceFooter({ type }) {
                     </h4>
                 </Col>
             </Row>
-            <p className="text-center">{order?.number}</p>
+            <p className="text-left">{order?.number}</p>
         </>
     )
 }

@@ -61,6 +61,19 @@ const Tables = () => {
                 header={false}
                 conditionalRowStyles={conditionalRowStyles}
                 columns={[
+
+                    {
+                        name: 'Number',
+                        selector: 'number',
+                        sortable: true,
+                        minWidth: '500px',
+                        sortField: 'id',
+                        cell: row => (
+                            <div>
+                                <a className='text-dark' href={`${process.env.REACT_APP_WEBSITE}/order/edit/${row.number}`} target='_blank'>{ row.number }</a>
+                            </div>
+                        )
+                    },
                     {
                         name: 'Number',
                         selector: 'number',
@@ -95,14 +108,15 @@ const Tables = () => {
                         sortField: 'customer->phone',
                         sortable: true,
                         minWidth: '100px',
+                        style : {height: 'auto!important'},
                         allowOverflow: true,
                         wrap : true,
                         cell:  (row, index, column) => (
                             <>
                                 {
                                     row?.products?.length > 1 &&
-                                    <Repeater count={row?.products?.length}>
-                                        {i => <Badge key={i}  className='badge-light-secondary d-block badge-pill '>{row?.products[i]?.name} : {row?.products[i]?.quantity}</Badge>}
+                                    <Repeater count={row?.products?.length} className={'test'}>
+                                        {i => <div><span key={i}  className='badge-light-secondary d-block badge-pill '>{row?.products[i]?.name} : <Badge>{row?.products[i]?.quantity}</Badge></span><hr /></div>}
                                     </Repeater>
                                 },
                                 {
