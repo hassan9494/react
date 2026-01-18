@@ -17,8 +17,9 @@ const Tables = () => {
 
     const onFiltersChange = (filters) => {
         const updated = [...fixedConditions]
-        if (filters.from) updated.push({col: 'taxed_at|updated_at',  op: '>=', val: filters.from})
-        if (filters.to) updated.push({col: 'taxed_at|updated_at',  op: '<=', val: moment(filters.to).add(1, 'days').format('Y-MM-DD')})
+        if (filters.from) updated.push({col: 'taxed_at',  op: '>=', val: filters.from})
+        if (filters.to) updated.push({col: 'taxed_at',  op: '<=', val: moment(filters.to).add(1, 'days').format('Y-MM-DD')})
+
         if (filters.status) updated.push({col: 'status', val: filters.status})
         if (filters.exempt) updated.push({col: 'options->tax_exempt', val: filters.exempt})
         setConditions(updated)
@@ -44,11 +45,19 @@ const Tables = () => {
                         minWidth: '100px'
                     },
                     {
+                        name: 'Taxed Number',
+                        selector: 'tax_number',
+                        sortable: true,
+                        sortField: 'tax_number',
+                        minWidth: '100px',
+                        cell: row => row?.tax_number ?? '-----'
+                    },
+                    {
                         name: 'date',
                         selector: 'taxed_at',
                         sortable: true,
                         minWidth: '100px',
-                        cell: row => (row.taxed_at ? moment(row.taxed_at).format('Y-MM-DD') : moment(row.updated_at).format('Y-MM-DD'))
+                        cell: row => (row.taxed_at ? moment(row.taxed_at).format('Y-MM-DD') : '------')
                     },
                     {
                         name: 'customer',
@@ -61,6 +70,21 @@ const Tables = () => {
                         name: 'customer',
                         selector: 'customer.phone',
                         sortField: 'customer->phone',
+                        sortable: true,
+                        minWidth: '100px'
+                    },
+                    {
+                        name: 'Identity Type',
+                        selector: 'identity_number_type',
+                        sortField: 'identity_number_type',
+                        sortable: true,
+                        minWidth: '100px',
+                        cell: row => (row?.identity_number_type === 'NIN' ? 'الرقم الوطني' : (row?.identity_number_type === 'PN') ? 'الرقم الشخصي لغير الاردني' : 'الرقم الضريبي')
+                    },
+                    {
+                        name: 'Identity Number',
+                        selector: 'customer_identity_number',
+                        sortField: 'customer_identity_number',
                         sortable: true,
                         minWidth: '100px'
                     },

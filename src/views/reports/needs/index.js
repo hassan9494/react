@@ -16,6 +16,15 @@ const Tables = () => {
     const onFiltersChange = (filters) => {
         const updated = [...fixedConditions]
         if (filters.type) updated.push(filters.type)
+        if (filters.sourceType) updated.push(filters.sourceType)
+        if (filters.source) {
+            // Pass sourceType along with source_id for the backend to know which column to use
+            updated.push({
+                col: 'source_id',
+                val: filters.source,
+                sourceType: filters.sourceType // Pass the sourceType here
+            })
+        }
         setConditions(updated)
     }
     const { REACT_APP_WEBSITE } = process.env
@@ -37,7 +46,7 @@ const Tables = () => {
                         sortable: true,
                         minWidth: '350px',
                         searchable: true,
-                        cell: row => <div><Avatar img={row.image} className='mr-2'/>{row.name}</div>
+                        cell: row => <div className={'d-flex align-items-center'}><Avatar img={row.image} className={"mr-2"}/> {row.name} </div>
                     },
                     {
                         name: 'Qty',
@@ -48,6 +57,18 @@ const Tables = () => {
                     {
                         name: 'Min Quantity',
                         selector: 'min_qty',
+                        sortable: true,
+                        minWidth: '20px'
+                    },
+                    {
+                        name: 'Purchases Qty',
+                        selector: 'purchases_qty',
+                        sortable: true,
+                        minWidth: '20px'
+                    },
+                    {
+                        name: 'Order Quantity',
+                        selector: 'order_qty',
                         sortable: true,
                         minWidth: '20px'
                     },
@@ -81,13 +102,19 @@ const Tables = () => {
                         name: 'Source SKU',
                         selector: 'source_sku',
                         sortable: true,
-                        minWidth: '350px'
+                        minWidth: '100'
                     },
                     {
-                        name: 'Link',
-                        selector:  row => <a href={`${REACT_APP_WEBSITE}/product/${row.slug}`} > {`${REACT_APP_WEBSITE}/product/${row.slug}`} </a>,
+                        name: 'Stock Location',
+                        selector: 'stock_location',
                         sortable: true,
-                        minWidth: '400px'
+                        minWidth: '100'
+                    },
+                    {
+                        name: 'Store Location',
+                        selector: 'location',
+                        sortable: true,
+                        minWidth: '100'
                     }
                 ]}
             />

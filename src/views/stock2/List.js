@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import React, {Fragment, useEffect, useRef, useState} from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import Datatable from '@components/datatable'
 import { useStockDatatable, api } from '@data/use-product'
@@ -8,152 +8,164 @@ import { toast } from 'react-toastify'
 import ability from "../../configs/acl/ability"
 import { useBrands } from '@data/use-brand'
 import { useSources } from '@data/use-source'
-import Select from "react-select"
 
 export default function() {
-
     let toUpdate = {}
 
     const onRowChange = (row, key, value) => {
-        const newData = { [key]: value }
+        const numericFields = ['stock', 'purchases_qty', 'stock_available', 'store_available']
+        const processedValue = numericFields.includes(key) && value === '' ? 0 : value
+
         if (toUpdate[row.id]) {
-            toUpdate[row.id][key] = value
+            toUpdate[row.id][key] = processedValue
         } else {
-            toUpdate[row.id] = { sku: row.sku, source_sku: row.source_sku, min_qty: row.min_qty, stock: row.stock, brand_id:row.brand_id, source_id:row.source_id, ...newData }
+            toUpdate[row.id] = {
+                ...row,
+                [key]: processedValue
+            }
         }
     }
 
     const onSubmit = async () => {
-        const products = Object.entries(toUpdate).map(([id, { stock, sku, min_qty, source_sku, brand_id, source_id}]) => {
-            return {
-                id,
-                stock,
-                sku,
-                min_qty,
-                source_sku,
-                brand_id,
-                source_id
-            }
-        })
+        const products = Object.entries(toUpdate).map(([id, data]) => ({
+            id,
+            ...data
+        }))
+
         if (products.length > 0) {
-            await api.sku({ products })
+            await api.stock2({ products })
             toast.success('Updated')
             toUpdate = {}
         }
     }
 
-    const Filters = () => <Button.Ripple color='success' onClick={onSubmit}>Save Changes</Button.Ripple>
+    const NumericInput = ({ row, field }) => {
+        const [value, setValue] = useState(row[field])
+        const inputRef = useRef(null)
 
-    const { data: brands } = useBrands()
-    const brandsSelect = brands.map(e => {
-        return {
-            value: e.id,
-            label: e.name
+        useEffect(() => {
+            const input = inputRef.current
+            if (!input) return
+
+            const handleWheel = (e) => {
+                if (document.activeElement === input) {
+                    e.preventDefault()
+                }
+            }
+
+            // Modern way to add non-passive event listener
+            input.addEventListener('wheel', handleWheel, { passive: false })
+
+            return () => {
+                input.removeEventListener('wheel', handleWheel)
+            }
+        }, [])
+
+        const handleChange = (e) => {
+            const newValue = e.target.value === '' ? 0 : e.target.value
+            setValue(newValue)
+            onRowChange(row, field, newValue)
         }
-    })
-    const { data: sources } = useSources()
-    const sourcesSelect = sources.map(e => {
-        return {
-            value: e.id,
-            label: e.name
-        }
-    })
+
+
+        return (
+            <Input
+                type="number"
+                innerRef={inputRef}
+                value={value}
+                onChange={handleChange}
+                onWheel={(e) => {
+                    if (document.activeElement === e.target) {
+                        e.preventDefault()
+                    }
+                }}
+            />
+        )
+    }
+
+    const readOnlyStockAvailable = ability.can('read', 'stock_available_read_only')
 
     return (
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive='Products' />
             <Datatable
-                filterBar={ability.can('read', 'stock2_save') ? <Filters /> : null}
+                isSticky={true}
+                filterBar={ability.can('read', 'stock2_save') ? (
+                    <Button.Ripple color='success' onClick={onSubmit}>
+                        Save Changes
+                    </Button.Ripple>
+                ) : null}
                 useDatatable={useStockDatatable}
                 columns={[
                     {
                         name: 'Name',
                         selector: 'name',
-                        sortField: 'name',
                         sortable: true,
                         minWidth: '400px',
-                        maxWidth: '500px',
                         cell: row => (
-                            <div style={{width:'100%'}}><Avatar img={row.image} className={"mr-2"} /> {row.name.slice(0, 30)}... </div>
+                            <div className='d-flex align-items-center'>
+                                <Avatar img={row.image} className="mr-2"/>
+                                <a className='text-dark' href={`${process.env.REACT_APP_WEBSITE}/product/${row.link}`} target='_blank' rel="noopener noreferrer">
+                                    {row.name}
+                                </a>
+                            </div>
                         )
                     },
                     {
-                        name: 'Brand',
-                        selector: 'brand_id',
-                        sortable: true,
-                        minWidth: '200px',
-                        maxWidth: '300px',
-                        cell: row => (
-                            <div style={{width: '100%'}}>
-                                <Select
-                                    options={brandsSelect}
-                                    value={brandsSelect.find(option => option.value === row.brand_id)}
-                                    onChange={(selectedOption) => onRowChange(row, 'brand_id', selectedOption.value)}
-                                />
-                            </div>
-                        ),
+                        name: 'Purchases Qty',
+                        selector: 'purchases_qty',
+                        cell: row => <NumericInput row={row} field="purchases_qty" />,
                         omit: !ability.can('read', 'stock2_minimum_quantity')
                     },
                     {
-                        name: 'Source',
-                        selector: 'source_id',
+                        name: 'Available',
+                        selector: 'stock',
                         sortable: true,
-                        minWidth: '200px',
-                        maxWidth: '300px',
-                        cell: row => (
-                            <div style={{width: '100%'}}>
-                                <Select
-                                    options={sourcesSelect}
-                                    value={sourcesSelect.find(option => option.value === row.source_id)}
-                                    onChange={(selectedOption) => onRowChange(row, 'source_id', selectedOption.value)}
-                                />
-                            </div>
-                        ),
-                        omit: !ability.can('read', 'stock2_minimum_quantity')
+                        cell: row => {
+                            const inputRef = useRef(null) // Create a ref for the input
+
+                            useEffect(() => {
+                                const handleWheel = (e) => {
+                                    e.preventDefault() // Prevent mouse wheel changes
+                                }
+
+                                const currentInput = inputRef.current
+                                if (currentInput) {
+                                    currentInput.addEventListener('wheel', handleWheel)
+                                }
+
+                                return () => {
+                                    if (currentInput) {
+                                        currentInput.removeEventListener('wheel', handleWheel)
+                                    }
+                                }
+                            }, [])
+
+                            return (
+                                !readOnlyStockAvailable ?  <div>
+                                    <Input
+                                        type='number'
+                                        defaultValue={row.stock}
+                                        onChange={(e) => onRowChange(row, 'stock', e.target.value)}
+                                        innerRef={inputRef} // Attach ref to Input
+                                    />
+                                </div> : <div>
+                                    <span>{row.stock}</span>
+                                </div>
+                            )
+                        },
+                        omit: !ability.can('read', 'stock_available')
                     },
                     {
-                        name: 'Minimum Quantity',
-                        selector: 'min_qty',
-                        sortable: true,
-                        cell: row => (
-                            <div>
-                                <Input
-                                    type='number'
-                                    defaultValue={row.min_qty}
-                                    onChange={(e) => onRowChange(row, 'min_qty', e.target.value)}
-                                />
-                            </div>
-                        ),
-                        omit: !ability.can('read', 'stock2_minimum_quantity')
+                        name: 'Stock Available',
+                        selector: 'stock_available',
+                        cell: row => <NumericInput row={row} field="stock_available" />,
+                        omit: !ability.can('read', 'stock2_source_sku')
                     },
                     {
-                        name: 'Mikro SKU',
-                        selector: 'sku',
-                        sortable: true,
-                        cell: row => (
-                            <div>
-                                <Input
-                                    type='text'
-                                    defaultValue={row.sku}
-                                    onChange={(e) => onRowChange(row, 'sku', e.target.value)}
-                                />
-                            </div>
-                        ),
-                        omit: !ability.can('read', 'stock2_mikro_sku')
-                    },
-                    {
-                        name: 'Source SKU',
-                        selector: 'source_sku',
-                        sortable: true,
-                        cell: row => (
-                            <div>
-                                <Input
-                                    type='text'
-                                    defaultValue={row.source_sku}
-                                    onChange={(e) => onRowChange(row, 'source_sku', e.target.value)}
-                                />
-                            </div>
-                        ),
+                        name: 'Store Available',
+                        selector: 'store_available',
+                        cell: row => <NumericInput row={row} field="store_available" />,
                         omit: !ability.can('read', 'stock2_source_sku')
                     }
                 ]}

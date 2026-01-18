@@ -42,6 +42,22 @@ export default ({ form }) => {
             </CardBody>
             <hr className='m-0'/>
             <CardBody>
+                <FormGroup className='mb-0'>
+                    <Label className='mb-0' for='search_factor'>
+                        Search Factor
+                    </Label>
+                    <Input
+                        type='number'
+                        name='search_factor'
+                        placeholder='Search Factor'
+                        defaultValue={50}
+                        innerRef={register({})}
+                        invalid={errors.search_factor && true}
+                    />
+                </FormGroup>
+            </CardBody>
+            <hr className='m-0'/>
+            <CardBody>
                 <div className='d-flex justify-content-between mb-1'>
                     <Label className='mb-0' for='product-featured'>
                         Featured
@@ -60,7 +76,20 @@ export default ({ form }) => {
                     <CustomInput
                         id='product-available'
                         type='switch'
+                        defaultChecked={true}
                         name='options.available'
+                        innerRef={register()}
+                    />
+                </div>
+                <div className='d-flex justify-content-between mb-1'>
+                    <Label className='mb-0' for='product-show'>
+                        Show For Search
+                    </Label>
+                    <CustomInput
+                        id='product-show'
+                        type='switch'
+                        defaultChecked={true}
+                        name='is_show_for_search'
                         innerRef={register()}
                     />
                 </div>
@@ -86,14 +115,25 @@ export default ({ form }) => {
                         innerRef={register()}
                     />
                 </div>
-                <div className='d-flex justify-content-between'>
+                <div className='d-flex justify-content-between mb-1'>
                     <Label className='mb-0' for='hasVariants'>
-                        Colors
+                        Colors Parent
                     </Label>
                     <CustomInput
                         id='hasVariants'
                         type='switch'
                         name='hasVariants'
+                        innerRef={register()}
+                    />
+                </div>
+                <div className='d-flex justify-content-between'>
+                    <Label className='mb-0' for='is_color_sun'>
+                        Colors Son
+                    </Label>
+                    <CustomInput
+                        id='is_color_sun'
+                        type='switch'
+                        name='is_color_sun'
                         innerRef={register()}
                     />
                 </div>

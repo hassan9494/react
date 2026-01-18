@@ -6,34 +6,72 @@ body {
 .invoice {
     margin-top: 45px !important;
     text-align: start;
-    // style="margin-top:-80mm;"
 }
 
 .invoice p {
-    margin: 4px 0px 0px !important;
+    margin:0px !important;
+    font-size: 12px;
+    font-weight: 500;
 }
-
-
-p {
-    font-size: 18px;
+.invoice h4{
+    font-size: 13px;
+    font-weight: 600;
 }
-
-
-    .text p {
-        position: relative;
-    }
+.invoice .subtitle{
+    font-size: 12px;
+}
+// h3{
+//     font-size: 18px;
+//     font-weight: 600;
+// }
+.text p {
+    position: relative;
+}
 
 .underline-dotted {
     border-bottom: 1px dotted #333;
     display: inline-block;
 }
 
+.dotdate{
+    margin-right: 34px !important;
+}
+.dotinvoice{
+    margin-right: 5px !important;
+}
+.dotphone{
+    margin-right: 26px !important;
+}
+.dotaddress{
+    margin-right: 33px !important;
+}
+.dotreseve{
+    margin-right: 14px !important;
+}
+.dotsign{
+    margin-right: 6px !important;
+}
+.dotnotes{
+    margin-left: 25px !important;
+}
+.dotnamereseve{
+    margin-right: 14px !important;
+}
+.dotmikro{
+    margin-right: 34px !important;
+}
+.dotgoods{
+    margin-right: 15px !important;
+}
+.dotphonereturn{
+    margin-right: 70px !important;
+}
 table {
     border: solid 1px;
     text-align: center;
     width: 100%;
     border-spacing: 0px;
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .table1, .table2 {
@@ -41,63 +79,49 @@ table {
     border-right: 1px;
 }
 
-    .table1 th {
-        border-bottom: solid 1px;
-        border-right: solid 1px;
-        border-top: solid 0.1px;
-        border-left: solid 0.1px;
-        padding: 12px;
-    }
+.table1 th {
+    border-bottom: solid 1px;
+    border-right: solid 1px;
+    border-top: solid 0.1px;
+    border-left: solid 0.1px;
+    padding: 5px;
+}
 
-    .table1 thead {
-        background-color: #cecece;
-    }
+.table1 thead {
+    background-color: #cecece;
+}
 
-    .table1 td {
-        border-bottom: solid 1px;
-        border-right: solid 1px;
-        padding: 10px;
-    }
+.table1 td {
+    border-bottom: solid 1px;
+    border-right: solid 1px;
+    padding: 5px;
+}
 
-    .table2 td {
-        border-bottom: solid 1px;
-        border-right: solid 1px;
-        padding: 9px;
-    }
+.table2 td {
+    border-bottom: solid 1px;
+    border-right: solid 1px;
+    padding: 5px;
+}
 
 .table2 {
     margin-top: -1px;
     font-weight: bold;
 }
 
-@media print {
-    .new-page {
-        page-break-before: always;
-    }
-}
-
-@media print {
-    body {
-        -webkit-print-color-adjust: exact;
-    }
-}
-
-/*@page {
-    margin-top:80mm;
-}
-
-@page :first {
-    margin-top: -70mm!important;
-}*/
-*{
+* {
     color: #000 !important;
     font-family: 'Times New Roman', Times, serif;
     direction: rtl !important;
 }
-hr{
+
+hr {
     background-color: #000;
     border-top: 1px solid;
-    border-bottom: 1px solid;
+    border-bottom: 0px solid;
+    margin: 0;
+    padding:0;
+    margin-top: 3px;
+
 }
 
 .receipt-total {
@@ -105,7 +129,392 @@ hr{
 }
 
 @page {
-    size: auto;   /* auto is the initial value */
-    margin: 30px;  /* this affects the margin in the printer settings */
+    size: auto;
+    margin: 30px;
+}
+.logo {
+    width: 220px;
+    height: auto;
 }
 
+.qr-code {
+    width: 130px;
+    height: auto;
+    margin-top: -20px;
+    margin-right: -50px;
+
+}
+
+.website{
+    padding-bottom: 1px;
+}
+.textsize{
+    font-size: 14px;
+}
+/* Page Number Styling */
+.page-number {
+    position: fixed;
+    bottom: 20mm;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 12px;
+    color: #000 !important;
+}
+
+.l-shaped-arrow-clean {
+    display: inline-block;
+    width: 20px;
+    height: 23px;
+    position: relative;
+    margin-right: 8px;
+    margin-left: -15px;
+
+
+    // Vertical line
+    &::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: 40px;
+        width: 1px;
+        height: 60%;
+        background: #595959;
+
+    }
+
+    // Horizontal line
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 10px;
+        right: -21px;
+        width: 50%;
+        height: 1px;
+        background: #595959;
+    }
+
+    // Arrowhead
+    .arrow-head {
+        position: absolute;
+        bottom: 7px;
+        right: -15px;
+        width: 0;
+        height: 0;
+        border-left: 6px solid #595959;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        transform: rotate(180deg);
+    }
+}
+
+
+/* Remove only the outer border of the nested totals table */
+/* Remove the outside border of the nested table */
+.invoice .totals-table {
+    border-collapse: collapse; /* important */
+    border: none !important;    /* remove the outer border */
+    width: 100%;
+}
+
+/* Keep inner cell borders */
+.invoice .totals-table td,
+.invoice .totals-table th {
+    border: 1px solid #000 !important; /* only cell borders */
+}
+
+/* Remove border on the top of the first row to blend with main table */
+.invoice .totals-table tr:first-child td {
+    border-top: none !important;
+}
+
+/* Remove left border on first column if it overlaps with main table */
+.invoice .totals-table td:first-child {
+    border-right: none !important;
+}
+
+/* Remove right border on last column if it overlaps with main table */
+.invoice .totals-table td:last-child {
+    border-left: none !important;
+}
+
+/* Remove bottom border of last row if needed */
+.invoice .totals-table tr:last-child td {
+    border-bottom: none !important;
+}
+
+
+
+/* Large desktop screens (1400px and above) */
+@media (min-width: 1200px) {
+    .logo {
+        width: 280px;
+    }
+
+    .dotdate{
+        margin-right: 39px !important;
+    }
+    .dotinvoice{
+        margin-right: 5px !important;
+    }
+    .dotphone{
+        margin-right: 30px !important;
+    }
+    .dotaddress{
+        margin-right: 37px !important;
+    }
+    .dotreseve{
+        margin-right: 15px !important;
+    }
+    .dotsign{
+        margin-right: 6px !important;
+    }
+    .dotnotes{
+        margin-left: 28px !important;
+    }
+    .dotnamereseve{
+        margin-right: 16px !important;
+    }
+    .dotmikro{
+        margin-right: 39px !important;
+    }
+    .dotgoods{
+        margin-right: 18px !important;
+    }
+    .qr-code {
+        width: 130px;
+        margin-top: 0px;
+        margin-right: -50px;
+    }
+    .textsize{
+        font-size: 16px;
+
+    }
+    .invoice .subtitle{
+        font-size: 15px;
+    }
+
+    .invoice p {
+        margin:0px !important;
+        font-size: 17px;
+        font-weight: 500;
+    }
+    .invoice h4{
+        font-size: 15px;
+        font-weight:600;
+    }
+    hr {
+        background-color: #000;
+        border-top: 1px solid;
+        border-bottom: 0px solid;
+        margin: 0;
+        margin-top: 3px;
+        padding:0;
+    }
+    .l-shaped-arrow-clean {
+        display: inline-block;
+        width: 20px;
+        height: 25px;
+        position: relative;
+        margin-right: 8px;
+        margin-left: -8px;
+
+
+        // Vertical line
+        &::before {
+            content: "";
+            position: absolute;
+            top: -4px;
+            left: 23px;
+            width: 2px;
+            height: 80%;
+            background: #464646;
+
+        }
+
+        // Horizontal line
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 9px;
+            right: -5px;
+            width: 80%;
+            height: 2px;
+            background: #464646;
+        }
+
+        // Arrowhead
+        .arrow-head {
+            position: absolute;
+            bottom:6px;
+            right: 7px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid #464646;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            transform: rotate(180deg);
+        }
+    }
+
+    .c-shaped-arrow {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 70px;
+
+        // Main C-curve - more circular
+        &::before {
+            content: "";
+            position: absolute;
+            top: 35px;
+            right: 0px;
+            width: 70px;
+            height: 50px;
+            border: 2px solid #464646;
+            border-top: 2px solid transparent;
+            border-right: 2px solid transparent;
+            border-bottom: 2px solid transparent;
+            border-left: 2px solid #464646;
+            border-radius: 50%;
+            transform: rotate(180deg);
+        }
+
+        // Arrowhead
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            right: 0px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #464646;
+            border-top: none;
+            border-right: none;
+            transform: rotate(deg);
+        }
+    }
+}
+
+
+/* Large desktop screens (1400px and above) */
+// @media (max-width: 1200px) {
+// p {
+//     font-size: 16px;
+//     font-weight: 500;
+// }
+// }
+@media print {
+    /* Reset page counter at the beginning of each document */
+    .invoice {
+        counter-reset: page;
+    }
+
+    /* Increment page counter on each page */
+    .page-break {
+        page-break-before: always;
+        counter-increment: page;
+    }
+
+    /* First page - no top margin */
+    body.first-page {
+        margin-top: 0 !important;
+    }
+
+    /* Subsequent pages - add top margin */
+    body.subsequent-page {
+        margin-top: 70mm !important;
+    }
+
+    /* Page size and margins */
+    @page {
+        size: A4;
+        margin: 0;
+        margin-top: 15mm !important;
+        margin-bottom: 15mm !important; /* Space for page number */
+
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-size: 12px;
+            color: #000;
+            font-family: 'Times New Roman', Times, serif;
+        }
+    }
+
+    @page :first {
+        margin-top: 0 !important;
+        margin-bottom: 15mm !important;
+
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-size: 12px;
+            color: #000;
+            font-family: 'Times New Roman', Times, serif;
+        }
+    }
+
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0 !important;
+        padding: 0;
+        transform-origin: right top !important;
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: scale(0.95) translateX(14mm) !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+    }
+
+    /* Invoice container */
+    .invoice {
+        width: 210mm;
+        max-width: none;
+        margin: 0 auto !important;
+        padding-top: 10mm;
+        page-break-inside: avoid;
+        transform-origin: center top;
+    }
+
+    /* Page break control */
+    .invoice-page-break {
+        page-break-before: always;
+        counter-increment: page;
+    }
+
+    .new-page {
+        page-break-before: always;
+        counter-increment: page;
+    }
+
+    /* Ensure tables break properly */
+    table {
+        page-break-inside: auto;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    /* Force page break after each invoice component if needed */
+    .invoice-section {
+        page-break-after: avoid;
+    }
+
+    /* Hide the React-based page numbers in print */
+    .page-number-footer {
+        display: none !important;
+    }
+
+    /* Print color adjustments */
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

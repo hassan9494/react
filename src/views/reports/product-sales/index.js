@@ -36,7 +36,7 @@ const Tables = () => {
         },
         {
             name: 'Sales',
-            selector: 'sales',
+            selector: 'all_sales',
             sortable: false
         }
     ]

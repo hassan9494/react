@@ -10,11 +10,11 @@ export const calcFinancial = (order) => {
     const totalDiscount = (discount + taxAmount)
     return {
         fixedDiscount: discount,
-        discount: totalDiscount.toFixed(2),
-        total: total.toFixed(2),
-        subtotal: subtotal.toFixed(2),
-        subtotalDiscount: subtotalDiscount.toFixed(2),
-        taxAmount: taxAmount.toFixed(2)
+        discount: totalDiscount.toFixed(3),
+        total: total.toFixed(3),
+        subtotal: subtotal.toFixed(3),
+        subtotalDiscount: subtotalDiscount.toFixed(3),
+        taxAmount: taxAmount.toFixed(3)
     }
 }
 
@@ -30,13 +30,15 @@ export const ordersToExcel = (orders, name) => {
         return {
             Number: e.id,
             'Invoice Number': e.tax_number,
-            date: moment(e.created_at).format('DD/MM/Y'),
+            date: moment(e.taxed_at).format('DD/MM/Y'),
             name: e.customer?.name,
             subtotal,
             discount,
             subtotalDiscount,
             tax: taxAmount,
             total,
+            'Identity Number' :e.customer_identity_number,
+            'Identity Type' :(e?.identity_number_type === 'NIN' ? 'الرقم الوطني' : (e?.identity_number_type === 'PN') ? 'الرقم الشخصي لغير الاردني' : 'الرقم الضريبي'),
             'Is Returned': e.status === 'RETURNED' || e.status === 'CANCELED' ? 'مرتجع' : ''
         }
     }), name || 'orders-report')

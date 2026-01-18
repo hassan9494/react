@@ -13,7 +13,7 @@ import { Row, Col, Alert } from 'reactstrap'
 import PlanCard from './PlanCard'
 import UserInfoCard from './UserInfoCard'
 import UserTimeline from './UserTimeline'
-import InvoiceList from '../../invoice/list'
+import InvoiceList from '../../invoice/List'
 import PermissionsTable from './PermissionsTable'
 
 // ** Styles

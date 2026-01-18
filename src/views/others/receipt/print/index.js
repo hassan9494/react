@@ -22,7 +22,7 @@ const Print = () => {
     // if (!order) return <></>
 
     return (
-        model?.taxed ? (<ReceiptTaxed receipt={model} />) : (<ReceiptTaxed receipt={model} />)
+        <ReceiptTaxed receipt={model} />
     )
 }
 

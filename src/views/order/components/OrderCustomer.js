@@ -3,13 +3,23 @@ import { useEffect, useState } from 'react'
 import AsyncSelect from 'react-select/async/dist/react-select.esm'
 import { api } from '@data/use-user'
 import { Controller } from 'react-hook-form'
+import Select from "react-select"
 
 export default function ({ form, order, disabled }) {
 
     const [user, setUser] = useState()
+    const [cashier, setCashier] = useState()
+    const customer = form.watch('customer')
+
+    useEffect(() => {
+        if (!customer) {
+            form.setValue('customer', customer)
+        }
+    }, [customer])
 
     useEffect(() => {
         if (!user) setUser(order?.user)
+        if (!cashier) setCashier(order?.cashier)
     }, [order])
 
     const onUserChange = (value, { action, removedValue }) => {
@@ -18,6 +28,17 @@ export default function ({ form, order, disabled }) {
             form.setValue('customer.name', value.item.name)
             form.setValue('customer.email', value.item.email)
             form.setValue('customer.phone', value.item.phone)
+            // form.setValue('options.tax_exempt', !!value.item?.taxExempt?.tax_exempt)
+            // form.setValue('options.tax_zero', value.item?.taxExempt?.tax_zero)
+        }
+    }
+
+    const onCashierChange = (value, { action, removedValue }) => {
+        setCashier(value?.item)
+        if (value?.item) {
+            form.setValue('cashier.name', value.item.name)
+            form.setValue('cashier.email', value.item.email)
+            form.setValue('cashier.phone', value.item.phone)
         }
     }
 
@@ -32,6 +53,17 @@ export default function ({ form, order, disabled }) {
 
     const promiseOptions = async inputValue => {
         const data = await api.autocomplete(inputValue)
+        return data.map(({ id, name, email, phone, taxExempt }) => {
+            return {
+                label: renderItem({ id, name, email, phone, taxExempt }),
+                value: id,
+                item: { id, name, email, phone, taxExempt }
+            }
+        })
+    }
+
+    const cashierOptions = async inputValue => {
+        const data = await api.autocompleteCashier(inputValue)
         return data.map(({ id, name, email, phone }) => {
             return {
                 label: renderItem({ id, name, email, phone }),
@@ -40,6 +72,26 @@ export default function ({ form, order, disabled }) {
             }
         })
     }
+
+    const identity_number_typeOptions =  [
+        {
+            label: 'الرقم الوطني',
+            value: 'NIN'
+        },
+        {
+            label: 'الرقم الشخصي لغير الأردني',
+            value: 'PN'
+        },
+        {
+            label: 'الرقم الضريبي للمشتري',
+            value: 'TN'
+        }
+    ]
+
+    const handleChangeType = (status) => {
+        form.setValue('identity_number_type', status?.value || 0)
+    }
+
 
     return (
         <Row>
@@ -65,6 +117,40 @@ export default function ({ form, order, disabled }) {
                                             (value, extra) => {
                                                 onChange(value?.item.id)
                                                 onUserChange(value, extra)
+                                            }
+                                        }
+                                    />
+
+                                )
+                            }}
+                        />
+
+                </FormGroup>
+            </Col>
+            <Col sm='4'>
+
+                <FormGroup>
+                    <Label for='cashier_id'>Cashier</Label>
+                    <Controller
+                        control={form.control}
+                        defaultValue={null}
+                        name="cashier_id"
+                        render={
+                            ({ onChange, value, name, ref }) => {
+                                return (
+                                    <AsyncSelect
+                                        isClearable={true}
+                                        className='react-select'
+                                        classNamePrefix='select'
+                                        defaultOptions
+                                        isDisabled={disabled}
+                                        value={{value, label: renderItem(cashier)}}
+                                        loadOptions={cashierOptions}
+                                        cacheOptions
+                                        onChange={
+                                            (value, extra) => {
+                                                onChange(value?.item.id)
+                                                onCashierChange(value, extra)
                                             }
                                         }
                                     />
@@ -114,11 +200,53 @@ export default function ({ form, order, disabled }) {
                     />
                 </FormGroup>
             </Col>
+
+
+            <Col sm='4'>
+
+                <FormGroup>
+                    <Label for='identity_number_type'>Identity Number Type</Label>
+                    <Controller
+                        control={form.control}
+                        defaultValue={null}
+                        name="identity_number_type"
+                        render={({ onChange, value, name, ref }) => (
+                            <Select
+                                className='react-select'
+                                classNamePrefix='select'
+                                isDisabled={disabled}
+                                value={identity_number_typeOptions.filter(list => list.value === (value || order?.identity_number_type))}
+                                options={identity_number_typeOptions}
+                                onChange={val => {
+                                    onChange(val?.value || null)
+                                    handleChangeType(val)
+                                }}
+                            />
+                        )}
+                    />
+
+                </FormGroup>
+            </Col>
+
+
+            <Col sm='4'>
+                <FormGroup>
+                    <Label for='customer_identity_number'>Customer Identity Number</Label>
+                    <Input
+                        disabled={disabled}
+                        type='text'
+                        id='customer_identity_number'
+                        name="customer_identity_number"
+                        innerRef={form.register({required: false})}
+                        invalid={form.errors.customer_identity_number && true}
+                    />
+                </FormGroup>
+            </Col>
             <Col sm='12'>
                 <FormGroup>
                     <Label for='notes'>Notes</Label>
                     <Input
-                        disabled={disabled}
+
                         id='notes'
                         type='textarea'
                         name="notes"

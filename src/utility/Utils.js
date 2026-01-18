@@ -1,3 +1,71 @@
+// Add these imports at the top of Utils.js
+import { toast } from 'react-toastify'
+
+// ** Toast notification functions
+export const showError = (message) => {
+  if (typeof toast !== 'undefined') {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    })
+  } else {
+    console.error('Toast not available:', message)
+    alert(`Error: ${message}`)
+  }
+}
+
+export const showSuccess = (message) => {
+  if (typeof toast !== 'undefined') {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    })
+  } else {
+    console.log('Success:', message)
+    alert(`Success: ${message}`)
+  }
+}
+
+export const showWarning = (message) => {
+  if (typeof toast !== 'undefined') {
+    toast.warning(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    })
+  } else {
+    console.warn('Warning:', message)
+    alert(`Warning: ${message}`)
+  }
+}
+
+export const showInfo = (message) => {
+  if (typeof toast !== 'undefined') {
+    toast.info(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    })
+  } else {
+    console.info('Info:', message)
+    alert(`Info: ${message}`)
+  }
+}
+
 // ** Checks if an object is empty (returns boolean)
 export const isObjEmpty = obj => Object.keys(obj).length === 0
 

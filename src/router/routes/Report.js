@@ -11,8 +11,25 @@ const OrderRoutes = [
         }
     },
     {
+        path: '/reports/zemam/print',
+        layout: 'BlankLayout',
+        component: lazy(() => import('../../views/reports/zemam/print')),
+        meta:{
+            action:'read',
+            resource:'order_report_print'
+        }
+    },
+    {
         path: '/reports/order',
         component: lazy(() => import('../../views/reports/order/index')),
+        meta:{
+            action:'read',
+            resource:'order_report'
+        }
+    },
+    {
+        path: '/reports/return-order',
+        component: lazy(() => import('../../views/reports/return_order/index')),
         meta:{
             action:'read',
             resource:'order_report'
@@ -73,13 +90,28 @@ const OrderRoutes = [
             resource:'outlay_report'
         }
     },
-
     {
         path: '/reports/purchases',
         component: lazy(() => import('../../views/reports/purchases/index')),
         meta:{
             action:'read',
             resource:'purchases_report'
+        }
+    },
+    {
+        path: '/reports/product-purchases/:id',
+        component: lazy(() => import('../../views/reports/product-purchases/product-purchases')),
+        meta: {
+            action: 'read',
+            resource: 'purchases_report'
+        }
+    },
+    {
+        path: '/reports/product-purchases',
+        component: lazy(() => import('../../views/reports/product-purchases/index')),
+        meta: {
+            action: 'read',
+            resource: 'purchases_report'
         }
     },
 

@@ -7,11 +7,10 @@ const onDelete = async (e, row, mutates) => {
     e.preventDefault()
     confirm(() => mutates.delete(row.id))
 }
-const canEditOrder = ability.can('read', 'order_edit')
-const canPrintOrder = ability.can('read', 'order_print')
+const canEditInvoice = ability.can('read', 'invoice_edit')
 export default (row, mutates) => (
     <div className='column-action d-flex align-items-center'>
-        {canEditOrder &&
+        {canEditInvoice &&
         <Link to={`/invoice/edit/${row.id}`} id={`pw-tooltip-${row.id}`}>
             <Eye size={17} className='mx-1' />
         </Link>

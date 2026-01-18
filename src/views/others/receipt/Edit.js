@@ -22,7 +22,7 @@ const Add = () => {
             setFormErrors(e.response?.data?.errors)
         }
     }
-
+console.log(model)
     return (
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Receipts' breadCrumbActive={model?.number} />

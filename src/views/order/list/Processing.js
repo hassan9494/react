@@ -8,6 +8,9 @@ import { selectThemeColors } from '@utils'
 import Select from 'react-select'
 import ability from "../../../configs/acl/ability"
 
+import { useModels as useCities } from '@data/use-city'
+import moment from "moment"
+
 const types = [
     { value: false, label: 'Paid' },
     { value: true, label: 'Zemam' }
@@ -20,6 +23,8 @@ const shippingStatusClasses = {
 }
 
 export default () => {
+
+    const { data: cities } = useCities()
 
     const [type, setType] = useState(false)
 
@@ -44,7 +49,6 @@ export default () => {
     ])
 
     const onFilterChange = (val, col) => {
-        console.log(val)
         if (val === false) {
             setConditions([
                 {
@@ -116,55 +120,44 @@ export default () => {
                         name: 'Number',
                         selector: 'number',
                         sortable: true,
-                        defaultSortAsc: false,
-                        sortField: 'id',
-                        minWidth: '100px'
+                        sortField: 'id'
                     },
                     {
                         name: 'customer',
                         selector: 'customer.name',
                         sortable: true,
-                        sortField: 'customer->name',
-                        minWidth: '100px'
+                        sortField: 'customer->name'
                     },
                     {
                         name: 'phone',
                         selector: 'customer.phone',
-                        sortable: true,
                         sortField: 'customer->phone',
-                        minWidth: '100px'
+                        sortable: true
                     },
                     {
-                        name: 'Info',
-                        sortable: false,
+                        name: 'notes',
+                        selector: 'notes',
+                        sortable: true,
+                        width: '200px'
+                    },
+                    {
+                        name: 'Created Date',
+                        selector: 'created_at',
+                        sortable: true,
+                        sortField: 'created_at',
                         minWidth: '100px',
-                        cell: row => (
-                            <>
-                                {
-                                    row.options?.dept &&
-                                    <Badge className='text-capitalize' color={'light-secondary'} pill>Zemam</Badge>
-                                }
-                                {
-                                    row.options?.taxed &&
-                                    <Badge className='text-capitalize' color={'light-secondary'} pill>Taxed</Badge>
-                                }
-                                {
-                                    !row.options?.taxed &&
-                                    <Badge className='text-capitalize' color={'light-secondary'} pill>Normal</Badge>
-                                }
-                                {
-                                    row.options?.tax_exempt &&
-                                    <Badge className='text-capitalize' color={'light-secondary'} pill>M3fe</Badge>
-                                }
-                                {
-                                    row.options?.price_offer &&
-                                    <Badge className='text-capitalize' color={'light-secondary'} pill>Offer</Badge>
-                                }
-                            </>
-                        )
+                        cell: row => moment(row.created_at).format('YYYY-MM-DD')
                     },
                     {
                         name: 'shipping',
+                        selector: 'shipping.city',
+                        sortable: true,
+                        sortField: 'shipping->city',
+                        minWidth: '100px',
+                        cell: row => cities.find(city => city.id === row.city_id)?.name ?? row.shipping.city
+                    },
+                    {
+                        name: 'shipping Status',
                         selector: 'shipping.status',
                         sortable: true,
                         sortField: 'shipping->status',

@@ -17,6 +17,11 @@ export const api = {
 
     delete: async (id) => {
         await axios.delete(`brand/${id}`)
+    },
+
+    autocomplete: async (q) => {
+        const { data } = await axios.get(`brand`)
+        return data?.data
     }
 }
 

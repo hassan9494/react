@@ -1,0 +1,240 @@
+// src/views/transfer-order/TransferOrderPrint.scss
+.transfer-order-print {
+  background-color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  .print-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
+    .print-header {
+      .company-info {
+        text-align: right;
+
+        .company-name {
+          font-size: 20px;
+          color: #333;
+          font-weight: bold;
+        }
+
+        .company-details {
+          font-size: 12px;
+          color: #666;
+          line-height: 1.5;
+        }
+
+        .company-contact {
+          font-size: 11px;
+          color: #666;
+        }
+
+        .company-tax {
+          font-size: 11px;
+          color: #dc3545;
+          font-weight: bold;
+        }
+      }
+
+      .document-info {
+        text-align: left;
+
+        .document-title {
+          font-size: 24px;
+          color: #333;
+          font-weight: bold;
+          text-align: center;
+        }
+
+        .document-number {
+          font-size: 28px;
+          text-align: center;
+        }
+
+        .meta-table {
+          width: 100%;
+
+          tr td {
+            padding: 4px 0;
+            border-bottom: 1px dashed #eee;
+
+            &:first-child {
+              padding-left: 15px;
+              color: #666;
+              width: 40%;
+            }
+
+            &:last-child {
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+
+    .print-summary {
+      .summary-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-icon {
+          width: 40px;
+          height: 40px;
+          margin: 0 auto;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .summary-value {
+          color: #2c304d;
+          font-weight: 700;
+        }
+
+        .summary-label {
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+
+    .print-table {
+      th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #dee2e6;
+      }
+
+      td {
+        border: 1px solid #dee2e6;
+        vertical-align: middle;
+
+        .product-info {
+          .product-name {
+            font-size: 14px;
+          }
+
+          .product-sku {
+            font-size: 11px;
+          }
+        }
+
+        .current-stock {
+          font-size: 12px;
+
+          span:first-child {
+            display: inline-block;
+            width: 50px;
+          }
+        }
+
+        .expected-change {
+          font-size: 11px;
+
+          .text-success {
+            color: #28a745 !important;
+          }
+
+          .text-danger {
+            color: #dc3545 !important;
+          }
+        }
+      }
+    }
+
+    .print-signatures {
+      .signature-box {
+        background-color: #fafafa;
+        min-height: 180px;
+
+        h6 {
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        .signature-line {
+          height: 2px;
+          border-bottom: 1px solid #333;
+          margin: 0 20px;
+          padding-top: 30px;
+        }
+
+        .signature-name {
+          font-size: 13px;
+          margin-top: -20px;
+        }
+
+        .signature-title {
+          font-size: 11px;
+        }
+      }
+    }
+
+    .print-footer {
+      font-size: 11px;
+      color: #666;
+
+      .footer-info {
+        text-align: right;
+      }
+
+      .footer-notes {
+        text-align: left;
+      }
+    }
+  }
+}
+
+// Print-specific styles
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .transfer-order-print {
+    .no-print {
+      display: none !important;
+    }
+
+    .print-content {
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+
+      .print-header {
+        margin-bottom: 20px;
+      }
+
+      .print-table {
+        th, td {
+          border: 1px solid #000 !important;
+        }
+      }
+    }
+  }
+
+  @page {
+    size: A4;
+    margin: 20mm;
+
+    @bottom-right {
+      content: "صفحة " counter(page) " من " counter(pages);
+      font-size: 10px;
+      color: #666;
+    }
+  }
+}

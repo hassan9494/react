@@ -15,10 +15,15 @@ const Add = () => {
     const { data: model, update } = useProduct(id)
 
     const [formErrors, setFormErrors] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const onSubmit = async data => {
         try {
+
+            setLoading(true)
             await update(data)
+
+            setLoading(false)
             toast.success('Updated')
             // history.push('/category/list')
         } catch (e) {
@@ -29,7 +34,7 @@ const Add = () => {
     return (
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive={model?.sku || 'Update'} />
-            <CategoryForm model={model} onSubmit={onSubmit} formErrors={formErrors} from={'edit'}/>
+            <CategoryForm model={model} loading={loading} setLoading={setLoading} onSubmit={onSubmit} formErrors={formErrors} from={'edit'}/>
         </Fragment>
     )
 }

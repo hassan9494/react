@@ -31,15 +31,16 @@ const Tables = ({ onChange }) => {
     const [dept, setDept] = useState()
 
     const onPrint = () => {
-        if (!from || !to) return
-        const params = new URLSearchParams(pickBy({ from, to, status, dept }, identity)).toString()
-        window.open(`/reports/order/print?${params}`, '_blank')
+        // if (!from || !to) return
+        const newTo = moment(to).add(1, 'days').format('Y-MM-DD')
+        const params = new URLSearchParams(pickBy({ from, newTo, status, dept }, identity)).toString()
+        window.open(`/reports/zemam/print?${params}`, '_blank')
     }
 
     const handleExport = async () => {
-        if (!from || !to) return
+        // if (!from || !to) return
         const newTo = moment(to).add(1, 'days').format('Y-MM-DD')
-        console.log(newTo)
+
         const params = new URLSearchParams(pickBy({ from, newTo, status, dept }, identity)).toString()
         const data = await zemamApi.order(params)
         let fileName =  `${from}__${to}`

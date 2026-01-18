@@ -8,14 +8,14 @@ import { Database, File } from 'react-feather'
 import moment from 'moment'
 import { pickBy, identity } from 'lodash'
 import { api } from '@data/use-report'
-import { ordersToExcel  } from '@helpers/Order'
+import { ordersToExcel  } from '@helpers/Delivery'
 import { useModels as useShippingProviders } from '@data/use-shipping-provider'
 
 const statusOptions = [{ value: 'CANCELED', label: 'مرتجعة فقط' }]
 
-const TaxedOptions = [
-    { value: 'false', label: 'ضريبية فقط' },
-    { value: 'true', label: 'معفية فقط' }
+const DeptOptions = [
+    { value: 'true', label: 'zemam' },
+    { value: 'false', label: 'paid' }
 ]
 
 
@@ -24,49 +24,39 @@ const Tables = ({ onChange }) => {
     const [from, setFrom] = useState()
     const [to, setTo] = useState()
     const [provider, setProvider] = useState(false)
+    const [dept, setDept] = useState()
     const { data: providers } = useShippingProviders()
     const providersList = providers.map(e => ({ label: e.name, value: e.id }))
 
     const onPrint = () => {
         if (!from || !to) return
-        const params = new URLSearchParams(pickBy({ from, to, provider }, identity)).toString()
+        const params = new URLSearchParams(pickBy({ dept, provider }, identity)).toString()
         window.open(`/reports/order/print?${params}`, '_blank')
     }
 
     const handleExport = async () => {
-        if (!from || !to) return
-        const params = new URLSearchParams(pickBy({ from, to, provider }, identity)).toString()
-        const data = await api.order(params)
-        const fileName =  `${from}__${to}`
+        if (from || to) return
+        const params = new URLSearchParams(pickBy({ dept, provider }, identity)).toString()
+        const data = await api.delivery(params)
+        const fileName =  `delivery_orders`
 
 
         ordersToExcel(data, fileName)
     }
 
     useEffect(() => {
-        onChange(pickBy({ from, to, provider }, identity))
-    }, [from, to, provider])
+        onChange(pickBy({ dept, provider }, identity))
+    }, [dept, provider])
 
     return (
         <Card>
             <CardBody>
                 <Row>
-                    <Col md='2'>
-                        <Flatpickr className='form-control' value={from} onChange={date => setFrom(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'Start Date'} />
-                    </Col>
-                    <Col md='2'>
-                        <Flatpickr className='form-control' value={to} onChange={date => setTo(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'End Date'} />
-                    </Col>
                     {/*<Col md='2'>*/}
-                    {/*    <Select*/}
-                    {/*        isClearable={true}*/}
-                    {/*        theme={selectThemeColors}*/}
-                    {/*        className='react-select'*/}
-                    {/*        classNamePrefix='select'*/}
-                    {/*        placeholder='الحالة'*/}
-                    {/*        options={statusOptions}*/}
-                    {/*        onChange={item => setStatus(item?.value)}*/}
-                    {/*    />*/}
+                    {/*    <Flatpickr className='form-control' value={from} onChange={date => setFrom(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'Start Date'} />*/}
+                    {/*</Col>*/}
+                    {/*<Col md='2'>*/}
+                    {/*    <Flatpickr className='form-control' value={to} onChange={date => setTo(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'End Date'} />*/}
                     {/*</Col>*/}
                     <Col md='3'>
                         <Select
@@ -80,6 +70,17 @@ const Tables = ({ onChange }) => {
                             }}
                             isClearable={true}
                             value={providersList.filter(option => option.value === provider)}
+                        />
+                    </Col>
+                    <Col md='3'>
+                        <Select
+                            isClearable={true}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            placeholder='الحالة'
+                            options={DeptOptions}
+                            onChange={item => setDept(item?.value)}
                         />
                     </Col>
                     <Col md='2'></Col>

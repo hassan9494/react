@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import '@styles/base/pages/invoice.scss'
 import { useParams } from 'react-router-dom'
 import { useOrder } from '@data/use-order'
@@ -6,30 +6,70 @@ import TaxedInvoice from '@components/invoice/taxed'
 import DebtInvoice from '@components/invoice/debt'
 import OfferInvoice from '@components/invoice/offer'
 import { calcFinancial  } from '@helpers/Order'
+import axiosInstance from './../../../utility/axiosIsntance'
 
 const Print = () => {
+    const { id } = useParams()
+    const { data: order } = useOrder(id)
+    const printTriggered = useRef(false)
+    const [currentPage, setCurrentPage] = useState(1)
 
-    const {id} = useParams()
-    const {
-        data: order
-    } = useOrder(id)
+    // Add proforma condition
+    const isProforma = order?.options?.taxed &&
+        !order?.is_migrated
 
     useEffect(() => {
-        if (order) {
+        if (order && !printTriggered.current) {
+            printTriggered.current = true
+
+            // Update document title based on proforma status
+            const customerName = order.customer?.name || 'Invoice'
+            const documentTitle = isProforma ? `${customerName} - Proforma Invoice - Mikroelektron` : `${customerName} - Mikroelektron`
+
+            document.title = documentTitle
+
+            axiosInstance.post(`/order/${id}/record-print`)
+                .then(response => {
+                    console.log('Print recorded successfully:', response.data)
+                })
+                .catch(error => {
+                    console.error('Error recording print:', error.response?.data || error.message)
+                })
+
             setTimeout(() => {
                 window.print()
+
+                setTimeout(() => {
+                    document.title = "Mikroelektron | Portal"
+                }, 1000)
             }, 200)
         }
-    }, [order])
-console.log(order?.options.dept)
+    }, [order, id, isProforma])
+
+    // Add page class to body based on current page
+    useEffect(() => {
+        if (currentPage === 1) {
+            document.body.classList.add('first-page')
+            document.body.classList.remove('subsequent-page')
+        } else {
+            document.body.classList.add('subsequent-page')
+            document.body.classList.remove('first-page')
+        }
+    }, [currentPage])
+
     if (!order) return <></>
-    else if (order?.options.dept) {
-        console.log('test')
-        return <DebtInvoice order={order} meta={calcFinancial(order)}/>
+
+    // Your existing logic for different invoice types with proforma prop
+    if (order?.options.dept && order?.options.taxed) {
+        return <DebtInvoice order={order} meta={calcFinancial(order)} onPageChange={setCurrentPage} isProforma={isProforma} />
     }
 
     return (
-        order?.options.taxed ? (<TaxedInvoice order={order} meta={calcFinancial(order)}/>) : (<OfferInvoice order={order} meta={calcFinancial(order)}/>)
+        order?.options.taxed ? (
+            <TaxedInvoice order={order} meta={calcFinancial(order)} onPageChange={setCurrentPage} isProforma={isProforma} />
+        ) : (
+            <OfferInvoice order={order} meta={calcFinancial(order)} onPageChange={setCurrentPage} />
+        )
     )
 }
 

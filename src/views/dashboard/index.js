@@ -1,5 +1,5 @@
 import { Fragment, useContext } from 'react'
-import { Row, Col } from 'reactstrap'
+import { Row, Col, Card, CardBody } from 'reactstrap'
 import Breadcrumbs from '@components/breadcrumbs'
 import SessionByDevice from './SessionByDevice'
 import ProductOrders from './ProductOrders'
@@ -13,7 +13,7 @@ import AvgSession from './AvgSessions'
 import Sales2 from './Sales2'
 import Earnings from './Earnings'
 import { ThemeColors } from '@src/utility/context/ThemeColors'
-
+import TaskManager from '../task-manager'
 import '@styles/react/libs/charts/apex-charts.scss'
 
 const AnalyticsCards = () => {
@@ -23,6 +23,18 @@ const AnalyticsCards = () => {
   return (
     <Fragment>
       <Breadcrumbs breadCrumbTitle='Analytics Cards' breadCrumbParent='Card' breadCrumbActive='Analytics Cards' />
+      <div>
+      <Row className="mt-2">
+        <Col sm="12">
+          <Card>
+            <CardBody>
+              <h2>Task Manager</h2>
+              <TaskManager />
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+    </div>
       <Row className='match-height'>
         <Col lg='6' sm='12'>
           <SupportTracker primary={context.colors.primary.main} danger={context.colors.danger.main} />

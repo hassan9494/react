@@ -39,49 +39,82 @@ const UserAccountTab = ({user}) => {
     }
 
     return (
-        <FormBuilder
-            fields={[
-                {
-                    label: 'Name',
-                    name: 'name',
-                    rules: { required: true }
-                },
-                {
-                    label: 'Email',
-                    name: 'email',
-                    rules: { required: true }
-                },
-                {
-                    label: 'Phone',
-                    name: 'phone',
-                    rules: { required: true }
-                },
-                {
-                    label: 'Roles',
-                    name: 'roles',
-                    type: 'react-select-multi',
-                    list: rolesList,
-                    rules: { required: true }
-                },
-                {
-                    label: 'Status',
-                    name: 'status',
-                    type: 'react-select',
-                    list: statuses
-                },
-                {
-                    label: 'Verified Email Address',
-                    name: 'email_verified_at',
-                    type: 'checkbox',
-                    disabled: true,
-                    wrapper: {
-                        class: 'd-flex my-2 justify-content-end'
-                    }
+        <div>
+            <style>
+                {`
+                /* Ensure scrollbar for react-select dropdowns */
+                .react-select__menu-list,
+                .css-26l3qy-menu,
+                .css-4ljt47-MenuList,
+                .select__menu-list {
+                    max-height: 200px !important;
+                    overflow-y: auto !important;
                 }
-            ]}
-            initialValues={model}
-            onSubmit={onSubmit}
-        />
+                `}
+            </style>
+
+            <FormBuilder
+                fields={[
+                    {
+                        label: 'Name',
+                        name: 'name',
+                        rules: { required: true }
+                    },
+                    {
+                        label: 'Email',
+                        name: 'email',
+                        rules: { required: true }
+                    },
+                    {
+                        label: 'Phone',
+                        name: 'phone',
+                        rules: { required: true }
+                    },
+                    {
+                        label: 'Roles',
+                        name: 'roles',
+                        type: 'react-select-multi',
+                        list: rolesList,
+                        rules: { required: true },
+                        styles: {
+                            menu: (provided) => ({
+                                ...provided,
+                                zIndex: 9999,
+                                maxHeight: '200px'
+                            }),
+                            menuList: (provided) => ({
+                                ...provided,
+                                maxHeight: '200px',
+                                overflowY: 'auto'
+                            }),
+                            control: (provided) => ({
+                                ...provided,
+                                minHeight: '42px'
+                            })
+                        },
+                        menuPlacement: "auto",
+                        maxMenuHeight: 200
+                    },
+                    {
+                        label: 'Status',
+                        name: 'status',
+                        type: 'react-select',
+                        list: statuses
+                    },
+                    {
+                        label: 'Verified Email Address',
+                        name: 'email_verified_at',
+                        type: 'checkbox',
+                        disabled: true,
+                        wrapper: {
+                            class: 'd-flex my-2 justify-content-end'
+                        }
+                    }
+                ]}
+                initialValues={model}
+                onSubmit={onSubmit}
+            />
+        </div>
     )
 }
 export default UserAccountTab

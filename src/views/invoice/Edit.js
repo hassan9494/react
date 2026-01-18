@@ -1,8 +1,9 @@
-import { Fragment, useState } from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import { useCategory } from '@data/use-category'
 import { useHistory, useParams } from 'react-router-dom'
 import CategoryForm from './form'
+import axios from "axios"
 
 const Add = () => {
 
@@ -11,6 +12,7 @@ const Add = () => {
     const { id } = useParams()
 
     const { data: model, update: updateCategory } = useCategory(id)
+
 
     const [formErrors, setFormErrors] = useState(null)
 

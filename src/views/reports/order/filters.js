@@ -27,7 +27,8 @@ const Tables = ({ onChange }) => {
 
     const onPrint = () => {
         if (!from || !to) return
-        const params = new URLSearchParams(pickBy({ from, to, status, exempt }, identity)).toString()
+        const newTo = moment(to).add(1, 'days').format('Y-MM-DD')
+        const params = new URLSearchParams(pickBy({ from, newTo, status, exempt }, identity)).toString()
         window.open(`/reports/order/print?${params}`, '_blank')
     }
 
@@ -57,17 +58,17 @@ const Tables = ({ onChange }) => {
                     <Col md='2'>
                         <Flatpickr className='form-control' value={to} onChange={date => setTo(moment(new Date(date)).format('Y-MM-DD'))} placeholder={'End Date'} />
                     </Col>
-                    <Col md='2'>
-                        <Select
-                            isClearable={true}
-                            theme={selectThemeColors}
-                            className='react-select'
-                            classNamePrefix='select'
-                            placeholder='الحالة'
-                            options={statusOptions}
-                            onChange={item => setStatus(item?.value)}
-                        />
-                    </Col>
+                    {/*<Col md='2'>*/}
+                    {/*    <Select*/}
+                    {/*        isClearable={true}*/}
+                    {/*        theme={selectThemeColors}*/}
+                    {/*        className='react-select'*/}
+                    {/*        classNamePrefix='select'*/}
+                    {/*        placeholder='الحالة'*/}
+                    {/*        options={statusOptions}*/}
+                    {/*        onChange={item => setStatus(item?.value)}*/}
+                    {/*    />*/}
+                    {/*</Col>*/}
                     <Col md='2'>
                         <Select
                             isClearable={true}

@@ -48,6 +48,14 @@ export default [
             action:'read',
             resource:'shipping_provider_edit'
         }
+    },
+    {
+        path: '/shipping/setting',
+        component: lazy(() => import('../../views/shipping/setting/index')),
+        meta:{
+            action:'read',
+            resource:'shipping_setting'
+        }
     }
 
 ]

@@ -14,8 +14,17 @@ export const api = {
         const { data } = await axios.put(`product/${id}`, params)
         return data?.data
     },
+    show: async (id) => {
+        const { data } = await axios.get(`product/${id}`)
+        return data?.data
+    },
+
+
     delete: async (id) => {
         await axios.delete(`product/${id}`)
+    },
+    restore: async (id) => {
+        await axios.get(`restore_product/${id}`)
     },
     autocomplete: async (q) => {
         const { data } = await axios.get(`product/autocomplete?q=${q}`)
@@ -29,7 +38,11 @@ export const api = {
     },
     stock2: async (params) => {
         await axios.post(`product/stock2`, params)
+    },
+    stock3: async (params) => {
+        await axios.post(`product/stock3`, params)
     }
+
 }
 
 export function useProduct(id) {
@@ -52,9 +65,57 @@ export function useProduct(id) {
     }
 }
 
-export function useDatatable({ page, limit, search, order = {}}) {
+export function useDatatable({ page, limit, search, order = {}, conditions = {}}) {
 
-    const url = `product/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}`
+    const url = `product/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}&conditions=${JSON.stringify(conditions)}`
+
+    const { data, mutate, error } = useSWR(url, fetcher)
+
+    const loading = !data && !error
+
+    const mutates = {
+        delete: async (id) => {
+            await api.delete(id)
+            mutate({ ...data })
+        }
+    }
+
+    return {
+        loading,
+        error,
+        data: data?.items || [],
+        total: data?.total || 0,
+        mutates
+    }
+
+}
+export function useDatatableForKit({ page, limit, search, order = {}}) {
+
+    const url = `kitProduct/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}`
+
+    const { data, mutate, error } = useSWR(url, fetcher)
+
+    const loading = !data && !error
+
+    const mutates = {
+        delete: async (id) => {
+            await api.delete(id)
+            mutate({ ...data })
+        }
+    }
+
+    return {
+        loading,
+        error,
+        data: data?.items || [],
+        total: data?.total || 0,
+        mutates
+    }
+
+}
+export function useDatatableForDeleted({ page, limit, search, order = {}}) {
+
+    const url = `deletedProduct/datatable?page=${page}&limit=${limit}&search=${search}&order=${JSON.stringify(order)}`
 
     const { data, mutate, error } = useSWR(url, fetcher)
 

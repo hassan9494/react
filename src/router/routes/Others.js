@@ -51,6 +51,15 @@ const OrderRoutes = [
     },
 
     {
+        path: '/project/print/:id',
+        layout: 'BlankLayout',
+        component: lazy(() => import('../../views/others/project/print/index')),
+        meta: {
+            action: 'read',
+            resource: 'project_edit'
+        }
+    },
+    {
         path: '/course/list',
         component: lazy(() => import('../../views/others/course/List')),
         meta:{
@@ -209,6 +218,14 @@ const OrderRoutes = [
         }
     },
     {
+        path: '/receipt/create/:id',
+        component: lazy(() => import('../../views/others/receipt/CreateFromTransaction')),
+        meta:{
+            action:'read',
+            resource:'receipt_add'
+        }
+    },
+    {
         path: '/receipt/edit/:id',
         component: lazy(() => import('../../views/others/receipt/Edit')),
         meta:{
@@ -219,6 +236,48 @@ const OrderRoutes = [
     {
         path: '/receipt/print/:id',
         component: lazy(() => import('../../views/others/receipt/print/index')),
+        layout: 'BlankLayout',
+        meta:{
+            action:'read',
+            resource:'receipt_print'
+        }
+    },
+
+    {
+        path: '/project-receipt/list',
+        component: lazy(() => import('../../views/others/project-receipt/List')),
+        meta:{
+            action:'read',
+            resource:'receipt_list_view'
+        }
+    },
+    {
+        path: '/project-receipt/add',
+        component: lazy(() => import('../../views/others/project-receipt/Add')),
+        meta:{
+            action:'read',
+            resource:'receipt_add'
+        }
+    },
+    {
+        path: '/project-receipt/create/:id',
+        component: lazy(() => import('../../views/others/project-receipt/CreateFromTransaction')),
+        meta:{
+            action:'read',
+            resource:'receipt_add'
+        }
+    },
+    {
+        path: '/project-receipt/edit/:id',
+        component: lazy(() => import('../../views/others/project-receipt/Edit')),
+        meta:{
+            action:'read',
+            resource:'receipt_edit'
+        }
+    },
+    {
+        path: '/project-receipt/print/:id',
+        component: lazy(() => import('../../views/others/project-receipt/print/index')),
         layout: 'BlankLayout',
         meta:{
             action:'read',

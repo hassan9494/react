@@ -101,6 +101,31 @@ export default [
     },
 
     {
+        path: '/tax_exempt/list',
+        component: lazy(() => import('../../views/website/tax_exempt/List')),
+        meta:{
+            action:'read',
+            resource:'tax_exempt_list_view'
+        }
+    },
+    {
+        path: '/tax_exempt/add',
+        component: lazy(() => import('../../views/website/tax_exempt/Add')),
+        meta:{
+            action:'read',
+            resource:'tax_exempt_add'
+        }
+    },
+    {
+        path: '/tax_exempt/edit/:id',
+        component: lazy(() => import('../../views/website/tax_exempt/Edit')),
+        meta:{
+            action:'read',
+            resource:'tax_exempt_edit'
+        }
+    },
+
+    {
         path: '/links/list',
         component: lazy(() => import('../../views/website/links/List')),
         meta:{

@@ -12,6 +12,7 @@ import OrderStatus from '../components/OrderStatus'
 import OrderOptionsPriceOffer from '../components/OrderOptionsPriceOffer'
 import ShippingStatus from '../components/ShippingStatus'
 import OrderAttachments from '../components/OrderAttachments'
+import OrderTransaction from "../components/OrderTransaction"
 
 
 const fields = [
@@ -27,6 +28,7 @@ const fields = [
     'discount',
     'extra_items',
     'user_id',
+    'pending',
     'attachments'
 ]
 
@@ -44,17 +46,18 @@ export default function () {
     } else {
         isReorder = true
     }
-
+    const [calculations, setCalculations] = useState(0)
     const form = useForm()
     const history = useHistory()
 
     const [loaded, setLoaded] = useState(false)
     const [isCompleted, setIsCompleted] = useState(false)
-
+// Add empty transactions state for create component
+    const [transactions, setTransactions] = useState([])
     const onSubmit = async data => {
         try {
             data.products = data.products?.map(
-                ({id, price, quantity}) => ({id, price, quantity})
+                ({id, price, quantity, discount, number}) => ({id, price, quantity, discount, number})
             ) || []
             const {id: orderId} = await api.create(data)
             toast.success('Order Created')
@@ -80,12 +83,11 @@ export default function () {
         const completed = order?.status === 'COMPLETED'
         setIsCompleted(completed)
     }, [order])
-
     return (
         <Form onSubmit={form.handleSubmit(onSubmit)}>
             <Row>
                 <Col md={9} sm={12}>
-                    <OrderMain order={order} form={form} isCompleted={false} isReorder={true}/>
+                    <OrderMain  calculations={calculations} setCalculations={setCalculations} order={order} form={form} isCompleted={false} isReorder={true}/>
                     <Controller
                         control={form.control}
                         defaultValue={[]}
@@ -102,7 +104,7 @@ export default function () {
 
                 </Col>
                 <Col md={3} sm={12}>
-                    <OrderStatus/>
+                    <OrderStatus form={form}  transactions={[]}/>
                     <ShippingStatus form={form}/>
                     <OrderOptionsPriceOffer form={form} isReorder={true}/>
                 </Col>

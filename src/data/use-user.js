@@ -14,6 +14,18 @@ export const api = {
         const { data } = await axios.get(`${url}/autocomplete?q=${q}`)
         return data?.data
     },
+    autocompleteUserForTaxExempt: async (q) => {
+        const { data } = await axios.get(`${url}/autocompleteUserForTaxExempt?q=${q}`)
+        return data?.data
+    },
+    autocompleteCashier: async (q) => {
+        const { data } = await axios.get(`${url}/autocompletecashier?q=${q}`)
+        return data?.data
+    },
+    autocompleteTaxExempt: async (q) => {
+        const { data } = await axios.get(`${url}/autocompleteTaxExempt?q=${q}`)
+        return data?.data
+    },
     changePassword: async (id, params) => {
         const { data } = await axios.post(`${url}/${id}/change-password`, params)
         return data?.data

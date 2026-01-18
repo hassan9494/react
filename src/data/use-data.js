@@ -84,6 +84,29 @@ export function datatable(base, endpoint, { page, limit, search, order = {}, con
     }
 
 }
+export function datatableWithData(base, endpoint, { page, limit, search, order = {}, conditions = {}, from, to }) {
+
+    const url = `${endpoint}?page=${page}&limit=${limit}&from=${from}&to=${to}&search=${search}&order=${JSON.stringify(order)}&conditions=${JSON.stringify(conditions)}`
+
+    const { data, mutate, error } = useSWR(url, fetcher)
+
+    const loading = !data && !error
+
+    return {
+        loading,
+        error,
+        data: data?.items || [],
+        total: data?.total || 0,
+        mutate,
+        mutates: {
+            delete: async (id) => {
+                await api.delete(base, id)
+                await mutate(url)
+            }
+        }
+    }
+
+}
 
 export function table(endpoint, { conditions }) {
 

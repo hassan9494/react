@@ -34,8 +34,7 @@ const Tables = () => {
 
     const onFiltersChange = (filters) => {
         const updated = [...fixedConditions]
-        if (filters.from) updated.push({col: 'created_at',  op: '>=', val: filters.from})
-        if (filters.to) updated.push({col: 'created_at',  op: '<=', val: moment(filters.to).add(1, 'days').format('Y-MM-DD')})
+        if (filters.dept) updated.push({col: 'options->dept', val: filters.dept})
         if (filters.provider) updated.push({col: 'shipping_provider_id', val: filters.provider})
         setConditions(updated)
     }
@@ -75,6 +74,18 @@ const Tables = () => {
                         sortable: true,
                         sortField: 'customer->name',
                         minWidth: '100px'
+                    },
+                    {
+                        name: 'Shipping Provider',
+                        selector: 'shipping_provider.name',
+                        sortable: true,
+                        sortField: 'shipping_provider->name',
+                        minWidth: '100px',
+                        cell: row => (
+                            row.shipping_provider ? <>
+                                <span>{row.shipping_provider.name}</span>
+                            </> : <span>-------</span>
+                        )
                     },
                     {
                         name: 'phone',

@@ -26,6 +26,14 @@ const CatalogRoutes = [
         }
     },
     {
+        path: '/location/list',
+        component: lazy(() => import('../../views/location/List')),
+        meta:{
+            action:'read',
+            resource:'location_list_view'
+        }
+    },
+    {
         path: '/sub-category/list',
         component: lazy(() => import('../../views/sub-category/List')),
         meta:{
@@ -66,6 +74,14 @@ const CatalogRoutes = [
         }
     },
     {
+        path: '/location/add',
+        component: lazy(() => import('../../views/location/Add')),
+        meta:{
+            action:'read',
+            resource:'location_add'
+        }
+    },
+    {
         path: '/category/edit/:id',
         component: lazy(() => import('../../views/category/Edit')),
         meta:{
@@ -98,6 +114,14 @@ const CatalogRoutes = [
         }
     },
     {
+        path: '/location/edit/:id',
+        component: lazy(() => import('../../views/location/Edit')),
+        meta:{
+            action:'read',
+            resource:'location_edit'
+        }
+    },
+    {
         path: '/product/list',
         component: lazy(() => import('../../views/product/List')),
         exact: true,
@@ -107,8 +131,35 @@ const CatalogRoutes = [
         }
     },
     {
+        path: '/kit_product/list',
+        component: lazy(() => import('../../views/product/kit')),
+        exact: true,
+        meta:{
+            action:'read',
+            resource:'product_list_view'
+        }
+    },
+    {
+        path: '/delete-product/list',
+        component: lazy(() => import('../../views/product/Deleted')),
+        exact: true,
+        meta:{
+            action:'read',
+            resource:'deleted_product_list_view'
+        }
+    },
+    {
         path: '/product_variants/list',
         component: lazy(() => import('../../views/product-variants/List')),
+        exact: true,
+        meta:{
+            action:'read',
+            resource:'product_variants_list_view'
+        }
+    },
+    {
+        path: '/product_variants_sun/list',
+        component: lazy(() => import('../../views/product-variants/Sun')),
         exact: true,
         meta:{
             action:'read',
@@ -159,8 +210,73 @@ const CatalogRoutes = [
         }
     },
     {
-        path: '/stocks',
-        component: lazy(() => import('../../views/stock/List')),
+        path: '/transfer-order/list',
+        component: lazy(() => import('../../views/transfer-order/List')),
+        meta:{
+            action:'read',
+            resource:'transfer_order_list_view'
+        }
+    },
+    {
+        path: '/transfer-order/create',
+        component: lazy(() => import('../../views/transfer-order/create/index')),
+        meta:{
+            action:'read',
+            resource:'transfer_order_create'
+        }
+    },
+    {
+        path: '/transfer-order/edit/:id',
+        component: lazy(() => import('../../views/transfer-order/edit/index')),
+        meta:{
+            action:'read',
+            resource:'transfer_order_edit'
+        }
+    },
+    {
+        path: '/transfer-order/details/:id',
+        component: lazy(() => import('../../views/transfer-order/Details')),
+        meta:{
+            action:'read',
+            resource:'transfer_order_details'
+        }
+    },
+    {
+        path: '/transfer-order/print/:id',
+        component: lazy(() => import('../../views/transfer-order/PrintTransferOrder')),
+        layout: 'BlankLayout',
+        meta:{
+            action:'read',
+            resource:'transfer_order_print'
+        }
+    },
+    {
+        path: '/stock-adjustment/approve',
+        component: lazy(() => import('../../views/stock-adjustment/Approve')),
+        meta: {
+            action: 'read',
+            resource: 'stock_adjustment_approve'
+        }
+    },
+    {
+        path: '/stock-adjustment/history',
+        component: lazy(() => import('../../views/stock-adjustment/History')),
+        meta: {
+            action: 'read',
+            resource: 'stock_adjustment_history_view'
+        }
+    },
+    {
+        path: '/stock-adjustment',
+        component: lazy(() => import('../../views/stock-adjustment/Request')),
+        meta: {
+            action: 'read',
+            resource: 'stock_adjustment_request'
+        }
+    },
+    {
+        path: '/stock1',
+        component: lazy(() => import('../../views/stock1/List')),
         meta:{
             action:'read',
             resource:'stock_list_view'
@@ -168,7 +284,7 @@ const CatalogRoutes = [
     },
     {
         path: '/stock',
-        component: lazy(() => import('../../views/stock2/List')),
+        component: lazy(() => import('../../views/stock/List')),
         meta:{
             action:'read',
             resource:'stock2_list_view'
@@ -176,10 +292,18 @@ const CatalogRoutes = [
     },
     {
         path: '/stock2',
-        component: lazy(() => import('../../views/stock3/List')),
+        component: lazy(() => import('../../views/stock2/List')),
         meta:{
             action:'read',
             resource:'stock2_list_view'
+        }
+    },
+    {
+        path: '/stock3',
+        component: lazy(() => import('../../views/stock3/List')),
+        meta:{
+            action:'read',
+            resource:'stock3_list_view'
         }
     },
     {

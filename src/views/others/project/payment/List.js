@@ -2,7 +2,7 @@ import Datatable from '@components/datatable/local'
 import { Link, useParams } from 'react-router-dom'
 import { Edit, Printer, Trash } from 'react-feather'
 import { confirmDelete } from '@components/sweetalert'
-import { api } from '@data/use-receipt'
+import { api } from '@data/use-project-receipt'
 import { Button, CardHeader, CardTitle, Col } from 'reactstrap'
 import moment from 'moment'
 import ability from "../../../../configs/acl/ability"
@@ -21,12 +21,12 @@ const List = ({ usePayments }) => {
     const actions = (row, mutate) => (
         <div className='column-action d-flex align-items-center'>
             {ability.can('read', 'receipt_print') &&
-            <Link to={`/receipt/print/${row.id}`} className='mx-1' target='_blank'>
+            <Link to={`/project-receipt/print/${row.id}`} className='mx-1' target='_blank'>
                 <Printer size={17} />
             </Link>
             }
             {ability.can('read', 'receipt_edit') &&
-            <Link to={`/receipt/edit/${row.id}`} className='mx-1'>
+            <Link to={`/project-receipt/edit/${row.id}`} className='mx-1'>
                 <Edit size={17} />
             </Link>
             }
@@ -45,7 +45,7 @@ const List = ({ usePayments }) => {
             </CardTitle>
             {ability.can('read', 'receipt_add') &&
             <Col className='d-flex align-items-center justify-content-end' sm='8'>
-                <Button.Ripple tag={Link} to={`/receipt/add?project=${id}`} color='primary' size='sm'>Add Payment</Button.Ripple>
+                <Button.Ripple tag={Link} to={`/project-receipt/add?project=${id}`} color='primary' size='sm'>Add Payment</Button.Ripple>
             </Col>
             }
         </CardHeader>

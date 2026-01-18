@@ -60,7 +60,6 @@ const Sidebar = props => {
 // Filter out menu items that the user doesn't have permission to view
   const filteredNavItems = navigation.filter((item) => {
     if (item.action) {
-      // console.log(item)
       return ability.can(item.action, item.resource)
     } else if (item.children) {
       const filteredChildren = item.children.filter((child) => {
@@ -72,7 +71,6 @@ const Sidebar = props => {
     return true
   })
 
-  // console.log(filteredNavItems)
 
   return (
     <Fragment>

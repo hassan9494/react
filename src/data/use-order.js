@@ -16,6 +16,22 @@ export const api = {
         const { data } = await axios.post(`order/${id}/status`, params)
         return data?.data
     },
+    submitWithStatus: async (id, params) => {
+        const { data } = await axios.post(`order-with-status/${id}`, params)
+        return data?.data
+    },
+    submitMigrate: async (id, params) => {
+        // console.log('Sending migration request with:', params)
+        const { data } = await axios.post(`order-migrate/${id}`, params)
+        // console.log('Received migration response:', data)
+        return data
+    },
+    submitMigrateAll: async (id, params) => {
+        // console.log('Sending migration request with:', params)
+        const { data } = await axios.post(`orders-migrate`)
+        // console.log('Received migration response:', data)
+        return data
+    },
     supplier: async (id, params) => {
         const { data } = await axios.post(`order/${id}/supplier`, params)
         return data?.data
@@ -23,12 +39,17 @@ export const api = {
     shippingStatus: async (id, { status: shipping_status }) => {
         const { data } = await axios.post(`order/${id}/shipping-status`, { shipping_status })
         return data?.data
+    },
+    autocomplete: async (q) => {
+        const { data } = await axios.get(`orders/autocomplete?q=${q}`)
+        return data?.data
     }
 }
 
 export function useOrder(id) {
 
     const url = `order/${id}`
+    const url2 = `order-migrate/${id}`
 
     const { data, error } = useSWR(`order/${id}`, fetcher, {
         revalidateOnFocus: false,
@@ -44,6 +65,22 @@ export function useOrder(id) {
     const update = async (params) => {
         await api.update(id, params)
         await mutate(url)
+    }
+
+    const submitWithStatus = async (params) => {
+        await api.submitWithStatus(id, params)
+        await mutate(url)
+    }
+
+    const submitMigrate = async (params) => {
+        const response = await api.submitMigrate(id, params)
+        // Don't mutate here - we don't want to refetch the order
+        return response
+    }
+
+    const submitMigrateAll = async (params) => {
+        const response = await api.submitMigrateAll()
+        return response
     }
 
     const updateStatus = async (params) => {
@@ -64,6 +101,9 @@ export function useOrder(id) {
         update,
         updateStatus,
         updateSupplier,
+        submitWithStatus,
+        submitMigrate,
+        submitMigrateAll,
         updateShippingStatus: (params) => api.shippingStatus(id, params)
     }
 }

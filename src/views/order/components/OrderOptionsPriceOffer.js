@@ -37,6 +37,7 @@ export default function ({ form, order, isCompleted}) {
                     disabled={taxed || isCompleted}
                     id='order-price-offer'
                     type='switch'
+                    defaultChecked={true}
                     name='options.price_offer'
                     innerRef={form.register()}
                 />

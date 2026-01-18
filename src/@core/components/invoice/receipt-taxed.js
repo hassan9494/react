@@ -5,6 +5,7 @@ import { Row, Col } from 'reactstrap'
 import '@styles/base/pages/invoice.scss'
 import moment from 'moment'
 import toArabic from './toArabic'
+import logo from "../../assets/images/logo.png"
 
 const Print = ({ receipt }) => {
 
@@ -15,14 +16,14 @@ const Print = ({ receipt }) => {
                 <h2 className='text-center my-3'><strong>سـند قـبــض</strong></h2>
                 <h2 className='text-center my-1'>
                     <strong className='p-1 mx-1 receipt-total'>{ Number.parseInt(receipt?.amount)}</strong>
-                    <strong className='p-1 receipt-total'>{ Number.parseInt(receipt?.amount).toFixed(2).toString().split('.')[1]}</strong>
+                    <strong className='p-1 receipt-total'>{ Number.parseFloat(receipt?.amount).toFixed(3).toString().split('.')[1]}</strong>
                 </h2>
                 <h2 className='text-center my-2'>
                     <strong className='p-1'>فلس</strong>
                     <strong className='p-1 mx-1'>دينار</strong>
                 </h2>
                 <Row>
-                    <Col>
+                    <Col md={8} sm={8}>
                         <h4>
                             <div className='d-flex mb-2'>
                                   <span className='font-20'>
@@ -42,7 +43,7 @@ const Print = ({ receipt }) => {
                     </Col>
                 </Row>
                 <Row className='mt-1'>
-                    <Col>
+                    <Col md={8} sm={8}>
                         <h4>
                             <div className='d-flex mb-2'>
                                 <span className='font-20'>وصلني من السيد / السيدة :</span>
@@ -78,7 +79,7 @@ const Print = ({ receipt }) => {
                     </Col>
                 </Row>
                 {
-                    <InvoiceFooter type={receipt?.type}/>
+                    <InvoiceFooter type={receipt?.type} number={receipt?.check_number}/>
                 }
             </div>
         </div>
@@ -87,36 +88,44 @@ const Print = ({ receipt }) => {
 
 function InvoiceHeader({order}) {
     return (
-        <>
-            <Row>
-                <Col>
-                    <p>عمان - شارع الملكة رانيا - طلوع نيفين - مجمع خليفة</p>
-                    <p>الطابق الثالث - مكتب 308</p>
-                    <p>هاتف : 065344772</p>
-                    <p>فاكس : 065344778</p>
-                    <p>بريد الكتروني: info@mikroelectron.com</p>
-                    <p>الموقع الالكتروني: www.mikroelectron.com</p>
-                </Col>
-                <Col>
-                    <div className='float-left'>
-                        <img
-                            src="http://mikroelectron.com/assets/img/logo-1.png"
-                            width="325px"
-                            height='auto'
-                            alt="Logo MikroElectron"
-                        />
-                        <p className='pb-1'>مؤسسة منتصر ومحمود للالكترونيات</p>
-                        <p><strong>الرقم الضريبي : 013461320</strong></p>
+    <>
+       <Row className="small text-muted justify-content-between invoice-header no-gutters fixed-hight">
+    {/* Address Information - RIGHT SIDE */}
+     <Col xl={4} lg={4} md={4} sm={4} xs={4} className="address-col p-0">
+        <div className="content-wrapper w-100">
+            <p className="address-line">موقع الشركة:    الأردن - عمان - شارع الملكة رانيا</p>
+            <p className="address-line">طلوع نيفين - مجمع خليفة الطابق 3 (مكتب 308)</p>
+            <p className="address-line">إيميل: info@mikroelectron.com</p>
+            
+            {/* Phone Connection Container */}
+            <div className="phone-connection-container">
+                <p className="address-line d-flex align-items-center"> هاتف :     062225522 / فاكس : 065344778</p> </div>
+            <p className="address-line m-0  p-0 textsize text-nowrap d-flex align-items-center">
+                <div className="l-shaped-arrow-clean ">
+                    <div className="arrow-head"></div>
+                </div>
+               <p className='subtitle'> (المبيعات فرعي 1 , الدعم الفني فرعي 2 , الإدارة فرعي 3)</p>
+            </p>
+        </div>
+    </Col>
 
-                    </div>
-                </Col>
-            </Row>
+    {/* Logo - LEFT SIDE */}
+    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="logo-col p-0">
+        <div className="content-wrapper w-100">
+            <img src={logo} className="logo img-fluid" alt="Logo" />
+            <p className="company-name">مؤسســة منتصر ومحمود للالكترونيات</p>
+            <p className="website">WWW.MIKROELECTRON.COM</p>
+            <p className="tax-number">الرقم الضريبي : 013461320</p>
+        </div>
+    </Col>
+
+</Row>
             <hr/>
         </>
     )
 }
 
-function InvoiceFooter({ type }) {
+function InvoiceFooter({ type, number }) {
     return (
         <>
             <br/>
@@ -136,6 +145,16 @@ function InvoiceFooter({ type }) {
                 <Col>
                     <h4>
                         <div className='d-flex mb-2'>
+                            <span className='font-20'>رقم الشيك :</span>
+                            <span className="underline-dotted flex-grow-1 pr-1"><strong>{ number || '' }</strong></span>
+                        </div>
+                    </h4>
+                </Col>
+            </Row>
+            <Row className='mt-2'>
+                <Col>
+                    <h4>
+                        <div className='d-flex mb-2'>
                             <strong className='font-20'>
                                 توقيع المستلم :
                             </strong>
@@ -144,7 +163,7 @@ function InvoiceFooter({ type }) {
                     </h4>
                 </Col>
             </Row>
-            <p className="text-left">{order?.number}</p>
+            <p className="text-left">{type?.number}</p>
         </>
     )
 }

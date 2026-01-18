@@ -4,6 +4,7 @@ import Datatable from '@components/datatable'
 import { useProducts } from '@data/use-report'
 import Filters from './filters'
 import Avatar from '@components/avatar'
+import moment from "moment"
 
 const Tables = () => {
 
@@ -29,20 +30,39 @@ const Tables = () => {
             minWidth: '100px'
         },
         {
-            name: 'Sales',
+            name: 'All Sales',
             selector: 'sales',
+            sortable: false
+        },
+        {
+            name: 'Taxed Sales',
+            selector: 'taxed_sales',
+            sortable: false
+        },
+        {
+            name: 'Untaxed Sales',
+            selector: 'untaxed_sales',
             sortable: false
         }
     ]
+    const [dateRange, setDateRange] = useState({ from: null, to: null })
 
+    const onFiltersChange = (filters) => {
+        setDateRange({
+            from: filters.from,
+            to: filters.to ? moment(filters.to).add(1, 'days').format('YYYY-MM-DD') : null
+        })
+    }
     return (
         <Fragment>
 
             <Breadcrumbs breadCrumbTitle='Reports' breadCrumbActive='Orders' />
 
-            <Filters onChange={() => {}} />
+
+            <Filters onChange={onFiltersChange} />
 
             <Datatable
+                dateRange={dateRange}
                 useDatatable={useProducts}
                 header={false}
                 columns={columns}

@@ -6,7 +6,6 @@ import actions from '../actions'
 import ability from "../../../configs/acl/ability"
 
 const Tables = () => {
-    console.log(ability.can('read', 'untaxed_list_view'))
     return <Fragment>
         <Breadcrumbs breadCrumbTitle='Orders' breadCrumbActive='Orders' />
         <Datatable
@@ -32,10 +31,10 @@ const Tables = () => {
                     minWidth: '100px'
                 },
                 {
-                    name: 'email',
-                    selector: 'customer.email',
+                    name: 'notes',
+                    selector: 'notes',
                     sortable: true,
-                    sortField: 'customer->email',
+                    sortField: 'notes',
                     minWidth: '100px'
                 },
                 {

@@ -9,6 +9,7 @@ import OthersRoutes from './Others'
 import UiElements from './UiElements'
 import WebsiteRoutes from './Website'
 import ShopRoutes from './Shop'
+import FinancialRoutes from './Financial'
 
 // ** Document title
 const TemplateTitle = '%s - Mikroelektron | Portal'
@@ -28,6 +29,7 @@ const Routes = [
   ...UiElements,
   ...WebsiteRoutes,
   ...ShopRoutes,
+  ...FinancialRoutes,
   {
     path: '/home',
     component: lazy(() => import('../../views/dashboard/index')),
@@ -57,6 +59,10 @@ const Routes = [
     path: '/401',
     component: lazy(() => import('../../views/error/NotAuthorized')),
     layout: 'BlankLayout'
+  },
+  {
+    path: '/reports/purchases',
+    component: lazy(() => import('../../views/reports/purchases'))
   }
 ]
 

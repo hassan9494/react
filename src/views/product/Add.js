@@ -10,10 +10,13 @@ export default function Add() {
     const history = useHistory()
 
     const [formErrors, setFormErrors] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const onSubmit = async data => {
         try {
+setLoading(true)
             await api.create(data)
+            setLoading(false)
             history.push('/product/list')
         } catch (e) {
             setFormErrors(e.response?.data?.errors)
@@ -23,7 +26,7 @@ export default function Add() {
     return (
         <Fragment>
             <Breadcrumbs breadCrumbTitle='Products' breadCrumbActive='New' />
-            <CategoryForm onSubmit={onSubmit} formErrors={formErrors} from={'add'} />
+            <CategoryForm onSubmit={onSubmit} loading={loading} setLoading={setLoading} formErrors={formErrors} from={'add'} />
         </Fragment>
     )
 

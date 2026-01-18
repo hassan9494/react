@@ -2,7 +2,7 @@ import { Button, Form, FormGroup } from 'reactstrap'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
-import { Field, Checkbox, ReactSelect, ReactSelectMulti, Editor, Uploader, FileField, CkeEditor } from './fields'
+import { Field, Checkbox, ReactSelect, ReactSelectMulti, Editor, Uploader, FileField, CkeEditor, CustomUploader } from './fields'
 
 import moment from 'moment'
 import Uppy from "./fields/Uppy"
@@ -49,6 +49,9 @@ export default function FormBuilder({
                 }
                 if (field.type === 'uploader') {
                     return <Uploader key={i} {...field} form={form} />
+                }
+                if (field.type === 'customUploader') {
+                    return <CustomUploader key={i} {...field} form={form} />
                 }
                 if (field.type === 'uppy') {
                     return <Uppy key={i} {...field} form={form} />

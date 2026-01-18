@@ -33,7 +33,7 @@ const Tables = () => {
                         width: '100px'
                     },
                     {
-                        name: 'Name',
+                        name: 'Product Name',
                         selector: 'name',
                         sortable: true,
                         minWidth: '500px',
@@ -42,6 +42,12 @@ const Tables = () => {
                                 <ProductLink data={row}/>
                             </div>
                         )
+                    },
+                    {
+                        name: 'Nick Name',
+                        selector: 'variant_name',
+                        sortable: true,
+                        minWidth: '100px'
                     },
                     {
                         name: 'Stock',

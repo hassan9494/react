@@ -33,6 +33,26 @@ const Tables = () => (
                     sortable: true
                 },
                 {
+                    name: 'Count',
+                    selector: 'main_count',
+                    sortable: true,
+                    cell: row => (
+                        <Badge className='text-capitalize' color='light-success' pill>
+                            {row.count}
+                        </Badge>
+                    )
+                },
+                {
+                    name: 'Use Count',
+                    selector: 'use_count',
+                    sortable: true,
+                    cell: row => (
+                        <Badge className='text-capitalize' color={row.use_count > 0 ? row.use_count < row.main_count ? 'light-success' : 'light-danger' : 'light-warning'  } pill>
+                            {row.use_count ? row.use_count : 0}
+                        </Badge>
+                    )
+                },
+                {
                     name: 'amount',
                     selector: 'amount',
                     sortable: true,

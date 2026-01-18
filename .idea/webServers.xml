@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="2241202d-4741-45db-a19e-7f1a1cfb691f" name="mikrotest">
+        <fileTransfer accessType="SFTP" host="134.209.88.205" port="22" sshConfigId="7e3ae594-3ecd-4009-ade1-f649b97baccd" sshConfig="root@134.209.88.205:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

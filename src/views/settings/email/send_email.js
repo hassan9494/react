@@ -16,7 +16,6 @@ export default () => {
     const [formErrors, setFormErrors] = useState(null)
 
     const onSubmit = async data => {
-        console.log(data)
         try {
             await api.create(data)
             history.push('/category/list')

@@ -23,7 +23,7 @@ export default function ({ onSubmit, model }) {
                 <FormBuilder
                     fields={[
                         {
-                            label: 'Name',
+                            label: 'Project Name',
                             name: 'name',
                             rules: { required: true }
                         },
@@ -48,6 +48,11 @@ export default function ({ onSubmit, model }) {
                             label: 'Students',
                             name: 'students',
                             type: 'textarea'
+                        },
+                        {
+                            label: 'Project implementer',
+                            name: 'implementer_name',
+                            rules: { required: true }
                         },
                         {
                             label: 'Notes',

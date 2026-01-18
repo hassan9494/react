@@ -27,7 +27,7 @@ const Tables = ({ onChange }) => {
     const onPrint = () => {
         if (!from || !to) return
         const params = new URLSearchParams(pickBy({ from, to, paid }, identity)).toString()
-        console.log(params)
+
         window.open(`/reports/outlays/print?${params}`)
     }
 

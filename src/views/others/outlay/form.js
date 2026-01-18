@@ -52,7 +52,6 @@ export default function ({ onSubmit, model }) {
      // State to track the selected type
 
     const handleTypeChange = (obj) => {
-        console.log(obj)
         setSelectedType(obj)
     }
 
@@ -84,9 +83,16 @@ export default function ({ onSubmit, model }) {
                             rules: { required: true }
                         },
                         {
+                            label: 'Tax Number',
+                            name: 'tax_number',
+                            type: 'number',
+                            rules: { required: false }
+                        },
+                        {
                             label: 'Amount',
                             name: 'amount',
                             type: 'number',
+                            step: 0.001,
                             rules: { required: true }
                         },
                         {
@@ -98,6 +104,7 @@ export default function ({ onSubmit, model }) {
                             label: 'Total Amount',
                             name: 'total_amount',
                             type: 'number',
+                            step: 0.001,
                             rules: { required: true }
                         },
                         {
@@ -108,7 +115,7 @@ export default function ({ onSubmit, model }) {
                             defaultValue: moment().format('Y-MM-DD')
                         },
                         {
-                            label: 'Invoice',
+                            label: 'Invoice No',
                             name: 'invoice'
                         },
                         {

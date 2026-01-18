@@ -30,10 +30,10 @@ const Tables = () => (
                     minWidth: '100px'
                 },
                 {
-                    name: 'email',
-                    selector: 'customer.email',
+                    name: 'notes',
+                    selector: 'notes',
                     sortable: true,
-                    sortField: 'customer->email',
+                    sortField: 'notes',
                     minWidth: '100px'
                 },
                 {

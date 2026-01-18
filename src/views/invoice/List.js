@@ -17,16 +17,23 @@ const Tables = () => {
 
     const canAddInvoice = ability.can('read', 'invoice_add')
     return <Fragment>
-        <Breadcrumbs breadCrumbTitle='Invoices' breadCrumbActive='Invoices' />
+        <Breadcrumbs breadCrumbTitle='Purchases' breadCrumbActive='Purchases' />
         <Datatable
             useDatatable={useDatatable}
-            initialOrder={{column: 'id', dir: 'desc'}}
-            defaultSortField={'number'}
+            initialOrder={{column: 'date', dir: 'desc'}}
+            defaultSortField={'date'}
             defaultSortAsc={false}
-            // conditions= {!ability.can('read', 'untaxed_list_view') ?  {'options->taxed': true, status: 'COMPLETED' } : { status: 'COMPLETED'}}
+            conditions= {!ability.can('read', 'show_completed_invoices') ?  { status: 'DRAFT' } : { }}
             actions={actions}
             add={canAddInvoice ? '/invoice/create' : null}
             columns={[
+                {
+                    name: 'Name',
+                    selector: 'name',
+                    sortable: true,
+                    sortField: 'name',
+                    minWidth: '100px'
+                },
                 {
                     name: 'Number',
                     selector: 'number',

@@ -17,39 +17,57 @@ const shippingStatusClasses = {
 
 export default () => {
 
-    const [provider, setProvider] = useState(false)
+    const [provider, setProvider] = useState(null)
 
     const { data: providers } = useShippingProviders()
     const providersList = providers.map(e => ({ label: e.name, value: e.id }))
 
+    // Initialize conditions properly
     const [conditions, setConditions] = useState([
         {
-            col: 'status', op: '=', val: 'PROCESSING'
+            col: 'status',
+            op: '=',
+            val: 'PROCESSING'
         },
         {
-            col: 'shipping->status', op: '!=', val: null
+            col: 'shipping->status',
+            op: '!=',
+            val: null
         },
         {
-            col: 'shipping->status', op: '!=', val: 'WAITING'
+            col: 'shipping->status',
+            op: '!=',
+            val: 'WAITING'
         },
-        (!ability.can('read', 'untaxed_list_view') && !ability.can('read', 'befor_completed_untaxed_list_view'))  ? {
-                col: 'options->taxed',  val: true
-            } : {
-                
+        ...((!ability.can('read', 'untaxed_list_view') && !ability.can('read', 'befor_completed_untaxed_list_view')) ? [
+            {
+                col: 'options->taxed',
+                op: '=',
+                val: true
             }
+        ] : [])
     ])
 
-    const onFilterChange = (val, col) => {
-        const updated = conditions.filter(e => e.col !== col)
-        updated.push({ val, col })
-        setConditions(updated)
-        setType(val)
-    }
-
+    // Fix the provider filter effect
     useEffect(() => {
-        const updated = conditions.filter(e => e.col !== 'shipping_provider_id')
-        if (provider) updated.push({ val: provider, col: 'shipping_provider_id' })
-        setConditions(updated)
+        setConditions(prevConditions => {
+            // Remove any existing shipping_provider_id filter
+            const filteredConditions = prevConditions.filter(e => e.col !== 'shipping_provider_id')
+
+            // Add the provider filter if a provider is selected
+            if (provider) {
+                return [
+                    ...filteredConditions,
+                    {
+                        col: 'shipping_provider_id',
+                        op: '=',
+                        val: provider
+                    }
+                ]
+            }
+
+            return filteredConditions
+        })
     }, [provider])
 
     const Filters = () => (
@@ -64,7 +82,7 @@ export default () => {
                     setProvider(val?.value || null)
                 }}
                 isClearable={true}
-                value={providersList.filter(option => option.value === provider)}
+                value={providersList.find(option => option.value === provider)}
             />
         </>
     )

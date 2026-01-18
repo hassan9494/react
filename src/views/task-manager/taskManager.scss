@@ -1,0 +1,3102 @@
+// Add to src/views/task-manager/taskManager.scss
+
+// Task Board Layout
+.task-board {
+  .task-columns-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+    
+    @media (max-width: 1400px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+}
+
+// Consistent Task Column Styles
+.task-column {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .card-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.75rem 1rem;
+    
+    .column-title {
+      display: flex;
+      align-items: center;
+      
+      h6 {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0;
+      }
+      
+      .badge {
+        margin-left: 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+  
+  .card-body {
+    height: 500px;
+    padding: 1rem;
+    
+    @media (max-width: 768px) {
+      height: 400px;
+      padding: 0.75rem;
+    }
+    
+    @media (max-width: 576px) {
+      height: 350px;
+      padding: 0.5rem;
+    }
+  }
+  
+  // Status-specific border colors
+  &.task-column-todo {
+    border-left: 4px solid #dc3545;
+  }
+  
+  &.task-column-inProgress {
+    border-left: 4px solid #ffc107;
+  }
+  
+  // Completed column gets the same treatment
+  &.weekly-grouped-column {
+    border-left: 4px solid #28a745;
+  }
+}
+
+// Weekly Grouped Column Specific Styles
+.weekly-grouped-column {
+  .weeks-list {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 3px;
+      
+      &:hover {
+        background: #a8a8a8;
+      }
+    }
+  }
+  
+  .week-group {
+    margin-bottom: 1rem;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    .week-header {
+      transition: all 0.2s ease;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      
+      &:hover {
+        background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        border-color: #adb5bd;
+      }
+      
+      small {
+        font-size: 0.8rem;
+      }
+      
+      .fs-12 {
+        font-size: 0.7rem !important;
+      }
+    }
+    
+    .week-tasks {
+      .task-item {
+        border-left: 2px solid #28a745;
+        background: #f8fff9;
+        
+        &:hover {
+          background: #f0fff4 !important;
+        }
+      }
+    }
+  }
+}
+
+// Responsive improvements for smaller screens
+@media (max-width: 768px) {
+  .task-column {
+    .card-header {
+      padding: 0.5rem 0.75rem;
+      
+      .column-title {
+        h6 {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+  
+  .weekly-grouped-column {
+    .week-header {
+      padding: 0.75rem !important;
+      
+      .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.5rem;
+        
+        > div:last-child {
+          align-self: stretch;
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+// Ensure consistent heights on all screen sizes
+@media (max-width: 576px) {
+  .task-columns-container {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .task-column {
+    min-height: 300px;
+    
+    .card-body {
+      height: 300px;
+    }
+  }
+}
+
+// Spinning animation for refresh button
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+// Regular task columns - entire column scrollable
+.task-column:not(.weekly-grouped-column) {
+  .card-body {
+    overflow-y: auto !important;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 3px;
+      
+      &:hover {
+        background: #a8a8a8;
+      }
+    }
+  }
+}
+// Add to src/views/task-manager/taskManager.scss
+
+// Improved Task Item Styles
+.task-item {
+  border: 1px solid #e9ecef !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease;
+  background: #fff;
+  
+  &:hover {
+    border-color: #c5c9cc !important;
+    background: #fdfdfd;
+  }
+  
+  .task-title {
+    color: #495057;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .task-description {
+    color: #6c757d;
+  }
+  
+  // Compact badge styles
+  .badge {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    
+    &.bg-success {
+      background: linear-gradient(135deg, #28a745, #20c997) !important;
+    }
+    
+    &.bg-danger {
+      background: linear-gradient(135deg, #dc3545, #e83e8c) !important;
+    }
+    
+    &.bg-warning {
+      background: linear-gradient(135deg, #ffc107, #fd7e14) !important;
+      color: #000 !important;
+    }
+  }
+  
+  // Status-based left border colors
+  &[style*="border-left-color: #28a745"] {
+    background: linear-gradient(135deg, #f8fff9 0%, #ffffff 100%);
+  }
+  
+  &[style*="border-left-color: #ffc107"] {
+    background: linear-gradient(135deg, #fffbf0 0%, #ffffff 100%);
+  }
+  
+  &[style*="border-left-color: #6c757d"] {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  }
+}
+
+// Ensure consistent heights and spacing
+.task-list {
+  .task-item {
+    min-height: auto;
+    max-height: none;
+    
+    // Even more compact for mobile
+    @media (max-width: 768px) {
+      padding: 0.5rem !important;
+      margin-bottom: 0.5rem !important;
+      
+      .task-title {
+        font-size: 0.85rem !important;
+      }
+      
+      .badge {
+        font-size: 0.55rem !important;
+        padding: 1px 4px !important;
+      }
+    }
+  }
+}
+
+// Improved button styles for task actions
+.task-item .btn-link {
+  opacity: 0.6;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    background: rgba(0,0,0,0.05);
+    border-radius: 3px;
+  }
+}
+
+// Better scrollable area for task columns
+.task-column .card-body {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f8f9fa;
+    border-radius: 2px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #dee2e6;
+    border-radius: 2px;
+    
+    &:hover {
+      background: #adb5bd;
+    }
+  }
+}
+
+// Responsive improvements
+@media (max-width: 576px) {
+  .task-columns-container {
+    gap: 0.5rem !important;
+  }
+  
+  .task-column {
+    .card-body {
+      padding: 0.5rem !important;
+      height: 400px !important;
+    }
+    
+    .card-header {
+      padding: 0.5rem !important;
+      
+      h6 {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// Animation for smooth transitions
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.task-item {
+  animation: fadeIn 0.3s ease;
+}
+
+// Color coding for priorities
+.priority-high {
+  border-left-color: #dc3545 !important;
+}
+
+.priority-medium {
+  border-left-color: #ffc107 !important;
+}
+
+.priority-low {
+  border-left-color: #6c757d !important;
+}
+// Add to src/views/task-manager/taskManager.scss
+
+// Modern Task Modal Styles
+.modern-modal {
+  .modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-header {
+    border-bottom: 1px solid #e9ecef;
+    padding: 1.5rem;
+
+    &.modern-modal-header {
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    }
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+    background: #fafbfc;
+  }
+
+  .modal-footer {
+    border-top: 1px solid #e9ecef;
+    padding: 1rem 1.5rem;
+    background: #fff;
+  }
+}
+
+// Modern Task Title
+.modern-task-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  &:focus {
+    background: #f8f9fa !important;
+    border-radius: 6px;
+    padding: 0.5rem !important;
+  }
+
+  &::placeholder {
+    color: #6c757d;
+    opacity: 0.7;
+  }
+}
+
+// Task Meta Info
+.task-meta-info {
+  font-size: 0.875rem;
+}
+
+// Modern Cards
+.modern-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+
+  .card-body {
+    padding: 1.25rem;
+  }
+}
+
+// Modern Buttons
+.modern-btn {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.modern-toggle-btn {
+  border-radius: 6px;
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+}
+
+// Priority Badge
+.priority-badge {
+  border-radius: 20px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: none;
+
+  &.btn-success { background: #28a745; }
+  &.btn-warning { background: #ffc107; color: #000; }
+  &.btn-danger { background: #dc3545; }
+}
+
+// Status Badge
+.status-badge {
+  border-radius: 20px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+// Modern Menu Toggle
+.modern-menu-toggle {
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+}
+
+// Modal Tabs
+.modal-tabs {
+  .tab-button {
+    color: #6c757d;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: none;
+    border-radius: 0;
+    position: relative;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: #495057;
+      background: #f8f9fa;
+    }
+
+    &.active {
+      color: #007bff;
+      background: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #007bff;
+      }
+    }
+  }
+}
+
+// Modern Textarea
+.modern-textarea {
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  resize: vertical;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+  }
+
+  &.border-0.bg-light {
+    background: #f8f9fa !important;
+    border-radius: 8px;
+    padding: 1rem;
+
+    &:focus {
+      background: #fff !important;
+      border: 1px solid #007bff !important;
+    }
+  }
+}
+
+// Modern Select
+.modern-select {
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+  }
+}
+
+// Action Items
+.action-item {
+  flex: 1;
+  min-width: 140px;
+}
+
+// Sidebar
+.sidebar {
+  .sticky-sidebar {
+    position: sticky;
+    top: 1rem;
+  }
+
+  .sidebar-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// Info Items
+.info-item {
+  .small.text-muted {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+}
+
+// User Avatars
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.small-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  font-weight: 600;
+}
+
+// Assignee Items
+.assignee-item {
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #e9ecef !important;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .regular-avatar {
+    background: #6c757d;
+  }
+
+  .super-admin-avatar {
+    background: #ffc107;
+    color: #000;
+  }
+
+  &.super-admin {
+    border-left: 3px solid #ffc107;
+  }
+}
+
+// Comments
+.modern-comments-list {
+  max-height: 400px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+  }
+}
+
+.modern-comment-item {
+  padding: 1rem 0 !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+
+  &:last-child {
+    border-bottom: none !important;
+  }
+
+  .comment-avatar {
+    flex-shrink: 0;
+  }
+
+  .comment-author {
+    font-size: 0.875rem;
+  }
+
+  .comment-time {
+    font-size: 0.75rem;
+  }
+
+  .comment-content {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+}
+
+// Action Buttons
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+// Add Comment Section
+.add-comment-section {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+// Public Assignees
+.public-assignees {
+  border: 1px solid #28a745 !important;
+}
+
+// Responsive Design
+@media (max-width: 992px) {
+  .modern-modal {
+    .modal-dialog {
+      margin: 1rem;
+    }
+
+    .modal-body {
+      padding: 1rem;
+    }
+  }
+
+  .task-badges {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .main-content,
+  .sidebar {
+    margin-bottom: 1rem;
+  }
+
+  .sticky-sidebar {
+    position: static !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .modern-modal-header {
+    .d-flex {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+
+    .task-badges {
+      margin-top: 1rem;
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .modal-tabs {
+    .d-flex {
+      flex-direction: column;
+    }
+
+    .tab-button {
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+    }
+  }
+
+  .action-item {
+    min-width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .modern-task-title {
+    font-size: 1.25rem;
+  }
+
+  .modern-modal {
+    .modal-dialog {
+      margin: 0.5rem;
+    }
+  }
+
+  .add-comment-section {
+    .d-flex {
+      flex-direction: column;
+    }
+
+    .modern-btn {
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+  }
+}
+
+// Animation for smooth transitions
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modern-modal .modal-content {
+  animation: fadeIn 0.3s ease;
+}
+
+// Focus states for accessibility
+.modern-btn:focus,
+.modern-select:focus,
+.modern-textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+// Hover effects
+.assignee-item,
+.comment-content,
+.modern-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.assignee-item:hover {
+  transform: translateX(2px);
+}
+
+// Custom scrollbars for webkit
+.modern-comments-list::-webkit-scrollbar,
+.weeks-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modern-comments-list::-webkit-scrollbar-track,
+.weeks-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.modern-comments-list::-webkit-scrollbar-thumb,
+.weeks-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.modern-comments-list::-webkit-scrollbar-thumb:hover,
+.weeks-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+// Add to src/views/task-manager/taskManager.scss
+
+// Priority Section Styles
+.priority-section {
+  .priority-options {
+    .priority-option {
+      transition: all 0.3s ease;
+      cursor: pointer;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      &.selected {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      }
+    }
+    
+    .priority-icon {
+      transition: transform 0.3s ease;
+    }
+    
+    .priority-option:hover .priority-icon {
+      transform: scale(1.1);
+    }
+    
+    .priority-label {
+      color: #2c3e50;
+    }
+    
+    .priority-description {
+      font-size: 0.75rem;
+      line-height: 1.3;
+    }
+  }
+}
+
+// Priority Display in Sidebar
+.priority-display {
+  transition: all 0.3s ease;
+  
+  .priority-indicator {
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover .priority-indicator {
+    transform: scale(1.1);
+  }
+}
+
+// Priority Color Classes
+.bg-success-light {
+  background-color: rgba(40, 167, 69, 0.1) !important;
+}
+
+.bg-warning-light {
+  background-color: rgba(255, 193, 7, 0.1) !important;
+}
+
+.bg-danger-light {
+  background-color: rgba(220, 53, 69, 0.1) !important;
+}
+
+.border-success {
+  border-color: #28a745 !important;
+}
+
+.border-warning {
+  border-color: #ffc107 !important;
+}
+
+.border-danger {
+  border-color: #dc3545 !important;
+}
+
+// Priority Badge in Header
+.priority-badge {
+  border-radius: 20px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: none;
+  
+  &.bg-success { 
+    background: linear-gradient(135deg, #28a745, #20c997) !important;
+  }
+  
+  &.bg-warning { 
+    background: linear-gradient(135deg, #ffc107, #fd7e14) !important;
+    color: #000 !important;
+  }
+  
+  &.bg-danger { 
+    background: linear-gradient(135deg, #dc3545, #e83e8c) !important;
+  }
+}
+
+// Quick Priority Buttons
+.btn-outline-secondary {
+  border-color: #dee2e6;
+  color: #6c757d;
+  
+  &:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+  }
+}
+
+// Responsive Priority Options
+@media (max-width: 768px) {
+  .priority-options {
+    .row {
+      .col-md-4 {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+  
+  .priority-section {
+    .d-flex.flex-wrap {
+      justify-content: center;
+    }
+    
+    .btn {
+      flex: 1;
+      min-width: 100px;
+      margin: 0.25rem;
+    }
+  }
+}
+
+// Animation for priority selection
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+  }
+}
+
+.priority-option.selected {
+  animation: pulse 0.6s ease;
+}
+
+// Enhanced visual feedback for priority options
+.priority-option {
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
+}
+
+// Better contrast for priority descriptions
+.priority-description {
+  color: #6c757d !important;
+}
+
+// Ensure good spacing in priority section
+.priority-section .card-body {
+  padding: 1.5rem;
+}
+// Add to src/views/task-manager/taskManager.scss
+
+// Fixed Modal Styles
+.fixed-modal {
+  .modal-dialog {
+    max-width: 1200px;
+    width: 95%;
+    height: 90vh;
+    margin: 5vh auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  &.modal-lg {
+    .modal-dialog {
+      max-width: 1200px;
+    }
+  }
+}
+
+.fixed-modal-header {
+  flex-shrink: 0;
+  border-bottom: 1px solid #e9ecef;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  padding: 1.5rem;
+}
+
+.fixed-modal-body {
+  flex: 1;
+  overflow: hidden;
+  padding: 1.5rem;
+  background: #fafbfc;
+  
+  .row.h-100 {
+    margin: 0;
+    
+    > .col-lg-8,
+    > .col-lg-4 {
+      padding: 0 0.75rem;
+    }
+  }
+}
+
+.fixed-modal-footer {
+  flex-shrink: 0;
+  border-top: 1px solid #e9ecef;
+  padding: 1rem 1.5rem;
+  background: #fff;
+}
+
+// Scrollable content areas
+.scrollable-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+    
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
+}
+
+// Adjustments for main content area
+.main-content {
+  .scrollable-content {
+    padding-right: 0.5rem;
+    
+    // Remove extra padding on mobile
+    @media (max-width: 992px) {
+      padding-right: 0;
+    }
+  }
+}
+
+// Adjustments for sidebar
+.sidebar {
+  .scrollable-content {
+    padding-left: 0.5rem;
+    
+    // Remove extra padding on mobile
+    @media (max-width: 992px) {
+      padding-left: 0;
+      margin-top: 1rem;
+    }
+  }
+  
+  .sticky-sidebar {
+    position: sticky;
+    top: 0;
+  }
+}
+
+// Comments list height adjustment
+.modern-comments-list.flex-grow-1 {
+  min-height: 200px;
+  max-height: 400px;
+}
+
+// Attachment section height
+.attachment-section {
+  height: 100%;
+  
+  .card {
+    height: 100%;
+    
+    .card-body {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 992px) {
+  .fixed-modal {
+    .modal-dialog {
+      width: 98%;
+      height: 95vh;
+      margin: 2.5vh auto;
+    }
+    
+    .modal-content {
+      height: 95vh;
+    }
+  }
+  
+  .fixed-modal-body {
+    padding: 1rem;
+    
+    .row.h-100 {
+      > .col-lg-8,
+      > .col-lg-4 {
+        padding: 0;
+      }
+    }
+  }
+  
+  .sidebar {
+    .scrollable-content {
+      margin-top: 1rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .fixed-modal {
+    .modal-dialog {
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      border-radius: 0;
+    }
+    
+    .modal-content {
+      height: 100vh;
+      border-radius: 0;
+    }
+  }
+  
+  .fixed-modal-header,
+  .fixed-modal-body,
+  .fixed-modal-footer {
+    padding: 1rem;
+  }
+}
+
+// Ensure modal backdrop covers entire screen
+.modal-backdrop.show {
+  opacity: 0.5;
+}
+
+// Prevent body scroll when modal is open
+body.modal-open {
+  overflow: hidden;
+  padding-right: 0 !important;
+}
+
+// Improve modal transitions
+.modal.fade .modal-dialog {
+  transform: translate(0, -50px);
+  transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: translate(0, 0);
+}
+
+// Additional responsive tweaks
+@media (max-height: 700px) {
+  .fixed-modal {
+    .modal-dialog {
+      height: 95vh;
+      margin: 2.5vh auto;
+    }
+  }
+}
+
+@media (max-height: 600px) {
+  .fixed-modal {
+    .modal-dialog {
+      height: 98vh;
+      margin: 1vh auto;
+    }
+  }
+}
+// Add to src/views/task-manager/taskManager.scss
+
+// Improved Header Layout with Menu on Extreme Right
+.modern-modal-header {
+  .d-flex.justify-content-between {
+    align-items: flex-start;
+    
+    .task-title-section {
+      flex-grow: 1;
+      
+      .d-flex.align-items-center.mb-2 {
+        align-items: flex-start;
+        
+        .modern-task-title {
+          flex-grow: 1;
+          min-width: 200px;
+        }
+        
+        .task-header-badges {
+          flex-shrink: 0;
+          margin-left: 1rem;
+          
+          .priority-badge,
+          .status-badge {
+            font-size: 0.75rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+          }
+        }
+      }
+      
+      .task-meta-info {
+        .d-flex {
+          gap: 1rem;
+          
+          @media (max-width: 768px) {
+            gap: 0.5rem;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+        }
+        
+        .text-warning {
+          color: #ffc107 !important;
+          font-weight: 600;
+        }
+      }
+    }
+    
+    .menu-section {
+      margin-left: auto;
+      align-self: flex-start;
+      
+      .modern-menu-toggle {
+        padding: 0.5rem;
+        border-radius: 6px;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+          background-color: #f8f9fa;
+        }
+      }
+    }
+  }
+}
+
+// Ensure the menu stays on the extreme right
+.menu-section {
+  position: relative;
+  right: 0;
+}
+
+// Responsive adjustments for header
+@media (max-width: 768px) {
+  .modern-modal-header {
+    .d-flex.justify-content-between {
+      flex-direction: column;
+      align-items: flex-start !important;
+      
+      .task-title-section {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        
+        .d-flex.align-items-center.mb-2 {
+          flex-direction: column;
+          align-items: flex-start !important;
+          
+          .modern-task-title {
+            margin-bottom: 0.5rem;
+            margin-right: 0 !important;
+            width: 100%;
+          }
+          
+          .task-header-badges {
+            margin-left: 0;
+            width: 100%;
+            justify-content: flex-start;
+          }
+        }
+      }
+      
+      .menu-section {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .modern-modal-header {
+    padding: 1rem !important;
+    
+    .task-header-badges {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      
+      .priority-badge,
+      .status-badge {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+      }
+    }
+    
+    .task-meta-info {
+      .small {
+        font-size: 0.75rem;
+      }
+    }
+    
+    .menu-section {
+      top: 0.5rem;
+      right: 0.5rem;
+    }
+  }
+}
+
+// Ensure proper spacing and alignment
+.modern-modal-header {
+  position: relative;
+}
+// Add to src/views/task-manager/taskManager.scss
+
+// Force the header styles to apply
+.modern-modal-header.fixed-modal-header {
+  position: relative !important;
+  padding: 1.5rem !important;
+  
+  .d-flex.w-100 {
+    min-height: 60px; // Ensure enough height for the menu
+  }
+
+  .menu-section {
+    position: absolute !important;
+    top: 50% !important;
+    right: 1rem !important;
+    transform: translateY(-50%) !important;
+    z-index: 1000 !important;
+    
+    .modern-menu-toggle {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 36px !important;
+      height: 36px !important;
+      border-radius: 6px !important;
+      transition: all 0.2s ease !important;
+      
+      &:hover {
+        background-color: #f8f9fa !important;
+      }
+    }
+  }
+
+  .task-title-section {
+    padding-right: 60px !important; // Make space for the menu
+    
+    .modern-task-title {
+      flex-grow: 1;
+      min-width: 200px;
+      font-size: 1.5rem !important;
+      font-weight: 600 !important;
+    }
+    
+    .task-header-badges {
+      flex-shrink: 0;
+      
+      .priority-badge,
+      .status-badge {
+        font-size: 0.75rem !important;
+        padding: 0.375rem 0.75rem !important;
+        border-radius: 20px !important;
+        font-weight: 500 !important;
+      }
+    }
+    
+    .task-meta-info {
+      .d-flex {
+        gap: 1rem;
+        
+        .text-warning {
+          color: #ffc107 !important;
+          font-weight: 600 !important;
+        }
+      }
+    }
+  }
+}
+
+// Override any Bootstrap styles that might interfere
+.modal-header .btn-close {
+  position: relative !important;
+  z-index: 1001 !important;
+}
+
+// Make sure the dropdown menu appears above everything
+.modern-modal-header .dropdown-menu {
+  z-index: 1002 !important;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .modern-modal-header.fixed-modal-header {
+    padding: 1rem !important;
+    
+    .menu-section {
+      top: 1rem !important;
+      right: 0.5rem !important;
+      transform: none !important;
+    }
+    
+    .task-title-section {
+      padding-right: 50px !important;
+      
+      .d-flex.align-items-center.mb-2 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        
+        .modern-task-title {
+          margin-bottom: 0.5rem !important;
+          margin-right: 0 !important;
+          width: 100% !important;
+        }
+        
+        .task-header-badges {
+          width: 100% !important;
+          justify-content: flex-start !important;
+        }
+      }
+      
+      .task-meta-info {
+        .d-flex {
+          flex-direction: column !important;
+          gap: 0.25rem !important;
+          align-items: flex-start !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .modern-modal-header.fixed-modal-header {
+    .task-header-badges {
+      flex-wrap: wrap !important;
+      gap: 0.5rem !important;
+      
+      .priority-badge,
+      .status-badge {
+        font-size: 0.7rem !important;
+        padding: 0.25rem 0.5rem !important;
+      }
+    }
+    
+    .task-meta-info .small {
+      font-size: 0.75rem !important;
+    }
+  }
+}
+
+// Force the layout with important where needed
+.modern-modal-header {
+  .d-flex.w-100 {
+    display: flex !important;
+    width: 100% !important;
+  }
+  
+  .menu-section {
+    display: block !important;
+  }
+}
+// Enhanced Modal Scrollable Layout
+.fixed-modal {
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+    .fixed-modal-header {
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    
+    .fixed-modal-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fafbfc;
+      
+      .row.h-100 {
+        margin: 0;
+        flex: 1;
+        
+        > .col-lg-8,
+        > .col-lg-4 {
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}
+
+// Enhanced Scrollable Areas
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+    margin: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+    
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
+  
+  &::-webkit-scrollbar-corner {
+    background: #f1f1f1;
+  }
+}
+
+// Main Content Area
+.main-content {
+  .scrollable-content {
+    background: #fafbfc;
+    
+    // Ensure cards have proper spacing
+    .modern-card {
+      margin-bottom: 1rem;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// Sidebar Area
+.sidebar {
+  background: #fff;
+  border-left: 1px solid #e9ecef;
+  
+  .scrollable-content {
+    background: #fff;
+  }
+  
+  .sticky-sidebar {
+    position: sticky;
+    top: 0;
+  }
+}
+
+// Enhanced Comments Section
+.modern-comments-list {
+  display: flex;
+  flex-direction: column;
+  
+  &.flex-grow-1 {
+    flex: 1;
+  }
+  
+  // Ensure comments list is scrollable
+  &.h-100 {
+    height: 100% !important;
+    min-height: 200px;
+  }
+}
+
+// Comments container with proper scrolling
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  .comments-header {
+    flex-shrink: 0;
+  }
+  
+  .comments-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 200px;
+  }
+  
+  .comments-input {
+    flex-shrink: 0;
+  }
+}
+
+// Enhanced Modal Tabs
+.modal-tabs {
+  background: #fff;
+  border-bottom: 1px solid #e9ecef;
+  
+  .tab-button {
+    color: #6c757d;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: none;
+    border-radius: 0;
+    position: relative;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+      color: #495057;
+      background: #f8f9fa;
+    }
+
+    &.active {
+      color: #007bff;
+      background: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #007bff;
+      }
+    }
+    
+    // Icon alignment
+    .feather {
+      vertical-align: middle;
+    }
+  }
+}
+
+// Enhanced Header Layout
+.modern-modal-header.fixed-modal-header {
+  position: relative;
+  padding: 1.5rem !important;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-bottom: 1px solid #e9ecef;
+  
+  .d-flex.w-100 {
+    min-height: 60px;
+    align-items: flex-start;
+  }
+
+  .menu-section {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    z-index: 1000;
+    
+    .task-header-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      
+      .priority-badge,
+      .status-badge {
+        font-size: 0.75rem !important;
+        padding: 0.375rem 0.75rem !important;
+        border-radius: 20px !important;
+        font-weight: 500 !important;
+        border: none;
+      }
+      
+      .modern-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background-color: #f8f9fa;
+        }
+      }
+      
+      .modern-close-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background-color: #f8f9fa;
+        }
+      }
+    }
+  }
+
+  .task-title-section {
+    padding-right: 120px; // Space for badges and menu
+    
+    .modern-task-title {
+      flex-grow: 1;
+      min-width: 200px;
+      font-size: 1.5rem !important;
+      font-weight: 600 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      
+      &:focus {
+        background: #f8f9fa !important;
+        border-radius: 6px;
+        padding: 0.5rem !important;
+      }
+    }
+    
+    .task-meta-info {
+      .d-flex {
+        gap: 1rem;
+        flex-wrap: wrap;
+        
+        .text-warning {
+          color: #ffc107 !important;
+          font-weight: 600 !important;
+        }
+        
+        @media (max-width: 768px) {
+          gap: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+// Attachment Section - Non-foldable
+.attachment-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    .card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      
+      .attachment-list {
+        flex: 1;
+        overflow-y: auto;
+      }
+    }
+  }
+}
+
+// Responsive Design Improvements
+@media (max-width: 992px) {
+  .fixed-modal {
+    .modal-dialog {
+      margin: 1rem;
+    }
+    
+    .fixed-modal-body {
+      .row.h-100 {
+        flex-direction: column;
+        
+        > .col-lg-8,
+        > .col-lg-4 {
+          height: auto;
+          max-height: 50%;
+        }
+        
+        .sidebar {
+          border-left: none;
+          border-top: 1px solid #e9ecef;
+          max-height: 40%;
+        }
+      }
+    }
+  }
+  
+  .modern-modal-header.fixed-modal-header {
+    .task-title-section {
+      padding-right: 100px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .modern-modal-header.fixed-modal-header {
+    padding: 1rem !important;
+    
+    .menu-section {
+      top: 1rem;
+      right: 0.5rem;
+      
+      .task-header-badges {
+        gap: 0.25rem;
+        
+        .priority-badge,
+        .status-badge {
+          font-size: 0.7rem !important;
+          padding: 0.25rem 0.5rem !important;
+        }
+      }
+    }
+    
+    .task-title-section {
+      padding-right: 80px;
+      
+      .d-flex.align-items-center.mb-2 {
+        flex-direction: column;
+        align-items: flex-start !important;
+        
+        .modern-task-title {
+          margin-bottom: 0.5rem !important;
+          margin-right: 0 !important;
+          width: 100% !important;
+        }
+      }
+      
+      .task-meta-info {
+        .d-flex {
+          flex-direction: column;
+          gap: 0.25rem;
+          align-items: flex-start;
+        }
+      }
+    }
+  }
+  
+  .modal-tabs {
+    .d-flex {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      
+      .tab-button {
+        white-space: nowrap;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .fixed-modal {
+    .modal-dialog {
+      margin: 0.5rem;
+    }
+  }
+  
+  .modern-modal-header.fixed-modal-header {
+    .task-header-badges {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      
+      .priority-badge,
+      .status-badge {
+        font-size: 0.65rem !important;
+        padding: 0.2rem 0.4rem !important;
+      }
+    }
+    
+    .task-meta-info .small {
+      font-size: 0.75rem !important;
+    }
+  }
+}
+
+// Ensure proper overflow handling
+.modern-modal-body {
+  .row.h-100 {
+    overflow: hidden;
+  }
+}
+
+// Fix for Bootstrap modal backdrop
+.modal-backdrop.show {
+  opacity: 0.5;
+}
+
+// Prevent body scroll when modal is open
+body.modal-open {
+  overflow: hidden;
+}
+
+// Smooth scrolling
+.scrollable-content {
+  scroll-behavior: smooth;
+}
+
+// Enhanced focus states for accessibility
+.modern-btn:focus,
+.modern-select:focus,
+.modern-textarea:focus,
+.tab-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+// Loading state
+.loading-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  
+  .spinner {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+// Add to src/views/task-manager/taskManager.scss
+
+// Enhanced Comments Section Styles
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border-radius: 8px;
+  
+  .comments-header {
+    flex-shrink: 0;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    
+    h6 {
+      color: #2c3e50;
+      font-weight: 600;
+    }
+  }
+  
+  .comments-list {
+    flex: 1;
+    overflow-y: auto;
+    background: #fff;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f8f9fa;
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #dee2e6;
+      border-radius: 3px;
+      
+      &:hover {
+        background: #adb5bd;
+      }
+    }
+  }
+  
+  .add-comment-section {
+    flex-shrink: 0;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    
+    .comment-input-container {
+      .modern-textarea {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        resize: none;
+        transition: all 0.2s ease;
+        
+        &:focus {
+          border-color: #007bff;
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+        }
+      }
+      
+      .comment-submit-btn {
+        transition: all 0.2s ease;
+        
+        &:hover:not(:disabled) {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+        
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+// Comment Item Styles
+.comment-item {
+  padding: 0.5rem 0;
+  
+  .comment-avatar {
+    .avatar-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 0.875rem;
+      background: linear-gradient(135deg, #007bff, #0056b3);
+    }
+  }
+  
+  .comment-content {
+    .comment-author {
+      font-size: 0.875rem;
+      color: #2c3e50;
+    }
+    
+    .comment-time {
+      font-size: 0.75rem;
+      color: #6c757d;
+    }
+    
+    .comment-text {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: #495057;
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      word-wrap: break-word;
+    }
+    
+    .comment-actions {
+      .comment-dropdown {
+        .dropdown-toggle {
+          padding: 0.25rem;
+          border-radius: 4px;
+          transition: background-color 0.2s ease;
+          
+          &:hover {
+            background-color: #f8f9fa;
+          }
+        }
+        
+        .dropdown-menu {
+          border: none;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          padding: 0.5rem;
+          
+          .dropdown-item {
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            
+            &:hover {
+              background-color: #f8f9fa;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Editing state
+  .editing-comment {
+    .modern-textarea {
+      border: 1px solid #007bff;
+      border-radius: 8px;
+      resize: none;
+    }
+  }
+}
+
+// Action buttons in comments
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #dee2e6;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Empty state for comments
+.text-center.py-5 {
+  .feather {
+    color: #dee2e6;
+  }
+  
+  h6 {
+    color: #6c757d;
+    font-weight: 500;
+  }
+  
+  p {
+    color: #adb5bd;
+  }
+}
+
+// Responsive design for comments
+@media (max-width: 768px) {
+  .comments-container {
+    .comments-header {
+      padding: 1rem !important;
+    }
+    
+    .comments-list {
+      padding: 1rem !important;
+    }
+    
+    .add-comment-section {
+      padding: 1rem !important;
+    }
+  }
+  
+  .comment-item {
+    .comment-content {
+      .d-flex.align-items-center.justify-content-between {
+        flex-direction: column;
+        align-items: flex-start !important;
+        
+        .comment-actions {
+          margin-top: 0.5rem;
+          align-self: flex-end;
+        }
+      }
+    }
+  }
+  
+  .add-comment-section {
+    .d-flex.align-items-start.gap-2 {
+      flex-direction: column;
+      
+      .comment-submit-btn {
+        width: 100%;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}
+
+// Animation for new comments
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comment-item {
+  animation: slideInUp 0.3s ease;
+}
+
+// Hover effects
+.comment-item:hover {
+  .comment-actions {
+    opacity: 1;
+  }
+}
+
+.comment-actions {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+// Focus states for accessibility
+.comment-dropdown .dropdown-toggle:focus,
+.action-btn:focus,
+.comment-submit-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+// Improved spacing and alignment
+.comment-item:last-child {
+  margin-bottom: 0 !important;
+}
+
+.comment-text {
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: inherit;
+    margin: 0;
+  }
+}
+
+// Enhanced visual hierarchy
+.comment-author {
+  font-weight: 600;
+}
+
+.comment-time {
+  font-weight: 400;
+}
+
+// Better contrast for text
+.comment-text {
+  color: #2c3e50;
+}
+
+// Smooth transitions for all interactive elements
+.comment-dropdown,
+.action-btn,
+.comment-submit-btn,
+.comment-text {
+  transition: all 0.2s ease-in-out;
+}
+// src/views/task-manager/taskManager.scss
+
+// Mobile Responsive Styles for Task Modal
+@media (max-width: 992px) {
+  .responsive-modal {
+    .modal-dialog {
+      max-width: 100% !important;
+      width: 100% !important;
+      height: 100vh !important;
+      margin: 0 !important;
+    }
+
+    .modal-content {
+      height: 100vh !important;
+      border-radius: 0 !important;
+    }
+  }
+
+  .responsive-header {
+    padding: 1rem !important;
+    
+    .responsive-header-container {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+
+    .responsive-title-section {
+      margin-right: 0 !important;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+
+    .responsive-title-row {
+      align-items: flex-start !important;
+      
+      .mobile-sidebar-toggle {
+        margin-right: 0.5rem !important;
+        flex-shrink: 0;
+      }
+      
+      .responsive-task-title {
+        font-size: 1.25rem !important;
+        flex-grow: 1;
+        margin-right: 0.5rem !important;
+      }
+      
+      .mobile-badges {
+        flex-shrink: 0;
+      }
+    }
+
+    .responsive-meta-info {
+      .responsive-meta-row {
+        gap: 0.5rem !important;
+        flex-direction: column;
+        align-items: flex-start !important;
+        
+        > div {
+          margin-bottom: 0.25rem;
+        }
+      }
+    }
+
+    .responsive-menu-section {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      
+      .responsive-badges {
+        gap: 0.25rem;
+      }
+    }
+  }
+
+  .responsive-modal-body {
+    padding: 0 !important;
+    
+    .responsive-main-row {
+      flex-direction: column;
+      height: auto !important;
+      
+      > .col-lg-8,
+      > .col-lg-4 {
+        height: auto;
+        max-height: none;
+      }
+    }
+  }
+
+  .responsive-tabs {
+    padding: 0 0.5rem !important;
+    
+    .responsive-tabs-container {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      
+      .tab-button {
+        white-space: nowrap;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        
+        .feather {
+          margin-right: 0.25rem !important;
+        }
+      }
+    }
+  }
+
+  .responsive-main-content {
+    order: 1;
+    
+    &.mobile-sidebar-open {
+      display: none;
+    }
+    
+    .responsive-scrollable-content {
+      padding: 0.5rem !important;
+      min-height: 300px !important;
+    }
+  }
+
+  .responsive-sidebar {
+    order: 2;
+    border-left: none !important;
+    border-top: 1px solid #e9ecef;
+    display: none;
+    
+    &.mobile-sidebar-visible {
+      display: block;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: white;
+      z-index: 1050;
+      overflow-y: auto;
+    }
+    
+    .responsive-sidebar-content {
+      padding: 1rem !important;
+    }
+    
+    .responsive-sidebar-header {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+  }
+
+  .mobile-sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1049;
+  }
+
+  .responsive-card {
+    margin-bottom: 0.75rem !important;
+    
+    .responsive-card-body {
+      padding: 1rem !important;
+    }
+  }
+
+  .responsive-textarea {
+    font-size: 0.875rem !important;
+  }
+
+  .responsive-description {
+    min-height: 80px !important;
+    font-size: 0.875rem;
+  }
+
+  .responsive-priority-buttons {
+    gap: 0.5rem !important;
+    
+    .responsive-priority-btn {
+      flex: 1;
+      min-width: 80px;
+      font-size: 0.75rem;
+      padding: 0.375rem 0.5rem;
+      
+      .feather {
+        margin-right: 0.25rem !important;
+      }
+    }
+  }
+
+  .responsive-actions {
+    gap: 1rem !important;
+    flex-direction: column;
+    
+    .responsive-action-item {
+      min-width: 100% !important;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .responsive-select {
+    font-size: 0.875rem;
+  }
+
+  .responsive-toggle-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .responsive-visibility-text {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-comments-container {
+    height: auto !important;
+    min-height: 400px;
+  }
+
+  .responsive-comments-list {
+    min-height: 300px !important;
+    max-height: 50vh !important;
+  }
+
+  .responsive-comment-item {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .responsive-comment-row {
+    align-items: flex-start !important;
+  }
+
+  .responsive-comment-avatar {
+    margin-right: 0.75rem !important;
+    
+    .responsive-avatar {
+      width: 32px !important;
+      height: 32px !important;
+      font-size: 0.75rem !important;
+    }
+  }
+
+  .responsive-comment-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    
+    .responsive-comment-user {
+      margin-bottom: 0.25rem;
+    }
+    
+    .responsive-comment-actions {
+      align-self: flex-end;
+    }
+  }
+
+  .responsive-comment-author {
+    font-size: 0.875rem;
+  }
+
+  .responsive-comment-time {
+    font-size: 0.75rem;
+  }
+
+  .responsive-action-btn {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .responsive-comment-edit,
+  .responsive-comment-delete {
+    padding: 0.25rem !important;
+  }
+
+  .responsive-editing-comment {
+    .responsive-comment-textarea {
+      font-size: 0.875rem;
+    }
+  }
+
+  .responsive-comment-text {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .responsive-add-comment {
+    padding: 0.75rem !important;
+  }
+
+  .responsive-comment-input-row {
+    flex-direction: column;
+    
+    .responsive-comment-textarea-container {
+      width: 100%;
+    }
+    
+    .responsive-comment-submit {
+      width: 100%;
+      margin-top: 0.5rem;
+      align-self: stretch !important;
+    }
+  }
+
+  .responsive-comment-input-textarea {
+    font-size: 0.875rem;
+  }
+
+  .responsive-no-comments {
+    padding: 2rem 1rem !important;
+    
+    .feather {
+      width: 32px !important;
+      height: 32px !important;
+    }
+    
+    h6 {
+      font-size: 0.875rem;
+    }
+    
+    p {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .responsive-header {
+    padding: 0.75rem !important;
+    
+    .responsive-title-row {
+      .responsive-task-title {
+        font-size: 1.125rem !important;
+      }
+    }
+    
+    .responsive-meta-info {
+      .small {
+        font-size: 0.75rem !important;
+      }
+    }
+  }
+
+  .responsive-sticky-sidebar {
+    position: static !important;
+  }
+
+  .responsive-sidebar-card {
+    .responsive-sidebar-card-body {
+      padding: 0.75rem !important;
+    }
+  }
+
+  .responsive-info-item {
+    margin-bottom: 1rem !important;
+  }
+
+  .responsive-creator-info {
+    padding: 0.75rem !important;
+    
+    .responsive-user-avatar {
+      width: 28px !important;
+      height: 28px !important;
+      font-size: 0.75rem !important;
+    }
+    
+    .responsive-creator-details {
+      .responsive-creator-email {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .responsive-assignees-item {
+    .responsive-assignees-label {
+      font-size: 0.75rem;
+    }
+    
+    .responsive-assignee-toggle {
+      font-size: 0.75rem;
+    }
+  }
+
+  .responsive-assignees-list {
+    .responsive-public-assignees {
+      padding: 1rem 0.5rem !important;
+      
+      .feather {
+        width: 18px !important;
+        height: 18px !important;
+      }
+      
+      .small {
+        font-size: 0.75rem !important;
+      }
+    }
+    
+    .responsive-private-assignees {
+      .responsive-assignee {
+        padding: 0.75rem !important;
+        margin-bottom: 0.5rem !important;
+        
+        .responsive-assignee-content {
+          .responsive-assignee-avatar {
+            width: 28px !important;
+            height: 28px !important;
+            font-size: 0.75rem !important;
+          }
+          
+          .responsive-assignee-info {
+            .responsive-assignee-name {
+              font-size: 0.875rem;
+            }
+            
+            .responsive-assignee-email {
+              font-size: 0.75rem;
+            }
+          }
+        }
+        
+        .responsive-remove-assignee {
+          font-size: 0.75rem;
+        }
+      }
+      
+      .responsive-no-assignees {
+        padding: 1.5rem 0.5rem !important;
+        
+        .feather {
+          width: 18px !important;
+          height: 18px !important;
+        }
+        
+        .small {
+          font-size: 0.875rem;
+        }
+      }
+    }
+  }
+
+  .responsive-assignee-dropdown {
+    max-width: 280px !important;
+    right: 10px !important;
+    left: auto !important;
+    
+    .responsive-assignee-item {
+      padding: 0.5rem !important;
+      
+      .responsive-small-avatar {
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 0.625rem !important;
+      }
+      
+      .responsive-assignee-details {
+        font-size: 0.875rem;
+        
+        small {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  .responsive-delete-modal,
+  .responsive-task-delete-modal {
+    .modal-dialog {
+      margin: 1rem !important;
+    }
+    
+    .responsive-delete-header,
+    .responsive-task-delete-header {
+      padding: 1rem !important;
+      font-size: 1rem;
+    }
+    
+    .responsive-delete-body,
+    .responsive-task-delete-body {
+      padding: 1rem !important;
+      
+      p {
+        font-size: 0.875rem;
+      }
+      
+      .responsive-delete-alert {
+        font-size: 0.875rem;
+      }
+    }
+    
+    .responsive-delete-footer,
+    .responsive-task-delete-footer {
+      padding: 1rem !important;
+      
+      .responsive-cancel-btn,
+      .responsive-confirm-btn,
+      .responsive-task-cancel-btn,
+      .responsive-task-confirm-btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+
+  .responsive-attachments {
+    min-height: 300px !important;
+  }
+}
+
+// Enhanced touch targets for mobile
+@media (max-width: 992px) {
+  .responsive-menu-toggle,
+  .responsive-close-btn,
+  .responsive-action-btn,
+  .responsive-comment-edit,
+  .responsive-comment-delete,
+  .responsive-remove-assignee {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tab-button {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .responsive-priority-btn,
+  .responsive-toggle-btn,
+  .responsive-comment-submit {
+    min-height: 44px;
+  }
+
+  .responsive-select {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+// Prevent horizontal scrolling on mobile
+@media (max-width: 992px) {
+  .responsive-modal-body {
+    overflow-x: hidden !important;
+  }
+  
+  .responsive-scrollable-content,
+  .responsive-sidebar-content {
+    overflow-x: hidden !important;
+  }
+}
+
+// Improved mobile animations
+@media (max-width: 992px) {
+  .responsive-sidebar.mobile-sidebar-visible {
+    animation: slideInRight 0.3s ease-out;
+  }
+  
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+}
+
+// Ensure proper z-index stacking
+@media (max-width: 992px) {
+  .responsive-sidebar.mobile-sidebar-visible {
+    z-index: 1050;
+  }
+  
+  .mobile-sidebar-overlay {
+    z-index: 1049;
+  }
+}
+
+// Maintain desktop styles for larger screens
+@media (min-width: 993px) {
+  .mobile-sidebar-toggle,
+  .mobile-badges,
+  .responsive-sidebar-header {
+    display: none !important;
+  }
+}
+/* src/views/task-manager/taskManager.scss */
+
+.task-manager {
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .spinning {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Filter styles */
+  .filter-badge {
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+  }
+
+  .quick-filter-btn {
+    transition: all 0.2s ease;
+    
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+  }
+
+  .task-column {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  }
+
+  .task-item {
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .quick-filter-buttons {
+      .btn {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+      }
+    }
+    
+    .filter-summary {
+      .badge {
+        font-size: 0.65rem;
+      }
+    }
+  }
+
+  /* Color indicators */
+  .color-indicator {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  /* Status colors */
+  .status-todo {
+    border-left-color: #6c757d !important;
+  }
+
+  .status-inProgress {
+    border-left-color: #ffc107 !important;
+  }
+
+  .status-completed {
+    border-left-color: #28a745 !important;
+  }
+}
+// Compact filter styles
+.compact-filter {
+  .card-body {
+    padding: 0.5rem !important;
+  }
+  
+  .form-group {
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-control-sm {
+    height: calc(1.5em + 0.5rem + 2px);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+  
+  .badge {
+    font-size: 0.65rem;
+    padding: 0.125rem 0.375rem;
+  }
+  
+  .small {
+    font-size: 0.75rem;
+  }
+  
+  // Compact react-select
+  :global(.css-1s2u09g-control) {
+    min-height: 32px !important;
+    font-size: 0.8rem;
+  }
+  
+  :global(.css-1pahdxg-control) {
+    min-height: 32px !important;
+    font-size: 0.8rem;
+  }
+  
+  :global(.css-1hb7zxy-IndicatorsContainer) {
+    height: 30px !important;
+  }
+  
+  :global(.css-1rhbuit-multiValue) {
+    font-size: 0.75rem;
+  }
+  
+  // Tight row spacing
+  .row.g-1 {
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+    
+    > [class*="col-"] {
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+    }
+  }
+  
+  .row.g-2 {
+    margin-left: -0.375rem;
+    margin-right: -0.375rem;
+    
+    > [class*="col-"] {
+      padding-left: 0.375rem;
+      padding-right: 0.375rem;
+    }
+  }
+}
+
+// Make the filter more compact when collapsed
+.compact-filter .btn-group .btn {
+  padding: 0.125rem 0.375rem;
+}

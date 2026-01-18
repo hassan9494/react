@@ -15,7 +15,7 @@ import NumberInput from '@components/number-input'
 import { api } from '@data/use-product'
 
 export default function ReplacementItem ({ disabled, form, from}) {
-    console.log(from)
+
 
     const handleChanges = (products, id, event, update) => {
         if (disabled) return

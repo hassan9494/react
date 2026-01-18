@@ -1,23 +1,26 @@
-import { Card, CardBody, FormGroup, CardHeader, CustomInput, Input, Label } from 'reactstrap'
+import {Card, CardBody, FormGroup, CardHeader, CustomInput, Input, Label} from 'reactstrap'
 import Select from 'react-select'
-import { Controller } from 'react-hook-form'
-import { useModels as useCities } from '@data/use-city'
-import { useModels as useShippingProviders } from '@data/use-shipping-provider'
-import { useEffect, useState } from 'react'
+import {Controller} from 'react-hook-form'
+import {useModels as useCities} from '@data/use-city'
+import {useModels as useShippingProviders} from '@data/use-shipping-provider'
+import {useEffect, useState} from 'react'
 
-export default function ({ form, isCompleted }) {
+export default function ({form, isCompleted, isMigrated}) {
 
     const [oldState, setOldState] = useState({})
 
-    const { data: cities } = useCities()
-    const { data: providers } = useShippingProviders()
+    const {data: cities} = useCities()
+    const {data: providers} = useShippingProviders()
 
-    const citiesList = cities.map(e => ({ label: e.name, value: e.id, cost: e.shipping_cost }))
-    const providersList = providers.map(e => ({ label: e.name, value: e.id }))
+    const citiesList = cities.map(e => ({label: e.name, value: e.id, cost: e.shipping_cost}))
+    const providersList = providers.map(e => ({label: e.name, value: e.id}))
 
     const hasShipping = form.watch('has_shipping')
+    const freeShippingCity = form.watch('city_id') === 2
+    
 
     const handleChangeShipping = (state) => {
+        // if (isMigrated) return
         if (!state) {
             setOldState({
                 city: form.getValues('city_id'),
@@ -41,8 +44,18 @@ export default function ({ form, isCompleted }) {
     }
 
     const handleChangeShippingLocation = (city) => {
+        // if (isMigrated) return
         form.setValue('shipping.cost', city?.cost || 0)
+
+
     }
+    useEffect(() => {
+        if (freeShippingCity) {
+            form.setValue('has_shipping', false)
+        } else {
+            form.setValue('has_shipping', true)
+        }
+    }, [freeShippingCity])
 
     const list = [
         {
@@ -61,10 +74,39 @@ export default function ({ form, isCompleted }) {
 
     return (
         <Card>
+            <div style={{width: '100%'}}>
+                <FormGroup>
+                    <Controller
+                        control={form.control}
+                        defaultValue={null}
+                        name="city_id"
+                        render={({onChange, value, name, ref}) => (
+                            <Select
+                                className='react-select'
+                                classNamePrefix='select'
+                                value={citiesList.filter(option => option.value === value)}
+                                inputRef={ref}
+                                placeholder={'Select City...'}
+                                options={citiesList}
+                                onChange={val => {
+                                    onChange(val?.value || null)
+                                    handleChangeShippingLocation(val)
+                                }}
+                                isClearable={true}
+                                // isDisabled={!hasShipping || isCompleted || isMigrated}
+                                // isDisabled={!hasShipping}
+                            />
+                        )}
+                    />
+                </FormGroup>
+            </div>
             <CardHeader>
+
+
                 Shipping
                 <CustomInput
-                    disabled={isCompleted}
+                    // disabled={isCompleted || isMigrated}
+                    // disabled={freeShippingCity}
                     id='order-has-shipping'
                     type='switch'
                     name='has_shipping'
@@ -75,36 +117,13 @@ export default function ({ form, isCompleted }) {
             {
                 <CardBody>
 
-                    <FormGroup>
-                        <Controller
-                            control={form.control}
-                            defaultValue={null}
-                            name="city_id"
-                            render={({ onChange, value, name, ref }) => (
-                                <Select
-                                    className='react-select'
-                                    classNamePrefix='select'
-                                    value={citiesList.filter(option => option.value === value)}
-                                    inputRef={ref}
-                                    placeholder={'Select City...'}
-                                    options={citiesList}
-                                    onChange={val => {
-                                        onChange(val?.value || null)
-                                        handleChangeShippingLocation(val)
-                                    }}
-                                    isClearable={true}
-                                    isDisabled={!hasShipping || isCompleted}
-                                />
-                            )}
-                        />
-                    </FormGroup>
 
                     <FormGroup>
                         <Controller
                             control={form.control}
                             defaultValue={null}
                             name="shipping_provider_id"
-                            render={({ onChange, value, name, ref }) => (
+                            render={({onChange, value, name, ref}) => (
                                 <Select
                                     className='react-select'
                                     classNamePrefix='select'
@@ -114,7 +133,8 @@ export default function ({ form, isCompleted }) {
                                     options={providersList}
                                     onChange={val => onChange(val?.value || null)}
                                     isClearable={true}
-                                    isDisabled={!hasShipping || isCompleted}
+                                    isDisabled={!hasShipping}
+                                    // isDisabled={!hasShipping || isCompleted || isMigrated}
                                 />
                             )}
                         />
@@ -122,7 +142,8 @@ export default function ({ form, isCompleted }) {
 
                     <FormGroup>
                         <Input
-                            disabled={!hasShipping || isCompleted}
+                            disabled={!hasShipping}
+                            // disabled={!hasShipping || isCompleted || isMigrated}
                             type='textarea'
                             name='shipping.address'
                             placeholder='Shipping Address'
@@ -133,7 +154,8 @@ export default function ({ form, isCompleted }) {
 
                     <FormGroup>
                         <Input
-                            disabled={!hasShipping || isCompleted}
+                            disabled={!hasShipping}
+                            // disabled={!hasShipping || isCompleted || isMigrated}
                             type='number'
                             name='shipping.cost'
                             placeholder='Cost'
@@ -147,9 +169,10 @@ export default function ({ form, isCompleted }) {
                             control={form.control}
                             defaultValue={'WAITING'}
                             name="shipping.status"
-                            render={({ onChange, value, name, ref }) => (
+                            render={({onChange, value, name, ref}) => (
                                 <Select
-                                    isDisabled={!hasShipping || isCompleted}
+                                    isDisabled={!hasShipping}
+                                    // isDisabled={!hasShipping || isCompleted || isMigrated}
                                     className='react-select'
                                     classNamePrefix='select'
                                     value={list.filter(option => option.value === value)}
@@ -166,7 +189,8 @@ export default function ({ form, isCompleted }) {
                                 Free Shipping
                             </Label>
                             <CustomInput
-                                disabled={!hasShipping || isCompleted}
+                                disabled={!hasShipping}
+                                // disabled={!hasShipping || isCompleted || isMigrated}
                                 id='order-free-shipping'
                                 type='switch'
                                 name='shipping.free'

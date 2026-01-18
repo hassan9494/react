@@ -4,7 +4,7 @@ import { useModel } from '@data/use-promotion'
 import { useHistory, useParams } from 'react-router-dom'
 import Form from './form'
 
-const Add = () => {
+const Edit = () => {
 
     const history = useHistory()
 
@@ -31,4 +31,4 @@ const Add = () => {
     )
 }
 
-export default Add
+export default Edit

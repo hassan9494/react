@@ -18,25 +18,51 @@ import KitTable from './components/KitTable'
 import ProductFeatures from "./components/ProductFeatures"
 import ReplacementItem from "./components/ReplacementItem"
 import RelatedProduct from "./components/RelatedProduct"
+import DragDropMedia from './components/DragDropMedia'
 
-const fields = ['name', 'sku', 'short_description', 'description', 'price', 'categories', 'location', 'sub_categories', 'features', 'datasheets', 'media', 'meta', 'options', 'code', 'documents', 'kit', 'stock', 'source_sku', 'brand_id', 'source_id', 'min_qty', 'maxCartAmount', 'packageInclude', 'is_retired', 'replacement_item', 'hasVariants', 'related']
-
-export default ({ onSubmit, model, from }) => {
+const fields = ['name', 'sku', 'short_description', 'short_description_ar', 'description', 'price', 'categories', 'location', 'stock_location', 'sub_categories', 'features', 'datasheets', 'media', 'meta', 'options', 'code', 'documents', 'kit', 'stock', 'source_sku', 'brand_id', 'source_id', 'min_qty', 'maxCartAmount', 'packageInclude', 'is_retired', 'replacement_item', 'hasVariants', 'related', 'is_show_for_search', 'search_factor', 'base_purchases_price', 'exchange_factor', 'is_color_sun']
+export default ({ onSubmit, model, from, loading, setLoading }) => {
 
     const [isLoaded, setIsLoaded] = useState(false)
     const form = useForm()
 
     useEffect(() => {
-        if (model?.id) {
-            fields.forEach(field => form.setValue(field, model[field]))
+        if (model) {
+            const normalizedModel = {
+                ...model,
+                // Handle potential field name inconsistencies
+                short_description_ar: model.short_description_ar || model.short_description_arr || ''
+            }
+            const formattedModel = {
+                ...model,
+                short_description: model.short_description?.replace(/<br\s*\/?>/gi, '\n') || '',
+                short_description_ar: model.short_description_ar ? model.short_description_ar.replace(/<br\s*\/?>/gi, '\n') : ''
+            }
+            form.reset(formattedModel)
         }
-    }, [model])
+    }, [model, form.reset])
 
-    return (
+
+    const handleSubmit = async (data) => {
+        const payload = {
+            ...data,
+            // Ensure consistent field names and line break conversion
+            short_description: data.short_description?.replace(/\n/g, '<br>'),
+            short_description_ar: data.short_description_ar?.replace(/\n/g, '<br>') || ''
+        }
+
+        try {
+            await onSubmit(payload)
+        } catch (error) {
+            console.error('Submission error:', error)
+        }
+    }
+
+        return (
         <Form onSubmit={form.handleSubmit(onSubmit)}>
             <Row>
                 <Col sm={9}>
-                    <ProductBasic form={form} model={model}/>
+                    <ProductBasic form={form} model={model} from={from}/>
                     <ProductPrice form={form}/>
 
 
@@ -48,9 +74,11 @@ export default ({ onSubmit, model, from }) => {
 
 
                     {/*<ProductSale form={form}/>*/}
+                    <div className={`${form.watch('options.kit') ?   null : 'd-none'}`}>
                     <CardAction title='KIT Management' actions='collapse' isOpen={false}>
                         <KitTable form={form} />
                     </CardAction>
+                    </div>
 
                     <CardAction title='Related Product' actions='collapse' isOpen={false}>
                         <RelatedProduct form={form} />
@@ -68,14 +96,20 @@ export default ({ onSubmit, model, from }) => {
 
                 </Col>
                 <Col sm={3}>
-                    <ProductMedia form={form}/>
+                    {/* Replace ProductMedia with DragDropMedia */}
+                    <DragDropMedia form={form} />
+
                     <ProductMisc form={form}/>
                     <Button.Ripple
-                        color='success'
-                        size='block'
-                        type='submit'>
-                        Save Changes
+                        disabled={loading}
+                        color="success"
+                        size="block"
+                        type="submit"
+                    >
+                        {loading ? <div className="spinner"></div> : "Save Changes"}
+
                     </Button.Ripple>
+
                 </Col>
             </Row>
         </Form>

@@ -42,6 +42,22 @@ export default [
         }
     },
     {
+        path: '/settings/search',
+        component: lazy(() => import('../../views/settings/search/index')),
+        meta:{
+            action:'read',
+            resource:'mailer_setting'
+        }
+    },
+    {
+        path: '/settings/fatora',
+        component: lazy(() => import('../../views/settings/fatora/index')),
+        meta:{
+            action:'read',
+            resource:'mailer_setting'
+        }
+    },
+    {
         path: '/settings/tag/add',
         component: lazy(() => import('../../views/settings/tags/Add')),
         meta:{

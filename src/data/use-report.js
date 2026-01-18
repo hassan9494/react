@@ -1,4 +1,4 @@
-import { datatable } from './use-data'
+import { datatable, datatableWithData } from './use-data'
 import axios from '../utility/axiosIsntance'
 import useSWR from 'swr'
 
@@ -8,6 +8,21 @@ export const api = {
 
     order: async (params) => {
         const { data } = await axios.get(`report/order?${params}`)
+        return data?.data
+    },
+
+    return_order: async (params) => {
+        const { data } = await axios.get(`report/return_order?${params}`)
+        return data?.data
+    },
+
+    product: async (params) => {
+        const { data } = await axios.get(`report/product?${params}`)
+        return data?.data
+    },
+
+    delivery: async (params) => {
+        const { data } = await axios.get(`report/delivery?${params}`)
         return data?.data
     }
 }
@@ -24,7 +39,14 @@ export const zemamApi = {
 
     order: async (params) => {
         const { data } = await axios.get(`report/zemam?${params}`)
-        console.log(data?.data)
+        return data?.data
+    }
+}
+
+export const transactionApi = {
+
+    order: async (params) => {
+        const { data } = await axios.get(`report/transaction?${params}`)
         return data?.data
     }
 }
@@ -33,7 +55,6 @@ export const needsApi = {
 
     order: async (params) => {
         const { data } = await axios.get(`report/product-need?${params}`)
-        console.log(data?.data)
         return data?.data
     }
 }
@@ -74,8 +95,19 @@ export const stockApi = {
 }
 
 export function useProducts(params) {
-    return datatable('report', `report/product-sales`, params)
+    console.log(params)
+    const { dateRange, ...otherParams } = params
+    console.log(dateRange)
+    const requestParams = {
+        ...otherParams,
+        from: dateRange?.from || undefined,
+        to: dateRange?.to || undefined
+    }
+    console.log(requestParams)
+
+    return datatableWithData('report', `report/product-sales`, requestParams)
 }
+
 
 export function useProduct(params) {
     return datatable('report', `report/product-sale`, params)

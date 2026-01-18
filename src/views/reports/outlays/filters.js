@@ -30,7 +30,6 @@ const Tables = ({ onChange }) => {
     const onPrint = () => {
         if (!from || !to) return
         const params = new URLSearchParams(pickBy({ from, to, sub_type }, identity)).toString()
-        console.log(params)
         window.open(`/reports/outlays/print?${params}`)
     }
 
@@ -41,7 +40,6 @@ const Tables = ({ onChange }) => {
         let fileName =  `${from}__${to}`
 
         if (sub_type === 'ADMINISTRATIVE' || sub_type === 'GENERAL' || sub_type === 'OTHER') fileName += `__${sub_type}`
-console.log(data)
         outlaysToExcel(data, fileName)
     }
 
